@@ -1,0 +1,340 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Pid')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            {:build_select('row[pid]', $columndata, null, ['class'=>'form-control', 'required'=>''])}
+        </div>
+    </div>
+
+    <!-- <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Category_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-category_id" data-rule="required" data-source="category/selectpage" data-params='{"custom[type]":"cms_column"}' class="form-control selectpage" name="row[category_id]" type="text" value="">
+        </div>
+    </div> -->
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Name')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-name" class="form-control" name="row[name]" type="text" data-rule="required">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Temp')}:</label>
+        <div class="form-inline col-xs-12 col-sm-8" data-toggle="cxselect" data-selects="type,temp">
+            <select class="type form-control" name="row[type]" data-rule="required"  data-url="ajax/cmstemp"></select>
+            <select class="temp form-control" name="row[temp]" data-rule="required"  data-url="ajax/cmstemp" data-query-name="type"></select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Entitle')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-entitle" class="form-control" name="row[entitle]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Subtitle')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-subtitle" class="form-control" name="row[subtitle]" type="text">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="radio">
+                {foreach name="statusList" item="vo"}
+                <label for="row[status]-{$key}"><input id="row[status]-{$key}" name="row[status]" type="radio" value="{$key}" {in name="key" value="1"}checked{/in} /> {$vo}</label>
+                {/foreach}
+            </div>
+
+        </div>
+    </div>
+
+    <!-- <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Title')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-title" class="form-control" name="row[title]" type="number">
+        </div>
+    </div> -->
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Title1')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-title1" class="form-control" name="row[title1]" type="text">
+        </div>
+    </div>
+
+    <!--
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Title2')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-title2" class="form-control" name="row[title2]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Title3')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-title3" class="form-control" name="row[title3]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Title4')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-title4" class="form-control" name="row[title4]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Title5')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-title5" class="form-control" name="row[title5]" type="text">
+        </div>
+    </div> -->
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Show_image')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-show_image" class="form-control" size="50" name="row[show_image]" type="text">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-show_image" class="btn btn-danger faupload" data-input-id="c-show_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-show_image" class="btn btn-primary fachoose" data-input-id="c-show_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-show_image"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-show_image"></ul>
+        </div>
+    </div>
+
+    <!-- <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Show1_image')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-show1_image" class="form-control" size="50" name="row[show1_image]" type="text">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-show1_image" class="btn btn-danger faupload" data-input-id="c-show1_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show1_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-show1_image" class="btn btn-primary fachoose" data-input-id="c-show1_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-show1_image"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-show1_image"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Show2_image')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-show2_image" class="form-control" size="50" name="row[show2_image]" type="text">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-show2_image" class="btn btn-danger faupload" data-input-id="c-show2_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show2_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-show2_image" class="btn btn-primary fachoose" data-input-id="c-show2_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-show2_image"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-show2_image"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Show3_image')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-show3_image" class="form-control" size="50" name="row[show3_image]" type="text">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-show3_image" class="btn btn-danger faupload" data-input-id="c-show3_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show3_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-show3_image" class="btn btn-primary fachoose" data-input-id="c-show3_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-show3_image"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-show3_image"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Show4_image')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-show4_image" class="form-control" size="50" name="row[show4_image]" type="text">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-show4_image" class="btn btn-danger faupload" data-input-id="c-show4_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show4_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-show4_image" class="btn btn-primary fachoose" data-input-id="c-show4_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-show4_image"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-show4_image"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Show5_image')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-show5_image" class="form-control" size="50" name="row[show5_image]" type="text">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-show5_image" class="btn btn-danger faupload" data-input-id="c-show5_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show5_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-show5_image" class="btn btn-primary fachoose" data-input-id="c-show5_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-show5_image"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-show5_image"></ul>
+        </div>
+    </div> -->
+
+    <!-- <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Annex_file')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-annex_file" class="form-control" size="50" name="row[annex_file]" type="text">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-annex_file" class="btn btn-danger faupload" data-input-id="c-annex_file" data-multiple="false" data-preview-id="p-annex_file"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-annex_file" class="btn btn-primary fachoose" data-input-id="c-annex_file" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-annex_file"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-annex_file"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Annex1_file')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-annex1_file" class="form-control" size="50" name="row[annex1_file]" type="text">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-annex1_file" class="btn btn-danger faupload" data-input-id="c-annex1_file" data-multiple="false" data-preview-id="p-annex1_file"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-annex1_file" class="btn btn-primary fachoose" data-input-id="c-annex1_file" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-annex1_file"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-annex1_file"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Annex2_file')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-annex2_file" class="form-control" size="50" name="row[annex2_file]" type="text">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-annex2_file" class="btn btn-danger faupload" data-input-id="c-annex2_file" data-multiple="false" data-preview-id="p-annex2_file"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-annex2_file" class="btn btn-primary fachoose" data-input-id="c-annex2_file" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-annex2_file"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-annex2_file"></ul>
+        </div>
+    </div> -->
+
+
+
+
+
+    <div class="form-group">
+        <div>
+            <label class="control-label col-xs-12 col-sm-2">{:__('Ishow')}:</label>
+            <div class="col-xs-12 col-sm-1">
+                <input  id="c-ishow" name="row[ishow]" type="hidden" value="0">
+                <a href="javascript:;" data-toggle="switcher" class="btn-switcher" data-input-id="c-ishow" data-yes="1" data-no="0">
+                    <i class="fa fa-toggle-on text-success fa-flip-horizontal text-gray fa-2x"></i>
+                </a>
+            </div>
+        </div>
+
+        <div>
+            <label class="control-label col-xs-12 col-sm-2">{:__('Ishead')}:</label>
+            <div class="col-xs-12 col-sm-1">
+                <input  id="c-ishead" name="row[ishead]" type="hidden" value="0">
+                <a href="javascript:;" data-toggle="switcher" class="btn-switcher" data-input-id="c-ishead" data-yes="1" data-no="0">
+                    <i class="fa fa-toggle-on text-success fa-flip-horizontal text-gray fa-2x"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- <div >
+            <label class="control-label col-xs-12 col-sm-2">{:__('Isfoot')}:</label>
+            <div class="col-xs-12 col-sm-1">
+                <input  id="c-isfoot" name="row[isfoot]" type="hidden" value="0">
+                <a href="javascript:;" data-toggle="switcher" class="btn-switcher" data-input-id="c-isfoot" data-yes="1" data-no="0">
+                    <i class="fa fa-toggle-on text-success fa-flip-horizontal text-gray fa-2x"></i>
+                </a>
+            </div>
+        </div> -->
+
+        <!-- <div >
+            <label class="control-label col-xs-12 col-sm-2">{:__('Isright')}:</label>
+            <div class="col-xs-12 col-sm-1">
+                <input  id="c-isright" name="row[isright]" type="hidden" value="0">
+                <a href="javascript:;" data-toggle="switcher" class="btn-switcher" data-input-id="c-isright" data-yes="1" data-no="0">
+                    <i class="fa fa-toggle-on text-success fa-flip-horizontal text-gray fa-2x"></i>
+                </a>
+            </div>
+        </div>
+
+        <div>
+            <label class="control-label col-xs-12 col-sm-2">{:__('Isleft')}:</label>
+            <div class="col-xs-12 col-sm-1">
+                <input  id="c-isleft" name="row[isleft]" type="hidden" value="0">
+                <a href="javascript:;" data-toggle="switcher" class="btn-switcher" data-input-id="c-isleft" data-yes="1" data-no="0">
+                    <i class="fa fa-toggle-on text-success fa-flip-horizontal text-gray fa-2x"></i>
+                </a>
+            </div>
+        </div> -->
+
+    </div>
+
+    <!-- <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Weigh')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-weigh" data-rule="required" class="form-control" name="row[weigh]" type="number" value="99">
+        </div>
+    </div> -->
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Href')}:</label>
+        <div class="col-xs-12 col-sm-5">
+            <input id="c-href" class="form-control" name="row[href]" type="text"                 placeholder="{:__('Href placeholder')}">
+        </div>
+
+        <label class="control-label col-xs-12 col-sm-2">{:__('Isblank')}:</label>
+        <div class="col-xs-12 col-sm-1">
+            <input id="c-isblank" name="row[isblank]" type="hidden" value="0">
+            <a href="javascript:;" data-toggle="switcher" class="btn-switcher" data-input-id="c-isblank" data-yes="1" data-no="0">
+                <i class="fa fa-toggle-on text-success fa-flip-horizontal text-gray fa-2x"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-intro_content" class="form-control editor" rows="5" name="row[intro_content]" cols="50"></textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Seotitle')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-seotitle" class="form-control" name="row[seotitle]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Seokeywords')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-seokeywords" class="form-control" name="row[seokeywords]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Seodescription')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-seodescription" class="form-control " rows="5" name="row[seodescription]" cols="50"></textarea>
+        </div>
+    </div>
+
+
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

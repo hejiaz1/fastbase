@@ -1,0 +1,107 @@
+
+<style type="text/css">
+table, th, td {
+	text-align: center;
+	line-height: 34px;
+	font-size: 18px;
+}
+
+.dalou {
+	background-color: #5BD0D6 !important;
+	color: #ffffff !important;
+	font-weight: bold !important;
+	text-align: center;
+}
+
+.currentinfo {
+	text-align: left;
+	color: red;
+}
+
+.used {
+	background-color: red !important;
+	text-align: center;
+	font-weight: bold !important;
+}
+
+.hnormal {
+	width: 6%;
+	text-align: center;
+}
+
+.hevening {
+	width: 6%;
+	text-align: center;
+	display: none;
+}
+
+.hmorning {
+	width: 6%;
+	text-align: center;
+	display: none;
+}
+
+th {
+	background-color: #c4c4c4 !important;
+}
+
+.navbar {
+	display: none
+}
+
+.content {
+	padding-top: 0px !important;
+}
+
+[v-cloak] {
+	display: none;
+}
+</style>
+
+<link rel="stylesheet" href="__CDN__/assets/addons/csmmeet/mo/css/app-pch5.css" rel="stylesheet">
+
+    <div class="container-fluid" id="app_screenbuilding" v-cloak>
+
+		<div class="row nodisplay">	
+			<div class="col-md-1  col-md-offset-9 sp-rowfont">选择时间</div>
+			<div class="col-md-2">
+			<div class='input-group date' id='datetimepicker1'>
+				<input type='text' class="timeInput form-control" id="datepicker_input"/>
+				<span class="input-group-addon">
+					<span class="glyphicon glyphicon-calendar"></span>
+				</span>
+			</div>
+			</div>
+		</div>
+ 
+		<div class="row"  >
+		 
+			  <table class="table">
+					<tr>
+						<th>会议名称</th>
+						<th>申请人</th>
+						<th>会议室</th>
+						<th>开始日期</th>
+						<th>结束日期</th>
+					</tr>
+					<tr v-for="item in applylist_display">
+						<td>{{item.title}}</td>
+						<td>{{item.username}}</td>
+						<td>{{item.meetname}}</td>
+						<td>{{item.beginhour}}:{{item.beginmin}}</td>
+						<td>{{item.endhour}}:{{item.endmin}}</td>
+					</tr>
+					<tr>
+						<td colspan=5 v-if="applylist_display!=null && applylist_display.length==0">当前没有会议预约</td>
+					</tr>	
+			  </table>
+			 
+		</div>
+    </div> <!-- /container -->
+    
+
+<script type="text/javascript" src="__CDN__/assets/addons/csmmeet/mo/js/vue.js"></script>
+<script type="text/javascript" src="__CDN__/assets/addons/csmmeet/mo/script/common/app-dict.js"></script>
+<script type="text/javascript" src="__CDN__/assets/addons/csmmeet/mo/script/common/core-api.js"></script>
+<script type="text/javascript" src="__CDN__/assets/addons/csmmeet/mo/script/pc-config.js"></script>
+<script type="text/javascript" src="__CDN__/assets/addons/csmmeet/mo/script/pc-core-api.js"></script>

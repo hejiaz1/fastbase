@@ -1,0 +1,14 @@
+{
+	"pages": [{
+		"path": "page/index/index",
+		"style": {
+			"navigationBarTitleText": "CSM 签到和活动"
+		}
+	}],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#007AFF",
+		"backgroundColor": "#FFFFFF"
+	}
+} 

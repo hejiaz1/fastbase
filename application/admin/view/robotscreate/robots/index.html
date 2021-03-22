@@ -1,0 +1,311 @@
+<style>
+legend {font-size: 14px;}
+.fieldlist dd ins, .fieldlist dd input:first-child {width: 250px;}
+#result {font-size: 16px;}
+</style>
+<form id="robots-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+	<input type="hidden" id="c-server_url" value="{$server_url}">
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-success">
+                    <div class="panel-heading">Robots规则生成</div>
+                    <div class="panel-body">
+                        <div class="form-group row">
+                            <label class="control-label col-xs-12 col-md-1 col-sm-1">限制目录:</label>
+                            <div class="col-xs-12 col-md-9 col-sm-10">
+                                <dl class="fieldlist" data-template="basictpl" data-name="row[limit_dir]">
+                                    <dd><a href="javascript:;" class="btn btn-sm btn-success btn-append"><i class="fa fa-plus"></i> {:__('增加限制目录')}</a> (每个路径之前都要包含："/")</dd>
+                                    <textarea id="c-limit_dir" name="row[limit_dir]" class="form-control hidden" cols="30" rows="5"></textarea>
+                                </dl>
+                                <script id="basictpl" type="text/html">
+                                    <dd class="form-inline">
+		                                <ins><input type="text" name="<%=name%>[<%=index%>][text]" class="form-control" value="<%=row.text%>" placeholder="内容" size="10"/></ins>
+		                                
+		                                <!--下面的两个按钮务必保留-->
+		                                <span class="btn btn-sm btn-danger btn-remove"><i class="fa fa-times"></i></span>
+		                                <span class="btn btn-sm btn-primary btn-dragsort"><i class="fa fa-arrows"></i></span>
+		                            </dd>
+		                        </script>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-xs-12 col-md-1 col-sm-1">Sitemap:</label>
+                            <div class="col-xs-12 col-md-9 col-sm-10">
+                                <dl class="fieldlist" data-template="basictpl" data-name="row[sitemap]">
+                                    <dd><a href="javascript:;" class="btn btn-sm btn-success btn-append"><i class="fa fa-plus"></i> {:__('增加Sitemap')}</a> (谷歌为xml格式，百度为html格式)</dd>
+                                    <textarea id="c-sitemap" name="row[sitemap]" class="form-control hidden" cols="30" rows="5"></textarea>
+                                </dl>
+                                <script id="basictpl" type="text/html">
+                                    <dd class="form-inline">
+		                                <ins><input type="text" name="<%=name%>[<%=index%>][text]" class="form-control" value="<%=row.text%>" placeholder="内容" size="10"/></ins>
+		                                
+		                                <!--下面的两个按钮务必保留-->
+		                                <span class="btn btn-sm btn-danger btn-remove"><i class="fa fa-times"></i></span>
+		                                <span class="btn btn-sm btn-primary btn-dragsort"><i class="fa fa-arrows"></i></span>
+		                            </dd>
+		                        </script>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 col-md-1 col-sm-1">检索间隔:</label>
+                            <div class="col-xs-12 col-sm-2 col-md-2">
+                            	<input type="number" class="form-control" id="c-delay" min="0">
+                            </div>
+                            <div class="col-xs-12 col-sm-1 col-md-1">
+                                <select class="form-control" id="c-delay_select">
+                                    <option value="">不限</option>
+                                    <option value="5">5 秒</option>
+                                    <option value="10">10 秒</option>
+                                    <option value="20">20 秒</option>
+                                    <option value="60">60 秒</option>
+                                    <option value="120">120 秒</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 col-md-1 col-sm-1">所有搜索引擎:</label>
+                            <div class="col-xs-12 col-sm-9 col-md-8">
+                            	<div class="radio">
+                            		<label for="all_spider-1"><input id="all_spider-1" checked="checked" name="all_spider" type="radio" value="1">允许</label>
+                            		<label for="all_spider-2"><input id="all_spider-2" name="all_spider" type="radio" value="2">拒绝</label>
+                            	</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 col-md-1 col-sm-1"></label>
+                            <div class="col-xs-12 col-sm-11 col-md-11">
+                                <fieldset>
+                                    <legend>国内搜索引擎</legend>
+                                    <div class="form-group col-xs-4">
+                                        <label class="control-label col-xs-12 col-md-4 col-sm-4">百度</label>
+                                        <div class="col-xs-12 col-sm-8 col-md-8">
+			                            	<div class="radio spider" data-text="Baiduspider">
+			                            		<label for="Baiduspider-0"><input id="Baiduspider-0" checked="checked" name="Baiduspider" type="radio" value="0">默认</label>
+			                            		<label for="Baiduspider-1"><input id="Baiduspider-1" name="Baiduspider" type="radio" value="1">允许</label>
+			                            		<label for="Baiduspider-2"><input id="Baiduspider-2" name="Baiduspider" type="radio" value="2">拒绝</label>
+			                            	</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-4">
+                                        <label class="control-label col-xs-12 col-md-4 col-sm-4">SOSO</label>
+                                        <div class="col-xs-12 col-sm-8 col-md-8">
+			                            	<div class="radio spider" data-text="Sosospider">
+			                            		<label for="Sosospider-0"><input id="Sosospider-0" checked="checked" name="Sosospider" type="radio" value="0">默认</label>
+			                            		<label for="Sosospider-1"><input id="Sosospider-1" name="Sosospider" type="radio" value="1">允许</label>
+			                            		<label for="Sosospider-2"><input id="Sosospider-2" name="Sosospider" type="radio" value="2">拒绝</label>
+			                            	</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-4">
+                                        <label class="control-label col-xs-12 col-md-4 col-sm-4">搜狗</label>
+                                        <div class="col-xs-12 col-sm-8 col-md-8">
+			                            	<div class="radio spider" data-text="sogou spider">
+			                            		<label for="souguo_spider-0"><input id="souguo_spider-0" checked="checked" name="souguo_spider" type="radio" value="0">默认</label>
+			                            		<label for="souguo_spider-1"><input id="souguo_spider-1" name="souguo_spider" type="radio" value="1">允许</label>
+			                            		<label for="souguo_spider-2"><input id="souguo_spider-2" name="souguo_spider" type="radio" value="2">拒绝</label>
+			                            	</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-4">
+                                        <label class="control-label col-xs-12 col-md-4 col-sm-4">有道</label>
+                                        <div class="col-xs-12 col-sm-8 col-md-8">
+			                            	<div class="radio spider" data-text="YodaoBot">
+			                            		<label for="YodaoBot-0"><input id="YodaoBot-0" checked="checked" name="YodaoBot" type="radio" value="0">默认</label>
+			                            		<label for="YodaoBot-1"><input id="YodaoBot-1" name="YodaoBot" type="radio" value="1">允许</label>
+			                            		<label for="YodaoBot-2"><input id="YodaoBot-2" name="YodaoBot" type="radio" value="2">拒绝</label>
+			                            	</div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 col-md-1 col-sm-1"></label>
+                            <div class="col-xs-12 col-sm-11 col-md-11">
+                                <fieldset>
+                                    <legend>国外搜索引擎</legend>
+                                    <div class="form-group col-xs-4">
+                                        <label class="control-label col-xs-12 col-md-4 col-sm-4">谷歌</label>
+                                        <div class="col-xs-12 col-sm-8 col-md-8">
+			                            	<div class="radio spider" data-text="Googlebot">
+			                            		<label for="Googlebot-0"><input id="Googlebot-0" checked="checked" name="Googlebot" type="radio" value="0">默认</label>
+			                            		<label for="Googlebot-1"><input id="Googlebot-1" name="Googlebot" type="radio" value="1">允许</label>
+			                            		<label for="Googlebot-2"><input id="Googlebot-2" name="Googlebot" type="radio" value="2">拒绝</label>
+			                            	</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-4">
+                                        <label class="control-label col-xs-12 col-md-4 col-sm-4">Bing</label>
+                                        <div class="col-xs-12 col-sm-8 col-md-8">
+			                            	<div class="radio spider" data-text="Bingbot">
+			                            		<label for="Bingbot-0"><input id="Bingbot-0" checked="checked" name="Bingbot" type="radio" value="0">默认</label>
+			                            		<label for="Bingbot-1"><input id="Bingbot-1" name="Bingbot" type="radio" value="1">允许</label>
+			                            		<label for="Bingbot-2"><input id="Bingbot-2" name="Bingbot" type="radio" value="2">拒绝</label>
+			                            	</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-4">
+                                        <label class="control-label col-xs-12 col-md-4 col-sm-4">雅虎</label>
+                                        <div class="col-xs-12 col-sm-8 col-md-8">
+			                            	<div class="radio spider" data-text="Slurp">
+			                            		<label for="Slurp-0"><input id="Slurp-0" checked="checked" name="Slurp" type="radio" value="0">默认</label>
+			                            		<label for="Slurp-1"><input id="Slurp-1" name="Slurp" type="radio" value="1">允许</label>
+			                            		<label for="Slurp-2"><input id="Slurp-2" name="Slurp" type="radio" value="2">拒绝</label>
+			                            	</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-4">
+                                        <label class="control-label col-xs-12 col-md-4 col-sm-4">Ask/Teoma</label>
+                                        <div class="col-xs-12 col-sm-8 col-md-8">
+			                            	<div class="radio spider" data-text="Teoma">
+			                            		<label for="Teoma-0"><input id="Teoma-0" checked="checked" name="Teoma" type="radio" value="0">默认</label>
+			                            		<label for="Teoma-1"><input id="Teoma-1" name="Teoma" type="radio" value="1">允许</label>
+			                            		<label for="Teoma-2"><input id="Teoma-2" name="Teoma" type="radio" value="2">拒绝</label>
+			                            	</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-4">
+                                        <label class="control-label col-xs-12 col-md-4 col-sm-4">Alexa/Wayback</label>
+                                        <div class="col-xs-12 col-sm-8 col-md-8">
+			                            	<div class="radio spider" data-text="ia_archiver">
+			                            		<label for="ia_archiver-0"><input id="ia_archiver-0" checked="checked" name="ia_archiver" type="radio" value="0">默认</label>
+			                            		<label for="ia_archiver-1"><input id="ia_archiver-1" name="ia_archiver" type="radio" value="1">允许</label>
+			                            		<label for="ia_archiver-2"><input id="ia_archiver-2" name="ia_archiver" type="radio" value="2">拒绝</label>
+			                            	</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-4">
+                                        <label class="control-label col-xs-12 col-md-4 col-sm-4">Cuil</label>
+                                        <div class="col-xs-12 col-sm-8 col-md-8">
+			                            	<div class="radio spider" data-text="twiceler">
+			                            		<label for="twiceler-0"><input id="twiceler-0" checked="checked" name="twiceler" type="radio" value="0">默认</label>
+			                            		<label for="twiceler-1"><input id="twiceler-1" name="twiceler" type="radio" value="1">允许</label>
+			                            		<label for="twiceler-2"><input id="twiceler-2" name="twiceler" type="radio" value="2">拒绝</label>
+			                            	</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-4">
+                                        <label class="control-label col-xs-12 col-md-4 col-sm-4">MSN Search</label>
+                                        <div class="col-xs-12 col-sm-8 col-md-8">
+			                            	<div class="radio spider" data-text="MSNBot">
+			                            		<label for="MSNBot-0"><input id="MSNBot-0" checked="checked" name="MSNBot" type="radio" value="0">默认</label>
+			                            		<label for="MSNBot-1"><input id="MSNBot-1" name="MSNBot" type="radio" value="1">允许</label>
+			                            		<label for="MSNBot-2"><input id="MSNBot-2" name="MSNBot" type="radio" value="2">拒绝</label>
+			                            	</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-4">
+                                        <label class="control-label col-xs-12 col-md-4 col-sm-4">Scrub The Web</label>
+                                        <div class="col-xs-12 col-sm-8 col-md-8">
+			                            	<div class="radio spider" data-text="Scrubby">
+			                            		<label for="Scrubby-0"><input id="Scrubby-0" checked="checked" name="Scrubby" type="radio" value="0">默认</label>
+			                            		<label for="Scrubby-1"><input id="Scrubby-1" name="Scrubby" type="radio" value="1">允许</label>
+			                            		<label for="Scrubby-2"><input id="Scrubby-2" name="Scrubby" type="radio" value="2">拒绝</label>
+			                            	</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-4">
+                                        <label class="control-label col-xs-12 col-md-4 col-sm-4">DMOZ</label>
+                                        <div class="col-xs-12 col-sm-8 col-md-8">
+			                            	<div class="radio spider" data-text="Robozilla">
+			                            		<label for="Robozilla-0"><input id="Robozilla-0" checked="checked" name="Robozilla" type="radio" value="0">默认</label>
+			                            		<label for="Robozilla-1"><input id="Robozilla-1" name="Robozilla" type="radio" value="1">允许</label>
+			                            		<label for="Robozilla-2"><input id="Robozilla-2" name="Robozilla" type="radio" value="2">拒绝</label>
+			                            	</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-4">
+                                        <label class="control-label col-xs-12 col-md-4 col-sm-4">GigaBlast</label>
+                                        <div class="col-xs-12 col-sm-8 col-md-8">
+			                            	<div class="radio spider" data-text="Gigabot">
+			                            		<label for="Gigabot-0"><input id="Gigabot-0" checked="checked" name="Gigabot" type="radio" value="0">默认</label>
+			                            		<label for="Gigabot-1"><input id="Gigabot-1" name="Gigabot" type="radio" value="1">允许</label>
+			                            		<label for="Gigabot-2"><input id="Gigabot-2" name="Gigabot" type="radio" value="2">拒绝</label>
+			                            	</div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 col-md-1 col-sm-1"></label>
+                            <div class="col-xs-12 col-sm-11 col-md-11">
+                                <fieldset>
+                                    <legend>特殊搜索引擎(机器人)</legend>
+                                    <div class="form-group col-xs-4">
+                                        <label class="control-label col-xs-12 col-md-4 col-sm-4">Google Image</label>
+                                        <div class="col-xs-12 col-sm-8 col-md-8">
+			                            	<div class="radio spider" data-text="googlebot-image">
+			                            		<label for="googlebot_image-0"><input id="googlebot_image-0" checked="checked" name="googlebot_image" type="radio" value="0">默认</label>
+			                            		<label for="googlebot_image-1"><input id="googlebot_image-1" name="googlebot_image" type="radio" value="1">允许</label>
+			                            		<label for="googlebot_image-2"><input id="googlebot_image-2" name="googlebot_image" type="radio" value="2">拒绝</label>
+			                            	</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-4">
+                                        <label class="control-label col-xs-12 col-md-4 col-sm-4">Google Mobile</label>
+                                        <div class="col-xs-12 col-sm-8 col-md-8">
+			                            	<div class="radio spider" data-text="googlebot-mobile">
+			                            		<label for="googlebot_mobile-0"><input id="googlebot_mobile-0" checked="checked" name="googlebot_mobile" type="radio" value="0">默认</label>
+			                            		<label for="googlebot_mobile-1"><input id="googlebot_mobile-1" name="googlebot_mobile" type="radio" value="1">允许</label>
+			                            		<label for="googlebot_mobile-2"><input id="googlebot_mobile-2" name="googlebot_mobile" type="radio" value="2">拒绝</label>
+			                            	</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-4">
+                                        <label class="control-label col-xs-12 col-md-4 col-sm-4">Yahoo MM</label>
+                                        <div class="col-xs-12 col-sm-8 col-md-8">
+			                            	<div class="radio spider" data-text="yahoo-mmcrawler">
+			                            		<label for="yahoo_mmcrawler-0"><input id="yahoo_mmcrawler-0" checked="checked" name="yahoo_mmcrawler" type="radio" value="0">默认</label>
+			                            		<label for="yahoo_mmcrawler-1"><input id="yahoo_mmcrawler-1" name="yahoo_mmcrawler" type="radio" value="1">允许</label>
+			                            		<label for="yahoo_mmcrawler-2"><input id="yahoo_mmcrawler-2" name="yahoo_mmcrawler" type="radio" value="2">拒绝</label>
+			                            	</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-4">
+                                        <label class="control-label col-xs-12 col-md-4 col-sm-4">Yahoo Blogs</label>
+                                        <div class="col-xs-12 col-sm-8 col-md-8">
+			                            	<div class="radio spider" data-text="yahoo-blogs/v3.9">
+			                            		<label for="yahoo_blogs-0"><input id="yahoo_blogs-0" checked="checked" name="yahoo_blogs" type="radio" value="0">默认</label>
+			                            		<label for="yahoo_blogs-1"><input id="yahoo_blogs-1" name="yahoo_blogs" type="radio" value="1">允许</label>
+			                            		<label for="yahoo_blogs-2"><input id="yahoo_blogs-2" name="yahoo_blogs" type="radio" value="2">拒绝</label>
+			                            	</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-4">
+                                        <label class="control-label col-xs-12 col-md-4 col-sm-4">MSN PicSearch</label>
+                                        <div class="col-xs-12 col-sm-8 col-md-8">
+			                            	<div class="radio spider" data-text="psbot">
+			                            		<label for="psbot-0"><input id="psbot-0" checked="checked" name="psbot" type="radio" value="0">默认</label>
+			                            		<label for="psbot-1"><input id="psbot-1" name="psbot" type="radio" value="1">允许</label>
+			                            		<label for="psbot-2"><input id="psbot-2" name="psbot" type="radio" value="2">拒绝</label>
+			                            	</div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 col-md-1 col-sm-1"></label>
+                            <div class="col-xs-12 col-sm-11 col-md-11">
+                                <button type="button" class="btn btn-primary" id="js_Create"> 生成 </button>
+                                <button type="button" class="btn btn-default" id="js_init"> 初始化重新配置 </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 col-md-1 col-sm-1"></label>
+                            <div class="col-xs-12 col-sm-10 col-md-10">
+                                <textarea class="form-control" rows="15" id="result" style="width:100%;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+var default_config = {$default_config};
+</script>

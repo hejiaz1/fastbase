@@ -1,0 +1,1 @@
+<view class="ss-navbar"><block wx:for="{{navArr}}" wx:for-item="item" wx:for-index="index" wx:key="url"><view data-event-opts="{{[['tap',[['tabChange',[index]]]]]}}" class="{{['nav-item',(index===tabCurrentIndex)?'current':'']}}" style="{{'width:'+(itemWidth)+';'}}" bindtap="__e"><text>{{item.title}}</text></view></block></view>

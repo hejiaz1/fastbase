@@ -1,0 +1,28 @@
+<div class="bui-page" id="app_myapply">
+	<header class="bui-bar">
+ 
+		<div class="bui-bar-main">预约记录22</div>
+		<div class="bui-bar-right">
+		</div>
+	</header>
+	<main>
+		<ul class="bui-list">
+			<li class="bui-btn bui-box" v-for="item in applylist" v-on:click="clickApplyCancel" :item_id="item.id"
+				:auditstatus="item.auditstatus">
+				<div class="span1">
+					<h3 class="item-title"><span
+							class="success-reverse">【{{item.auditstatus|core_dict("fa_csmmeet_apply.auditstatus")}}】</span>{{item.title}}
+					</h3>
+					<p class="item-text"><span class="bui-label">申请会议室</span><span class="bui-value">{{item.meetname}}
+						</span></p>
+					<p class="item-text"><span class="bui-label">预约时间：</span><span
+							class="bui-value">{{item.beginhour}}:{{item.beginmin}}-{{item.endhour}}:{{item.endmin}}</span>
+					</p>
+					<p class="item-text"><span class="bui-label">申请时间：</span><span
+							class="bui-value">{{item.createtime|core_timestampToTime("yyyy-MM-dd HH:mm:ss")}}</span></p>
+ 				</div>
+			</li>
+		</ul>
+		<p style="text-align: center;">以上显示最近20条申请</p>
+	</main>
+</div>

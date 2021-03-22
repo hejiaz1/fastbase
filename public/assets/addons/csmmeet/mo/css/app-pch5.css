@@ -1,0 +1,18 @@
+@charset "utf-8";
+ 
+.row{
+	padding-bottom:1em;
+}
+.sp-rowfont{
+	font-size:1.2em;
+	line-height:2em;
+}
+.sp-bold{
+	font-weight:bold;
+}
+.sp-text-align-right{
+	text-align:right;
+}
+.nodisplay{
+	display: none
+}

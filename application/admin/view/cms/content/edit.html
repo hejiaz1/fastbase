@@ -1,0 +1,1369 @@
+<script src="__CDN__/assets/extend/jscolor/jscolor.js" type="text/javascript"></script>
+
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Column_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            {:build_select('row[column_id]', $columndata, $row['column_id'], ['class'=>'form-control', 'required'=>''])}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            {:__('Columns template')}: {$column.type} / {$column.temp}
+        </div>
+    </div>
+
+    <!-- <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Category_id')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-category_id" data-rule="required" data-source="category/selectpage" data-params='{"custom[type]":"cms_content"}' class="form-control selectpage" name="row[category_id]" type="text" value="{$row.category_id|htmlentities}">
+        </div>
+    </div> -->
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Title')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-title" data-rule="required" class="form-control" name="row[title]" type="text" value="{$row.title|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <div>
+            <label class="control-label col-xs-12 col-sm-2">{:__('Ishow')}:</label>
+            <div class="col-xs-12 col-sm-1">
+                <input id="c-ishow" name="row[ishow]" type="hidden" value="{$row.ishow}">
+                <a href="javascript:;" data-toggle="switcher" class="btn-switcher" data-input-id="c-ishow" data-yes="1" data-no="0">
+                    <i class="fa fa-toggle-on text-success {eq name="$row.ishow" value="0"}fa-flip-horizontal text-gray{/eq} fa-2x"></i>
+                </a>
+            </div>
+        </div>
+
+        <div>
+            <label class="control-label col-xs-12 col-sm-2">{:__('Weigh')}:</label>
+            <div class="col-xs-12 col-sm-5">
+                <input id="c-weigh" data-rule="required" class="form-control" name="row[weigh]" type="number" value="{$row.weigh|htmlentities}">
+            </div>
+        </div>
+    </div>
+
+    {switch $column.type}
+        {case 列表}
+            {switch $column.temp}
+            {case Cases}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Subtitle')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-subtitle" class="form-control" name="row[subtitle]" type="text" value="{$row.title}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('List_image_alt')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-list_image_alt" class="form-control" name="row[list_image_alt]" type="text" value="{$row.list_image_alt|htmlentities}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('List_image')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-list_image" class="form-control" size="50" name="row[list_image]" type="text" value="{$row.list_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-list_image" class="btn btn-danger faupload" data-input-id="c-list_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-list_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-list_image" class="btn btn-primary fachoose" data-input-id="c-list_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-list_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-list_image"></ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-show_image" class="form-control" size="50" name="row[show_image]" type="text" value="{$row.show_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-show_image" class="btn btn-danger faupload" data-input-id="c-show_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-show_image" class="btn btn-primary fachoose" data-input-id="c-show_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-show_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-show_image"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image_alt')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-show_image_alt" class="form-control" name="row[show_image_alt]" type="text" value="{$row.show_image_alt|htmlentities}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('LOGO')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-show1_image" class="form-control" size="50" name="row[show1_image]" type="text" value="{$row.show1_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-show1_image" class="btn btn-danger faupload" data-input-id="c-show1_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show1_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-show1_image" class="btn btn-primary fachoose" data-input-id="c-show1_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-show1_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-show1_image"></ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Keywords')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-keywords" class="form-control" name="row[keywords]" type="text" value="{$row.keywords|htmlentities}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Detail_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-detail_content" class="form-control editor" rows="5" name="row[detail_content]" cols="50">{$row.detail_content|htmlentities}</textarea>
+                    </div>
+                </div>
+
+                <!-- seo -->
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Seotitle')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-seotitle" class="form-control" name="row[seotitle]" type="text" value="{$row.seotitle|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Seokeywords')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-seokeywords" class="form-control" name="row[seokeywords]" type="text" value="{$row.seokeywords|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Seodescription')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <textarea id="c-seodescription" class="form-control " rows="5" name="row[seodescription]" cols="50">{$row.seodescription|htmlentities}</textarea>
+                        </div>
+                    </div>
+                <!-- seo -->
+
+            {/case}
+
+            {case News}
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('List_image')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-list_image" class="form-control" size="50" name="row[list_image]" type="text" value="{$row.list_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-list_image" class="btn btn-danger faupload" data-input-id="c-list_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-list_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-list_image" class="btn btn-primary fachoose" data-input-id="c-list_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-list_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-list_image"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('List_image_alt')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-list_image_alt" class="form-control" name="row[list_image_alt]" type="text" value="{$row.list_image_alt|htmlentities}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Detail_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-detail_content" class="form-control editor" rows="5" name="row[detail_content]" cols="50">{$row.detail_content|htmlentities}</textarea>
+                    </div>
+                </div>
+
+                <!-- seo -->
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Seotitle')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-seotitle" class="form-control" name="row[seotitle]" type="text" value="{$row.seotitle|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Seokeywords')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-seokeywords" class="form-control" name="row[seokeywords]" type="text" value="{$row.seokeywords|htmlentities}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-12 col-sm-2">{:__('Seodescription')}:</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <textarea id="c-seodescription" class="form-control " rows="5" name="row[seodescription]" cols="50">{$row.seodescription|htmlentities}</textarea>
+                        </div>
+                    </div>
+                <!-- seo -->
+
+            {/case}
+
+            {case Href}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Href')}:</label>
+                    <div class="col-xs-12 col-sm-5">
+                        <input id="c-href" class="form-control" name="row[href]" type="text" placeholder="{:__('Href placeholder')}" value="{$row.href|htmlentities}">
+                    </div>
+
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Isblank')}:</label>
+                    <div class="col-xs-12 col-sm-1">
+                        <input  id="c-isblank" name="row[isblank]" type="hidden" value="0">
+                        <a href="javascript:;" data-toggle="switcher" class="btn-switcher" data-input-id="c-isblank" data-yes="1" data-no="0">
+                            <i class="fa fa-toggle-on text-success {eq name="$row.isblank" value="0"}fa-flip-horizontal text-gray{/eq} fa-2x"></i>
+                        </a>
+                    </div>
+                </div>
+            {/case}
+            {default /}
+            {/switch}
+        {/case}
+        {case 首页模块}
+            {switch $column.temp}
+            {case Service}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-show_image" class="form-control" size="50" name="row[show_image]" type="text" value="{$row.show_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-show_image" class="btn btn-danger faupload" data-input-id="c-show_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-show_image" class="btn btn-primary fachoose" data-input-id="c-show_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-show_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-show_image"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image_alt')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-show_image_alt" class="form-control" name="row[show_image_alt]" type="text" value="{$row.show_image_alt|htmlentities}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Href')}:</label>
+                    <div class="col-xs-12 col-sm-5">
+                        <input id="c-href" class="form-control" name="row[href]" type="text"                 placeholder="{:__('Href placeholder')}" value="{$row.href|htmlentities}">
+                    </div>
+
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Isblank')}:</label>
+                    <div class="col-xs-12 col-sm-1">
+                        <input  id="c-isblank" name="row[isblank]" type="hidden" value="0">
+                        <a href="javascript:;" data-toggle="switcher" class="btn-switcher" data-input-id="c-isblank" data-yes="1" data-no="0">
+                            <i class="fa fa-toggle-on text-success {eq name="$row.isblank" value="0"}fa-flip-horizontal text-gray{/eq} fa-2x"></i>
+                        </a>
+                    </div>
+                </div>
+            {/case}
+
+            {case Solution}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Icon')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-show_image" class="form-control" size="50" name="row[show_image]" type="text" value="{$row.show_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-show_image" class="btn btn-danger faupload" data-input-id="c-show_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-show_image" class="btn btn-primary fachoose" data-input-id="c-show_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-show_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-show_image"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Pick_icon')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-list_image" class="form-control" size="50" name="row[list_image]" type="text" value="{$row.list_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-list_image" class="btn btn-danger faupload" data-input-id="c-list_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-list_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-list_image" class="btn btn-primary fachoose" data-input-id="c-list_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-list_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-list_image"></ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+            {/case}
+
+            {case Process}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Icon text')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-subtitle" class="form-control" name="row[subtitle]" type="text"
+                            value="{$row.subtitle}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+            {/case}
+
+            {default /}
+            {/switch}
+        {/case}
+        {case APP专题模块}
+            {switch $column.temp}
+            {case advantage}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Icon text')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-subtitle" class="form-control" name="row[subtitle]" type="text" value="{$row.subtitle}" >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+
+            {/case}
+            {case solution}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-show_image" class="form-control" size="50" name="row[show_image]" type="text" value="{$row.show_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-show_image" class="btn btn-danger faupload" data-input-id="c-show_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-show_image" class="btn btn-primary fachoose" data-input-id="c-show_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-show_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-show_image"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image_alt')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-show_image_alt" class="form-control" name="row[show_image_alt]" type="text" value="{$row.show_image_alt|htmlentities}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Subtitle')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-subtitle" class="form-control" name="row[subtitle]" type="text" value="{$row.subtitle}" >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+
+            {/case}
+            {case select}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+            {/case}
+            {case benefit}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+            {/case}
+            {default /}
+            {/switch}
+        {/case}
+
+        {case 小程序专题模块}
+            {switch $column.temp}
+            {case icons}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-show_image" class="form-control" size="50" name="row[show_image]" type="text" value="{$row.show_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-show_image" class="btn btn-danger faupload" data-input-id="c-show_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-show_image" class="btn btn-primary fachoose" data-input-id="c-show_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-show_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-show_image"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image_alt')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-show_image_alt" class="form-control" name="row[show_image_alt]" type="text" value="{$row.show_image_alt|htmlentities}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+            {/case}
+            {case image_switch}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Icon text')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-subtitle" class="form-control" name="row[subtitle]" type="text" value="{$row.subtitle}" >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-show_image" class="form-control" size="50" name="row[show_image]" type="text" value="{$row.show_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-show_image" class="btn btn-danger faupload" data-input-id="c-show_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-show_image" class="btn btn-primary fachoose" data-input-id="c-show_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-show_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-show_image"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image_alt')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-show_image_alt" class="form-control" name="row[show_image_alt]" type="text" value="{$row.show_image_alt|htmlentities}">
+                    </div>
+                </div>
+
+            {/case}
+            {case function}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Subtitle')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-subtitle" class="form-control" name="row[subtitle]" type="text" value="{$row.subtitle}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-show_image" class="form-control" size="50" name="row[show_image]" type="text" value="{$row.show_image}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-show_image" class="btn btn-danger faupload" data-input-id="c-show_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-show_image" class="btn btn-primary fachoose" data-input-id="c-show_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-show_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-show_image"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image_alt')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-show_image_alt" class="form-control" name="row[show_image_alt]" type="text" value="{$row.show_image_alt}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Icon_images')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-icon_images" data-rule="required" class="form-control" size="50" name="row[icon_images]" type="text" value="{$row.icon_images}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="plupload-icon_images" class="btn btn-danger plupload" data-input-id="c-icon_images" data-mimetype="*" data-multiple="true" data-preview-id="p-icon_images"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-icon_images" class="btn btn-primary fachoose" data-input-id="c-icon_images" data-mimetype="*" data-multiple="true"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-icon_images"></span>
+                        </div>
+
+                        <!--ul需要添加 data-template和data-name属性，并一一对应且唯一 -->
+                        <ul class="row list-inline plupload-preview" id="p-icon_images" data-template="icons_intro_tpl" data-name="row[extend_json]"></ul>
+
+                        <!--请注意 ul和textarea间不能存在其它任何元素，实际开发中textarea应该添加个 hidden 进行隐藏-->
+                        <textarea style="display:none;" name="row[extend_json]" class="form-control" style="margin-top:5px;">{$row.extend_json}</textarea>
+
+                        <!--这里自定义图片预览的模板 开始-->
+                        <script type="text/html" id="icons_intro_tpl" >
+                            <li class="col-xs-3">
+                                <a href="<%=fullurl%>" data-url="<%=url%>" target="_blank" class="thumbnail">
+                                    <img src="<%=fullurl%>" class="img-responsive">
+                                </a>
+                                <input type="text" name="row[extend_json][<%=index%>]" class="form-control" placeholder="请输入小标题" value="<%=value?value:''%>"/>
+                                <a href="javascript:;" class="btn btn-danger btn-xs btn-trash"><i class="fa fa-trash"></i></a>
+                            </li>
+                        </script>
+                        <!--这里自定义图片预览的模板 结束-->
+                    </div>
+                </div>
+            {/case}
+            {case project}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Icon text')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-subtitle" class="form-control" name="row[subtitle]" type="text" value="{$row.subtitle}" >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+            {/case}
+            {default /}
+            {/switch}
+        {/case}
+
+        {case 电商开发专题模块}
+            {switch $column.temp}
+            {case solution}
+                <!-- <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Icon text')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-subtitle" class="form-control" name="row[subtitle]" type="text" value="{$row.subtitle}" >
+                    </div>
+                </div> -->
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-show_image" class="form-control" size="50" name="row[show_image]" type="text" value="{$row.show_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-show_image" class="btn btn-danger faupload" data-input-id="c-show_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-show_image" class="btn btn-primary fachoose" data-input-id="c-show_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-show_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-show_image"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image_alt')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-show_image_alt" class="form-control" name="row[show_image_alt]" type="text" value="{$row.show_image_alt|htmlentities}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Pick_icon')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-list_image" class="form-control" size="50" name="row[list_image]" type="text" value="{$row.list_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-list_image" class="btn btn-danger faupload" data-input-id="c-list_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-list_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-list_image" class="btn btn-primary fachoose" data-input-id="c-list_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-list_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-list_image"></ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+            {/case}
+            {case beehive}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+            {/case}
+            {case circle}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+            {/case}
+            {case scene}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-show_image" class="form-control" size="50" name="row[show_image]" type="text" value="{$row.show_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-show_image" class="btn btn-danger faupload" data-input-id="c-show_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-show_image" class="btn btn-primary fachoose" data-input-id="c-show_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-show_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-show_image"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image_alt')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-show_image_alt" class="form-control" name="row[show_image_alt]" type="text" value="{$row.show_image_alt|htmlentities}">
+                    </div>
+                </div>
+
+            {/case}
+            {default /}
+            {/switch}
+        {/case}
+
+        {case 网站建设专属模块}
+            {switch $column.temp}
+            {case icons}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-show_image" class="form-control" size="50" name="row[show_image]" type="text" value="{$row.show_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-show_image" class="btn btn-danger faupload" data-input-id="c-show_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-show_image" class="btn btn-primary fachoose" data-input-id="c-show_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-show_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-show_image"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image_alt')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-show_image_alt" class="form-control" name="row[show_image_alt]" type="text" value="{$row.show_image_alt|htmlentities}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50"></textarea>
+                    </div>
+                </div>
+            {/case}
+            {case Process}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Icon text')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-subtitle" class="form-control" name="row[subtitle]" type="text"
+                            value="{$row.subtitle}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+            {/case}
+            {case solution}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-show_image" class="form-control" size="50" name="row[show_image]" type="text" value="{$row.show_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-show_image" class="btn btn-danger faupload" data-input-id="c-show_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-show_image" class="btn btn-primary fachoose" data-input-id="c-show_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-show_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-show_image"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image_alt')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-show_image_alt" class="form-control" name="row[show_image_alt]" type="text" value="{$row.show_image_alt|htmlentities}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Subtitle')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-subtitle" class="form-control" name="row[subtitle]" type="text" value="{$row.subtitle}" >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+            {/case}
+            {case advantage}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-show_image" class="form-control" size="50" name="row[show_image]" type="text" value="{$row.show_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-show_image" class="btn btn-danger faupload" data-input-id="c-show_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-show_image" class="btn btn-primary fachoose" data-input-id="c-show_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-show_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-show_image"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image_alt')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-show_image_alt" class="form-control" name="row[show_image_alt]" type="text" value="{$row.show_image_alt|htmlentities}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Subtitle')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-subtitle" class="form-control" name="row[subtitle]" type="text" value="{$row.subtitle}" >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+            {/case}
+            {case flow}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Icon text')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-subtitle" class="form-control" name="row[subtitle]" type="text" value="{$row.subtitle}" >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+            {/case}
+            {case benefit}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+            {/case}
+            {case beehive}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+            {/case}
+            {case circle}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+            {/case}
+            {case scene}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-show_image" class="form-control" size="50" name="row[show_image]" type="text" value="{$row.show_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-show_image" class="btn btn-danger faupload" data-input-id="c-show_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-show_image" class="btn btn-primary fachoose" data-input-id="c-show_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-show_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-show_image"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image_alt')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-show_image_alt" class="form-control" name="row[show_image_alt]" type="text" value="{$row.show_image_alt|htmlentities}">
+                    </div>
+                </div>
+            {/case}
+            {default /}
+            {/switch}
+        {/case}
+
+        {case 微信开发专题模块 }
+            {switch $column.temp}
+            {case icons}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-show_image" class="form-control" size="50" name="row[show_image]" type="text" value="{$row.show_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-show_image" class="btn btn-danger faupload" data-input-id="c-show_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-show_image" class="btn btn-primary fachoose" data-input-id="c-show_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-show_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-show_image"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image_alt')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-show_image_alt" class="form-control" name="row[show_image_alt]" type="text" value="{$row.show_image_alt|htmlentities}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+            {/case}
+            {case precept}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Subtitle')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-subtitle" class="form-control" name="row[subtitle]" type="text" value="{$row.subtitle}" >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-show_image" class="form-control" size="50" name="row[show_image]" type="text" value="{$row.show_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-show_image" class="btn btn-danger faupload" data-input-id="c-show_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-show_image" class="btn btn-primary fachoose" data-input-id="c-show_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-show_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-show_image"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image_alt')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-show_image_alt" class="form-control" name="row[show_image_alt]" type="text" value="{$row.show_image_alt|htmlentities}">
+                    </div>
+                </div>
+
+            {/case}
+            {case tool}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Color')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-color" class="form-control" name="row[title1]" type="text" value="{$row.title1}" data-jscolor="{}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-show_image" class="form-control" size="50" name="row[show_image]" type="text" value="{$row.show_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-show_image" class="btn btn-danger faupload" data-input-id="c-show_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-show_image" class="btn btn-primary fachoose" data-input-id="c-show_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-show_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-show_image"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image_alt')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-show_image_alt" class="form-control" name="row[show_image_alt]" type="text" value="{$row.show_image_alt|htmlentities}">
+                    </div>
+                </div>
+            {/case}
+            {case type}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Icon text')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-subtitle" class="form-control" name="row[subtitle]" type="text" value="{$row.subtitle}" >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+            {/case}
+            {default /}
+            {/switch}
+        {/case}
+
+        {case 关于我们专题模块 }
+            {switch $column.temp}
+            {case advantage}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-show_image" class="form-control" size="50" name="row[show_image]" type="text" value="{$row.show_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-show_image" class="btn btn-danger faupload" data-input-id="c-show_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-show_image" class="btn btn-primary fachoose" data-input-id="c-show_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-show_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-show_image"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image_alt')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-show_image_alt" class="form-control" name="row[show_image_alt]" type="text" value="{$row.show_image_alt|htmlentities}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+            {/case}
+            {case flow}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Icon text')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-subtitle" class="form-control" name="row[subtitle]" type="text" value="{$row.subtitle}" >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="c-intro_content" class="form-control" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+                    </div>
+                </div>
+            {/case}
+            {case partner}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-show_image" class="form-control" size="50" name="row[show_image]" type="text" value="{$row.show_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-show_image" class="btn btn-danger faupload" data-input-id="c-show_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-show_image" class="btn btn-primary fachoose" data-input-id="c-show_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-show_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-show_image"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image_alt')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-show_image_alt" class="form-control" name="row[show_image_alt]" type="text" value="{$row.show_image_alt|htmlentities}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Href')}:</label>
+                    <div class="col-xs-12 col-sm-5">
+                        <input id="c-href" class="form-control" name="row[href]" type="text"                 placeholder="{:__('Href placeholder')}" value="{$row.href|htmlentities}">
+                    </div>
+
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Isblank')}:</label>
+                    <div class="col-xs-12 col-sm-1">
+                        <input  id="c-isblank" name="row[isblank]" type="hidden" value="0">
+                        <a href="javascript:;" data-toggle="switcher" class="btn-switcher" data-input-id="c-isblank" data-yes="1" data-no="0">
+                            <i class="fa fa-toggle-on text-success {eq name="$row.isblank" value="0"}fa-flip-horizontal text-gray{/eq} fa-2x"></i>
+                        </a>
+                    </div>
+                </div>
+
+            {/case}
+            {default /}
+            {/switch}
+        {/case}
+
+        {case 公共模块}
+            {switch $column.temp}
+            {case Partner}
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <input id="c-show_image" class="form-control" size="50" name="row[show_image]" type="text" value="{$row.show_image|htmlentities}">
+                            <div class="input-group-addon no-border no-padding">
+                                <span><button type="button" id="faupload-show_image" class="btn btn-danger faupload" data-input-id="c-show_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                <span><button type="button" id="fachoose-show_image" class="btn btn-primary fachoose" data-input-id="c-show_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                            </div>
+                            <span class="msg-box n-right" for="c-show_image"></span>
+                        </div>
+                        <ul class="row list-inline faupload-preview" id="p-show_image"></ul>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Show_image_alt')}:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input id="c-show_image_alt" class="form-control" name="row[show_image_alt]" type="text" value="{$row.show_image_alt|htmlentities}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Href')}:</label>
+                    <div class="col-xs-12 col-sm-5">
+                        <input id="c-href" class="form-control" name="row[href]" type="text"                 placeholder="{:__('Href placeholder')}" value="{$row.href|htmlentities}">
+                    </div>
+
+                    <label class="control-label col-xs-12 col-sm-2">{:__('Isblank')}:</label>
+                    <div class="col-xs-12 col-sm-1">
+                        <input  id="c-isblank" name="row[isblank]" type="hidden" value="0">
+                        <a href="javascript:;" data-toggle="switcher" class="btn-switcher" data-input-id="c-isblank" data-yes="1" data-no="0">
+                            <i class="fa fa-toggle-on text-success {eq name="$row.isblank" value="0"}fa-flip-horizontal text-gray{/eq} fa-2x"></i>
+                        </a>
+                    </div>
+                </div>
+
+            {/case}
+            {default /}
+            {/switch}
+        {/case}
+
+        {case 111}
+            {switch $column.temp}
+            {case 222}
+            {/case}
+            {default /}
+            {/switch}
+        {/case}
+        {default /}
+    {/switch}
+
+
+
+
+
+
+    <!-- <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Keywords')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-keywords" class="form-control" name="row[keywords]" type="text" value="{$row.keywords|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Subtitle')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-subtitle" class="form-control" name="row[subtitle]" type="text" value="{$row.subtitle|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Title1')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-title1" class="form-control" name="row[title1]" type="text" value="{$row.title1|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Title2')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-title2" class="form-control" name="row[title2]" type="text" value="{$row.title2|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Title3')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-title3" class="form-control" name="row[title3]" type="text" value="{$row.title3|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Author')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-author" class="form-control" name="row[author]" type="text" value="{$row.author|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Editor')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-editor" class="form-control" name="row[editor]" type="text" value="{$row.editor|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Source')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-source" class="form-control" name="row[source]" type="text" value="{$row.source|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Releasetime')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-releasetime" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[releasetime]" type="text" value="{:$row.releasetime?datetime($row.releasetime):''}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('List_image_alt')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-list_image_alt" class="form-control" name="row[list_image_alt]" type="text" value="{$row.list_image_alt|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('List_image')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-list_image" class="form-control" size="50" name="row[list_image]" type="text" value="{$row.list_image|htmlentities}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-list_image" class="btn btn-danger faupload" data-input-id="c-list_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-list_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-list_image" class="btn btn-primary fachoose" data-input-id="c-list_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-list_image"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-list_image"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Show_image')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-show_image" class="form-control" size="50" name="row[show_image]" type="text" value="{$row.show_image|htmlentities}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-show_image" class="btn btn-danger faupload" data-input-id="c-show_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-show_image" class="btn btn-primary fachoose" data-input-id="c-show_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-show_image"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-show_image"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Icon_images')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-icon_images" class="form-control" size="50" name="row[icon_images]" type="textarea" value="{$row.icon_images|htmlentities}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-icon_images" class="btn btn-danger faupload" data-input-id="c-icon_images" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="true" data-preview-id="p-icon_images"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-icon_images" class="btn btn-primary fachoose" data-input-id="c-icon_images" data-mimetype="image/*" data-multiple="true"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-icon_images"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-icon_images"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Show1_image')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-show1_image" class="form-control" size="50" name="row[show1_image]" type="text" value="{$row.show1_image|htmlentities}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-show1_image" class="btn btn-danger faupload" data-input-id="c-show1_image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-show1_image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-show1_image" class="btn btn-primary fachoose" data-input-id="c-show1_image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-show1_image"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-show1_image"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Show_images')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-show_images" class="form-control" size="50" name="row[show_images]" type="textarea" value="{$row.show_images|htmlentities}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-show_images" class="btn btn-danger faupload" data-input-id="c-show_images" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="true" data-preview-id="p-show_images"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-show_images" class="btn btn-primary fachoose" data-input-id="c-show_images" data-mimetype="image/*" data-multiple="true"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-show_images"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-show_images"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Annex_file')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-annex_file" class="form-control" size="50" name="row[annex_file]" type="text" value="{$row.annex_file|htmlentities}">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-annex_file" class="btn btn-danger faupload" data-input-id="c-annex_file" data-multiple="false" data-preview-id="p-annex_file"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-annex_file" class="btn btn-primary fachoose" data-input-id="c-annex_file" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-annex_file"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-annex_file"></ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Annex_files')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-annex_files" class="form-control " rows="5" name="row[annex_files]" cols="50">{$row.annex_files|htmlentities}</textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Extend_json')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <dl class="fieldlist" data-name="row[extend_json]">
+                <dd>
+                    <ins>{:__('Key')}</ins>
+                    <ins>{:__('Value')}</ins>
+                </dd>
+                <dd><a href="javascript:;" class="btn btn-sm btn-success btn-append"><i class="fa fa-plus"></i> {:__('Append')}</a></dd>
+                <textarea name="row[extend_json]" class="form-control hide" cols="30" rows="5">{$row.extend_json|htmlentities}</textarea>
+            </dl>
+
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Flag')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <select  id="c-flag" class="form-control selectpicker" multiple="" name="row[flag][]">
+                {foreach name="flagList" item="vo"}
+                    <option value="{$key}" {in name="key" value="$row.flag"}selected{/in}>{$vo}</option>
+                {/foreach}
+            </select>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Pvnum')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-pvnum" class="form-control" name="row[pvnum]" type="number" value="{$row.pvnum|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Intro_content')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-intro_content" class="form-control editor" rows="5" name="row[intro_content]" cols="50">{$row.intro_content|htmlentities}</textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Detail_content')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-detail_content" class="form-control editor" rows="5" name="row[detail_content]" cols="50">{$row.detail_content|htmlentities}</textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Istop')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-istop" data-rule="required" class="form-control" name="row[istop]" type="number" value="{$row.istop|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Top_duetime')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-top_duetime" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[top_duetime]" type="text" value="{:$row.top_duetime?datetime($row.top_duetime):''}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Isindex')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-isindex" data-rule="required" class="form-control" name="row[isindex]" type="number" value="{$row.isindex|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Index_deutime')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-index_deutime" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss" data-use-current="true" name="row[index_deutime]" type="text" value="{:$row.index_deutime?datetime($row.index_deutime):''}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Href')}:</label>
+        <div class="col-xs-12 col-sm-5">
+            <input id="c-href" class="form-control" name="row[href]" type="text"                 placeholder="{:__('Href placeholder')}" value="{$row.href|htmlentities}">
+        </div>
+
+        <label class="control-label col-xs-12 col-sm-2">{:__('Isblank')}:</label>
+        <div class="col-xs-12 col-sm-1">
+            <input  id="c-isblank" name="row[isblank]" type="hidden" value="0">
+            <a href="javascript:;" data-toggle="switcher" class="btn-switcher" data-input-id="c-isblank" data-yes="1" data-no="0">
+                <i class="fa fa-toggle-on text-success {eq name="$row.isblank" value="0"}fa-flip-horizontal text-gray{/eq} fa-2x"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Seotitle')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-seotitle" class="form-control" name="row[seotitle]" type="text" value="{$row.seotitle|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Seokeywords')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-seokeywords" class="form-control" name="row[seokeywords]" type="text" value="{$row.seokeywords|htmlentities}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Seodescription')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-seodescription" class="form-control " rows="5" name="row[seodescription]" cols="50">{$row.seodescription|htmlentities}</textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="radio">
+            {foreach name="statusList" item="vo"}
+            <label for="row[status]-{$key}"><input id="row[status]-{$key}" name="row[status]" type="radio" value="{$key}" {in name="key" value="$row.status"}checked{/in} /> {$vo}</label>
+            {/foreach}
+            </div>
+
+        </div>
+    </div> -->
+
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

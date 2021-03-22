@@ -1,0 +1,5 @@
+.env
+runtime/*
+public/uploads/*
+# application/extra/site.php
+.vscode/sftp.json

@@ -1,0 +1,227 @@
+<style>
+    .bui-select-form {
+        margin-bottom: .2rem;
+    }
+    
+    .bui-select-form .bui-input {
+        text-align: right;
+    }
+.dalou{
+ 
+	font-weight:bold !important;
+	text-align:left;
+	padding-left:0.2rem;
+}
+.currentinfo{
+	text-align:left;
+	color:red;
+}
+.used{
+	background-color:red !important;
+	text-align:center;
+	font-weight:bold !important;
+}
+
+.hnormal{
+	width:7%;
+	text-align: center;
+}
+.hevening{
+	width:7%;
+	text-align: center;
+ 	display: none;
+}
+.hmorning{
+	width:7%;
+	text-align: center;
+ 	display: none;
+}
+th{
+	background-color: #c4c4c4 !important;
+}
+.applybtndiv{
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.applybtn1{
+	width:40%;
+	margin-left: 2px;margin-left: 2px;
+	border-width: 1px !important;
+    border-style: dotted !important;	
+}
+</style>
+<div  id="app_frame1"> 
+<div class="bui-page" >
+	<header class="bui-bar">
+		<div class="bui-bar-left">
+			<!--<a class="bui-btn btn-back"><i class="icon-back"></i></a>-->
+		</div>
+		<div class="bui-bar-main">{{title}}</div>
+		<div class="bui-bar-right">
+		</div>
+	</header>
+	<main>
+        <ul class="bui-list bui-select-form">
+            <li class="bui-btn bui-box">
+                <label>请选择日期</label>
+                <div class="span1"><input type="text" id="datepicker_input" readonly class="bui-input"></div>
+                <i class="icon-listright"></i>
+            </li>
+        </ul>
+      
+		<table class="bui-table">
+			<tbody>
+			<template v-if="buildings!=null && buildings.length==0">
+				<tr>
+					<td colspan="25" class="dalou">没有会议室，请联系管理员后台配置。</td>
+				</tr>
+			</template>				
+			<template v-for="(item,key) in buildings" >
+				<tr>
+					<td colspan="25" class="dalou">大楼：{{key}}</td>
+				</tr>
+				<tr>
+					<th style="width:30%;"></th>
+					<th class="hmorning">0</th>
+					<th class="hmorning">1</th>
+					<th class="hmorning">2</th>
+					<th class="hmorning">3</th>
+					<th class="hmorning">4</th>
+					<th class="hmorning">5</th>
+					<th class="hmorning">6</th>
+					<th class="hmorning">7</th>
+					<th class="hnormal">8</th>
+					<th class="hnormal">9</th>
+					<th class="hnormal">10</th>
+					<th class="hnormal">11</th>
+					<th class="hnormal">12</th>
+					<th class="hnormal">13</th>
+					<th class="hnormal">14</th>
+					<th class="hnormal">15</th>
+					<th class="hnormal">16</th>
+					<th class="hnormal">17</th>
+					<th class="hnormal">18</th>
+					<th class="hevening">19</th>
+					<th class="hevening">20</th>
+					<th class="hevening">21</th>
+					<th class="hevening">22</th>
+					<th class="hevening">23</th>
+				</tr>
+				<tr v-for="(item2,key2) in item">
+					<td>{{item2.name}}</td>
+					<td is="td-applyhour" hour="0"  :roomid="item2.id" :roomname="item2.name" :applycount="item2.h0" addclass="hmorning"></td>
+					<td is="td-applyhour" hour="1"  :roomid="item2.id" :roomname="item2.name" :applycount="item2.h1" addclass="hmorning"></td>
+					<td is="td-applyhour" hour="2"  :roomid="item2.id" :roomname="item2.name" :applycount="item2.h2" addclass="hmorning"></td>
+					<td is="td-applyhour" hour="3"  :roomid="item2.id" :roomname="item2.name" :applycount="item2.h3" addclass="hmorning"></td>
+					<td is="td-applyhour" hour="4"  :roomid="item2.id" :roomname="item2.name" :applycount="item2.h4" addclass="hmorning"></td>
+					<td is="td-applyhour" hour="5"  :roomid="item2.id" :roomname="item2.name" :applycount="item2.h5" addclass="hmorning"></td>
+					<td is="td-applyhour" hour="6"  :roomid="item2.id" :roomname="item2.name" :applycount="item2.h6" addclass="hmorning"></td>
+					<td is="td-applyhour" hour="7"  :roomid="item2.id" :roomname="item2.name" :applycount="item2.h7" addclass="hmorning"></td>
+					<td is="td-applyhour" hour="8"  :roomid="item2.id" :roomname="item2.name" :applycount="item2.h8" addclass="hnormal"></td>
+					<td is="td-applyhour" hour="9"  :roomid="item2.id" :roomname="item2.name" :applycount="item2.h9" addclass="hnormal"></td>
+					<td is="td-applyhour" hour="10" :roomid="item2.id" :roomname="item2.name" :applycount="item2.h10" addclass="hnormal"></td>
+					<td is="td-applyhour" hour="11" :roomid="item2.id" :roomname="item2.name" :applycount="item2.h11" addclass="hnormal"></td>
+					<td is="td-applyhour" hour="12" :roomid="item2.id" :roomname="item2.name" :applycount="item2.h12" addclass="hnormal"></td>
+					<td is="td-applyhour" hour="13" :roomid="item2.id" :roomname="item2.name" :applycount="item2.h13" addclass="hnormal"></td>
+					<td is="td-applyhour" hour="14" :roomid="item2.id" :roomname="item2.name" :applycount="item2.h14" addclass="hnormal"></td>
+					<td is="td-applyhour" hour="15" :roomid="item2.id" :roomname="item2.name" :applycount="item2.h15" addclass="hnormal"></td>
+					<td is="td-applyhour" hour="16" :roomid="item2.id" :roomname="item2.name" :applycount="item2.h16" addclass="hnormal"></td>
+					<td is="td-applyhour" hour="17" :roomid="item2.id" :roomname="item2.name" :applycount="item2.h17" addclass="hnormal"></td>
+					<td is="td-applyhour" hour="18" :roomid="item2.id" :roomname="item2.name" :applycount="item2.h18" addclass="hnormal"></td>
+					<td is="td-applyhour" hour="19" :roomid="item2.id" :roomname="item2.name" :applycount="item2.h19" addclass="hevening"></td>
+					<td is="td-applyhour" hour="20" :roomid="item2.id" :roomname="item2.name" :applycount="item2.h20" addclass="hevening"></td>
+					<td is="td-applyhour" hour="21" :roomid="item2.id" :roomname="item2.name" :applycount="item2.h21" addclass="hevening"></td>
+					<td is="td-applyhour" hour="22" :roomid="item2.id" :roomname="item2.name" :applycount="item2.h22" addclass="hevening"></td>
+					<td is="td-applyhour" hour="23" :roomid="item2.id" :roomname="item2.name" :applycount="item2.h23" addclass="hevening"></td>
+				</tr>
+
+			</template>	
+			</tbody>
+		</table>
+        <ul class="bui-list bui-select-form">
+            <li class="bui-btn bui-box">
+                <div class="span1" style="text-align:right">显示时间段：
+                	<span v-on:click="clickShow0t7">8:00之前</span>&nbsp;&nbsp;
+                	<span v-on:click="clickShow8t18">8:00-18:00</span>&nbsp;&nbsp;
+                	<span v-on:click="clickShow19t0">18:00之后</span>&nbsp;&nbsp;
+                </div>
+            </li>
+        </ul>
+        <p style="text-align: right;" v-on:click="clickMyApply">我的预约记录</p>&nbsp;&nbsp;
+        <BR><BR>
+        	
+    
+
+	</main>
+	<!--
+	<footer>
+		<div class="bui-interval">
+            <div class="bui-btn primary">申请会议室</div>
+        </div>
+	</footer>
+	-->	
+</div>
+<!-- 申请会议室	 -->
+<div id="actionsheet" class="bui-actionsheet actionsheet-custom" style="display: none">
+		<ul class="bui-list">
+            <li class="bui-btn-title" style="color:red">
+                <span id="apply_csmmeet_room_name2"></span>的申请的情况
+            </li>
+            <li class="bui-btn" v-if="applylist_selectroom!=null && applylist_selectroom.length>0">
+                <h3 class="item-title currentinfo" v-for="item in applylist_selectroom" >{{item.title}} {{item.beginhour}}:{{item.beginmin}}-{{item.endhour}}:{{item.endmin}} ({{item.username}})</h3>
+            </li>
+            <li class="bui-btn" v-if="applylist_selectroom!=null && applylist_selectroom.length==0">没有申请记录</li>
+		</ul>
+       <ul class="bui-list">
+            <li class="bui-btn-title">
+                会议室申请
+            </li>
+            <li class="bui-btn bui-box clearactive">
+                <label class="bui-label" for="apply_csmmeet_room_name">会议室:</label>
+                <div class="span1">
+                    <div class="bui-input user-input">
+                        <span id="apply_csmmeet_room_name"></span>
+                    </div>
+                    <input type='hidden' id="apply_csmmeet_room_id" value=""/>
+                </div>
+            </li>
+            <li class="bui-btn bui-box clearactive">
+                <label class="bui-label" for="apply_applaydate_span">申请日期:</label>
+                <div class="span1">
+                    <div class="bui-input user-input">
+                        <span id="apply_applaydate_span"></span><input type='hidden' id="apply_applaydate" value=""/>
+                    </div>
+                </div>
+            </li>
+            <li class="bui-btn bui-box clearactive">
+                <label class="bui-label" for="apply_beginhour">申请时间:</label>
+                <div class="span1">
+                    <div class="bui-input user-input">
+                        <select id="apply_beginhour"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option></select>
+                        :
+                        <select id="apply_beginmin"><option>00</option><option>10</option><option>15</option><option>20</option><option>25</option><option>30</option><option>35</option><option>40</option><option>45</option><option>50</option><option>55</option></select>
+                        &nbsp;~&nbsp;
+                        <select id="apply_endhour"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option></select>
+                        :
+                        <select id="apply_endmin"><option>09</option><option>14</option><option>19</option><option>24</option><option>29</option><option>34</option><option>39</option><option>44</option><option>49</option><option>54</option><option>59</option></select>                        
+                    </div>
+                </div>
+            </li>
+            <li class="bui-btn bui-box clearactive">
+                <label class="bui-label" for="phonenumber">会议名称:</label>
+                <div class="span1">
+                    <div class="bui-input user-input">
+                        <input id="apply_meettitle" type="text" class="bui-input" value="公司会议" >
+                    </div>
+                </div>
+            </li>            
+			<li class="bui-btn bui-box clearactive">
+					<div class="bui-btn success reverse applybtn1" v-on:click="closeApplyPage">取消</div>
+			 
+					<div class="bui-btn success applybtn1" v-on:click="submitApply">提交</div>
+				 	
+			</li>
+		</ul>
+		
+</div>
+</div>

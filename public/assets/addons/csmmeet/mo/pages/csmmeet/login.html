@@ -1,0 +1,213 @@
+<style type="text/css">
+    .login-page main {
+        background: #fff bottom no-repeat;
+        background-size: 100% auto;
+
+    }
+
+    .login-page .logo h1 {
+        font-size: .82rem;
+        padding-left: .3rem;
+    }
+
+    .logo {
+        height: 2rem;
+        margin: 1.2rem auto 1rem auto;
+        text-align: center;
+    }
+
+    .logo img {
+        height: 1rem;
+    }
+
+    .login-form {
+        padding-left: .6rem;
+        padding-right: .6rem;
+    }
+
+    .login-form .bui-list {
+        border-top: none;
+        margin-bottom: .7rem;
+    }
+
+    .login-form>.bui-btn {
+        margin-bottom: .3rem;
+    }
+
+    .login-form .bui-btn-text {
+        margin-bottom: .2rem;
+    }
+
+    .bui-list>[class*=bui-btn]:last-child {}
+
+    .login-form .bui-label {
+        width: 0.5rem;
+        margin-right: .2rem;
+    }
+
+    .login-form .icon-face,
+    .icon-tel,
+    .icon-home,
+    .icon-lock,
+    .login-form .icon-lock {
+        font-size: 0.48rem;
+    }
+
+    .login-form .bui-input {
+        height: .6rem;
+        background: none;
+    }
+
+    .login-form .bui-btn-text {
+        text-align: center;
+        color: #666666;
+        font-size: 0.2rem;
+    }
+
+    .copyright {
+        font-size: 0.17rem;
+        color: #999999;
+        width: 100%;
+        text-align: center;
+        background-color: #ffffff;
+        padding-bottom: 0.25rem;
+    }
+
+    .icon-eye:before {
+        content: "\e680"
+    }
+
+    .icon-eye.active:before {
+        content: "\e67f"
+    }
+
+    .logoimg {
+        width: 1rem !important;
+        height: 1rem !important;
+    }
+
+    #div_user_name,
+    #div_user_mobile,
+    #div_user_password,
+    #div_nick_name {
+        display: none;
+    }
+
+    .sended,
+    .sending {
+        display: none !important;
+    }
+</style>
+<div class="bui-page login-page" id="app_login">
+    <main>
+        <div class="logo bui-box-center">
+            <img class="logoimg" src="images/applogo.jpg" alt="">
+        </div>
+        <div id="uiTab" class="bui-tab">
+            <div class="bui-tab-head">
+                <ul class="bui-nav" style="width:80%">
+                    <li class="bui-btn">登录</li>
+                    <li class="bui-btn">注册</li>
+                </ul>
+            </div>
+            <div class="bui-tab-main">
+                <ul>
+                    <!-- 内容必须在li里面 -->
+                    <li>
+                        <div class="login-form">
+                            <ul class="bui-list">
+                                <li class="bui-btn bui-box clearactive">
+                                    <label class="bui-label" for="user"><i class="icon-home"></i></label>
+                                    <div class="span1">
+                                        <div class="bui-input user-input">
+                                            <input id="login_user_email" type="text" placeholder="请输入您的邮箱" value="">
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="bui-btn bui-box clearactive">
+                                    <label class="bui-label" for="password"><i class="icon-lock"></i></label>
+                                    <div class="span1">
+                                        <div class="bui-input password-input">
+                                            <input id="login_user_psd" type="password" placeholder="请输入您的密码" value="">
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="bui-btn round primary" v-on:click="loginpasswordAjax">登录</div>
+                            <!--href="pages/csmmeet/main"  -->
+                        </div>
+
+                    </li>
+                    <li style="display: none;">
+                        <div class="login-form">
+                            <input id="hassendccode" type="hidden" value="0">
+                            <ul class="bui-list">
+                                <li class="bui-btn bui-box clearactive">
+                                    <label class="bui-label" for="user"><i class="icon-home"></i></label>
+                                    <div class="span1">
+                                        <div class="bui-input user-input">
+                                            <input id="user_email" type="text" placeholder="请输入您的邮箱" value="">
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="bui-btn bui-box clearactive">
+                                    <label class="bui-label" for="password"><i class="icon-lock"></i></label>
+                                    <div class="span1">
+                                        <div class="bui-input password-input">
+                                            <input id="loginccode" type="text" placeholder="邮件验证码" value="">
+                                        </div>
+                                    </div>
+                                    <div class="readysend bui-btn primary-reverse mini ring " id="btnSend"
+                                        v-on:click="sendLoginCcodeByEmailAjax">发送验证码邮件</div>
+                                    <div class="sending bui-btn warn-reverse mini ring ">邮件正在发送中</div>
+                                    <div class="sended bui-btn warn-reverse mini ring ">邮件已经发送</div>
+                                </li>
+                                <li class="bui-btn bui-box clearactive" id="div_user_name">
+                                    <label class="bui-label" for="user"><i class="icon-face"></i></label>
+                                    <div class="span1">
+                                        <div class="bui-input user-input">
+                                            <input id="user_name" type="text" placeholder="请输入您的登录账号名"
+                                                :value="user.nickname">
+                                        </div>
+                                    </div>
+                                </li>      
+                                <li class="bui-btn bui-box clearactive" id="div_user_password">
+                                    <label class="bui-label" for="user"><i class="icon-lock"></i></label>
+                                    <div class="span1">
+                                        <div class="bui-input password-input">
+                                            <input id="user_password" type="password" placeholder="请输入您的登录密码"
+                                                :value="user.username">
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="bui-btn bui-box clearactive" id="div_nick_name">
+                                    <label class="bui-label" for="user"><i class="icon-face"></i></label>
+                                    <div class="span1">
+                                        <div class="bui-input user-input">
+                                            <input id="nick_name" type="text" placeholder="请输入您的姓名"
+                                                :value="user.nickname">
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="bui-btn bui-box clearactive" id="div_user_mobile">
+                                    <label class="bui-label" for="user"><i class="icon-tel"></i></label>
+                                    <div class="span1">
+                                        <div class="bui-input user-input">
+                                            <input id="user_mobile" type="text" placeholder="请输入您的手机号码"
+                                                :value="user.mobile">
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="bui-btn round primary" v-on:click="loginAjax">注册</div>
+                            <!--href="pages/csmmeet/main"  -->
+                        </div>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+    </main>
+</div>

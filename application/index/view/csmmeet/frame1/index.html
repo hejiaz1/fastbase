@@ -1,0 +1,359 @@
+
+<style type="text/css">
+table, th, td {
+	text-align: center;
+	line-height: 28px;
+	font-size: 14px;
+}
+
+.dalou {
+	font-weight: bold !important;
+	text-align: left;
+	padding-left: 10px;
+}
+
+.currentinfo {
+	text-align: left;
+	color: red;
+}
+
+.used {
+	background-color: red !important;
+	text-align: center;
+	font-weight: bold !important;
+}
+
+.hnormal {
+	width: 6%;
+	text-align: center;
+}
+
+.hevening {
+	width: 6%;
+	text-align: center;
+	display: none;
+}
+
+.hmorning {
+	width: 6%;
+	text-align: center;
+	display: none;
+}
+
+th {
+	background-color: #c4c4c4 !important;
+}
+[v-cloak] {
+  display: none;
+}
+#datetimepicker1{
+	width:180px;
+	text-align: right;
+}
+.header{
+	position: relative;
+}
+.headerright{
+        position: absolute;
+        right: 0;
+        bottom: 10px;	
+}
+.sp-text-align-right{
+	text-align: right;
+}
+.foottimeline a{
+	padding-left: 5px;
+}
+</style>
+
+<link rel="stylesheet"
+	href="__CDN__/assets/addons/csmmeet/mo/css/app-pch5.css"
+>
+
+<div class="container mt-20" id="app_frame1"  >
+	<div id="content-container" class="container">
+		<div class="row">
+		{if $_nosidenav_=='1'}
+			<div class="col-md-12">
+		{else /}
+			<div class="col-md-3">{include file="common/sidenav" /}</div>
+			<div class="col-md-9">
+		{/if}
+				<div class="panel panel-default panel-user" v-cloak>
+					<div class="panel-body">
+						<div class="page-header header">
+							<h2>{{title}}</h2>
+							<span class="headerright">
+								<span class='input-group date' id='datetimepicker1'>
+									<input type='text' class="timeInput form-control"
+										id="datepicker_input" /> <span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</span>
+							</span>
+						</div>
+						<div class="row">
+							<table width="100%" border="1">
+								<tbody v-for="(item,key) in buildings">
+									<tr>
+										<td colspan="25" class="dalou">大楼：{{key}}</td>
+									</tr>
+									<tr>
+										<th style="width: 30%;"></th>
+										<th class="hmorning">0</th>
+										<th class="hmorning">1</th>
+										<th class="hmorning">2</th>
+										<th class="hmorning">3</th>
+										<th class="hmorning">4</th>
+										<th class="hmorning">5</th>
+										<th class="hmorning">6</th>
+										<th class="hmorning">7</th>
+										<th class="hnormal">8</th>
+										<th class="hnormal">9</th>
+										<th class="hnormal">10</th>
+										<th class="hnormal">11</th>
+										<th class="hnormal">12</th>
+										<th class="hnormal">13</th>
+										<th class="hnormal">14</th>
+										<th class="hnormal">15</th>
+										<th class="hnormal">16</th>
+										<th class="hnormal">17</th>
+										<th class="hnormal">18</th>
+										<th class="hevening">19</th>
+										<th class="hevening">20</th>
+										<th class="hevening">21</th>
+										<th class="hevening">22</th>
+										<th class="hevening">23</th>
+									</tr>
+									<tr v-for="(item2,key2) in item">
+										<td>{{item2.name}}</td>
+										<td is="td-applyhour" hour="0" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h0"
+											addclass="hmorning"></td>
+										<td is="td-applyhour" hour="1" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h1"
+											addclass="hmorning"></td>
+										<td is="td-applyhour" hour="2" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h2"
+											addclass="hmorning"></td>
+										<td is="td-applyhour" hour="3" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h3"
+											addclass="hmorning"></td>
+										<td is="td-applyhour" hour="4" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h4"
+											addclass="hmorning"></td>
+										<td is="td-applyhour" hour="5" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h5"
+											addclass="hmorning"></td>
+										<td is="td-applyhour" hour="6" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h6"
+											addclass="hmorning"></td>
+										<td is="td-applyhour" hour="7" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h7"
+											addclass="hmorning"></td>
+										<td is="td-applyhour" hour="8" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h8"
+											addclass="hnormal"></td>
+										<td is="td-applyhour" hour="9" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h9"
+											addclass="hnormal"></td>
+										<td is="td-applyhour" hour="10" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h10"
+											addclass="hnormal"></td>
+										<td is="td-applyhour" hour="11" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h11"
+											addclass="hnormal"></td>
+										<td is="td-applyhour" hour="12" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h12"
+											addclass="hnormal"></td>
+										<td is="td-applyhour" hour="13" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h13"
+											addclass="hnormal"></td>
+										<td is="td-applyhour" hour="14" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h14"
+											addclass="hnormal"></td>
+										<td is="td-applyhour" hour="15" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h15"
+											addclass="hnormal"></td>
+										<td is="td-applyhour" hour="16" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h16"
+											addclass="hnormal"></td>
+										<td is="td-applyhour" hour="17" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h17"
+											addclass="hnormal"></td>
+										<td is="td-applyhour" hour="18" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h18"
+											addclass="hnormal"></td>
+										<td is="td-applyhour" hour="19" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h19"
+											addclass="hevening"></td>
+										<td is="td-applyhour" hour="20" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h20"
+											addclass="hevening"></td>
+										<td is="td-applyhour" hour="21" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h21"
+											addclass="hevening"></td>
+										<td is="td-applyhour" hour="22" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h22"
+											addclass="hevening"></td>
+										<td is="td-applyhour" hour="23" :roomid="item2.id"
+											:roomname="item2.name" :applycount="item2.h23"
+											addclass="hevening"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="row">
+							<div
+								class="col-md-6  col-md-offset-6 sp-rowfont sp-text-align-right foottimeline">
+								预约时间段： 
+								<a href='javascript:void()' v-on:click="clickShow0t7">0:00-8:00</a>
+								<a href='javascript:void()' v-on:click="clickShow8t18">8:00-18:00</a> 
+								<a href='javascript:void()' v-on:click="clickShow19t0">18:00-23:59</a>
+							</div>
+						</div>
+
+
+
+						<div class="modal fade" tabindex="-1" role="dialog"
+							id="actionsheet">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<h4 class="modal-title">会议室预约</h4>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-md-3 sp-rowfont sp-text-align-right">会议室:</div>
+											<div class="col-md-7 sp-rowfont">
+												<span id="apply_csmmeet_room_name"></span><input
+													type='hidden' id="apply_csmmeet_room_id" value=""
+													form-control />
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-3 sp-rowfont sp-text-align-right">申请日期:</div>
+											<div class="col-md-7 sp-rowfont">
+												<span id="apply_applaydate_span"></span><input type='hidden'
+													id="apply_applaydate" value="" />
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-3 sp-rowfont sp-text-align-right">申请时间:</div>
+											<div class="col-md-7 sp-rowfont">
+												<select id="apply_beginhour"><option>0</option>
+													<option>1</option>
+													<option>2</option>
+													<option>3</option>
+													<option>4</option>
+													<option>5</option>
+													<option>6</option>
+													<option>7</option>
+													<option>8</option>
+													<option>9</option>
+													<option>10</option>
+													<option>11</option>
+													<option>12</option>
+													<option>13</option>
+													<option>14</option>
+													<option>15</option>
+													<option>16</option>
+													<option>17</option>
+													<option>18</option>
+													<option>19</option>
+													<option>20</option>
+													<option>21</option>
+													<option>22</option>
+													<option>23</option>
+													<option>24</option></select> : <select id="apply_beginmin"><option>00</option>
+													<option>10</option>
+													<option>15</option>
+													<option>20</option>
+													<option>25</option>
+													<option>30</option>
+													<option>35</option>
+													<option>40</option>
+													<option>45</option>
+													<option>50</option>
+													<option>55</option></select> &nbsp;~&nbsp; <select
+													id="apply_endhour"><option>0</option>
+													<option>1</option>
+													<option>2</option>
+													<option>3</option>
+													<option>4</option>
+													<option>5</option>
+													<option>6</option>
+													<option>7</option>
+													<option>8</option>
+													<option>9</option>
+													<option>10</option>
+													<option>11</option>
+													<option>12</option>
+													<option>13</option>
+													<option>14</option>
+													<option>15</option>
+													<option>16</option>
+													<option>17</option>
+													<option>18</option>
+													<option>19</option>
+													<option>20</option>
+													<option>21</option>
+													<option>22</option>
+													<option>23</option>
+													<option>24</option></select> : <select id="apply_endmin"><option>09</option>
+													<option>14</option>
+													<option>19</option>
+													<option>24</option>
+													<option>29</option>
+													<option>34</option>
+													<option>39</option>
+													<option>44</option>
+													<option>49</option>
+													<option>54</option>
+													<option>59</option></select>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-3 sp-rowfont sp-text-align-right">会议名称:</div>
+											<div class="col-md-7 sp-rowfont">
+												<input id="apply_meettitle" type="text" class="form-control"
+													value="公司会议" size='50'>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-primary"
+											v-on:click="submitApply">提交</button>
+									</div>
+								</div>
+								<!-- /.modal-content -->
+							</div>
+							<!-- /.modal-dialog -->
+						</div>
+						<!-- /.modal -->
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+<script type="text/javascript"
+	src="__CDN__/assets/addons/csmmeet/mo/js/vue.js"></script>
+<script type="text/javascript"
+	src="__CDN__/assets/addons/csmmeet/mo/script/common/app-dict.js"></script>
+<script type="text/javascript"
+	src="__CDN__/assets/addons/csmmeet/mo/script/common/core-api.js"></script>
+<script type="text/javascript"
+	src="__CDN__/assets/addons/csmmeet/mo/script/pc-config.js"></script>
+<script type="text/javascript"
+	src="__CDN__/assets/addons/csmmeet/mo/script/pc-core-api.js"></script>

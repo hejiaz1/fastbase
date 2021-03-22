@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "CSM 签到和活动",
+  "usingComponents": {
+    "uni-swiper-dot": "/components/uni-swiper-dot/uni-swiper-dot",
+    "ss-navbar": "/components/ss-navbar/ss-navbar",
+    "ss-navbar3": "/components/ss-navbar3/ss-navbar3"
+  }
+}

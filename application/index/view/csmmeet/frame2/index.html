@@ -1,0 +1,70 @@
+<style type="text/css">
+	table,
+	th,
+	td {
+		text-align: center;
+		line-height: 26px;
+		font-size: 13px;
+	}
+
+	th {
+		background-color: #c4c4c4 !important;
+	}
+	[v-cloak] {
+	  display: none;
+	}
+</style>
+
+<link rel="stylesheet" href="__CDN__/assets/addons/csmmeet/mo/css/app-pch5.css" rel="stylesheet">
+
+<div class="container mt-20" id="app_myapply">
+	<div id="content-container" class="container">
+		<div class="row">
+		{if $_nosidenav_=='1'}
+			<div class="col-md-12">
+		{else /}
+			<div class="col-md-3">{include file="common/sidenav" /}</div>
+			<div class="col-md-9">
+		{/if}
+				<div class="panel panel-default panel-user" v-cloak>
+					<div class="panel-body">
+
+
+
+						<div class="page-header">
+							<h2>我的预约</h2>
+						</div>
+						<table class="table">
+							<tr>
+								<th>序号</th>
+								<th>会议内容</th>
+								<th>会议室</th>
+								<th>会议日期</th>
+								<th>会议时间</th>
+								<th>审核状态</th>
+								<th>操作</th>
+							</tr>
+							<tr v-for="(item,index) in applylist">
+								<td>{{index+1}}</td>
+								<td>{{item.title}}</td>
+								<td>{{item.meetname}}</td>
+								<td>{{item.applydate}}</td>
+								<td>{{item.beginhour}}:{{item.beginmin}}-{{item.endhour}}:{{item.endmin}}</td>
+								<td>{{item.auditstatus|core_dict("fa_csmmeet_apply.auditstatus")}}</td>
+								<td><button type="button" class="btn btn-default" v-on:click="clickApplyCancel"
+										:item_id="item.id" :auditstatus="item.auditstatus" v-if="item.auditstatus!='-1'&&item.auditstatus!='-2'">撤销</button></td>
+							</tr>
+						</table>
+						<p style="text-align: center;">以上显示最近20条记录</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="__CDN__/assets/addons/csmmeet/mo/js/vue.js"></script>
+<script type="text/javascript" src="__CDN__/assets/addons/csmmeet/mo/script/common/app-dict.js"></script>
+<script type="text/javascript" src="__CDN__/assets/addons/csmmeet/mo/script/common/core-api.js"></script>
+<script type="text/javascript" src="__CDN__/assets/addons/csmmeet/mo/script/pc-config.js"></script>
+<script type="text/javascript" src="__CDN__/assets/addons/csmmeet/mo/script/pc-core-api.js"></script>
