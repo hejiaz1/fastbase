@@ -34,6 +34,7 @@ class Config extends Backend
                 throw new Exception(__("Site name incorrect"));
             }
         });
+
     }
 
     /**
@@ -44,16 +45,19 @@ class Config extends Backend
         $siteList = [];
         $groupList = ConfigModel::getGroupList();
 
-        unset($groupList['email'], $groupList['maskwords']);
+        // 手动隐藏分组
+        unset(
+            $groupList['email'],
+            $groupList['user'],
+            $groupList['extend'],
+            $groupList['maskwords']
+        );
 
         foreach ($groupList as $k => $v) {
             $siteList[$k]['name'] = $k;
             $siteList[$k]['title'] = $v;
             $siteList[$k]['list'] = [];
         }
-
-        dump($groupList);
-        dump($siteList);die;
 
         foreach ($this->model->all() as $k => $v) {
             if (!isset($siteList[$v['group']])) {
@@ -76,7 +80,9 @@ class Config extends Backend
         $this->view->assign('siteList', $siteList);
         $this->view->assign('typeList', ConfigModel::getTypeList());
         $this->view->assign('ruleList', ConfigModel::getRegexList());
-        $this->view->assign('groupList', ConfigModel::getGroupList());
+        $this->view->assign('groupList', $groupList);
+
+        // $this->view->assign('groupList', ConfigModel::getGroupList());
         return $this->view->fetch();
     }
 

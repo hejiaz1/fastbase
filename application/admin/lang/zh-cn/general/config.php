@@ -4,7 +4,7 @@
  * @Date           : 2020-10-10 14:45:01
  * @FilePath       : \application\admin\lang\zh-cn\general\config.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2020-11-25 18:06:03
+ * @LastEditTime   : 2021-03-22 17:10:53
  * @Description    : 系统配置语言包
  */
 
@@ -65,7 +65,7 @@ return [
     'Languages'                   => '语言',
     'Fixed page'                  => '后台固定页',
     'Category type'               => '分类类型',
-    'Config group'                => '配置分组',
+    'Config group'                => '配置分组<br>未展示分组已在代码中隐藏',
     'Rule tips'                   => '校验规则使用请参考Nice-validator文档',
     'Extend tips'                 => '扩展属性支持{id}、{name}、{group}、{title}、{value}、{content}、{rule}替换',
     'Mail type'                   => '邮件发送方式',
