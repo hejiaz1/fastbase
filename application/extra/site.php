@@ -15,6 +15,7 @@ return [
     'categorytype' => [
         'links' => 'Links',
         'ads' => 'Ads',
+        'article' => 'Article',
     ],
     'configgroup' => [
         'basic' => 'Basic',

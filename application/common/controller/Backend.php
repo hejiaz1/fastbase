@@ -256,7 +256,6 @@ class Backend extends Controller
     {
         $searchfields   = is_null($searchfields) ? $this->searchFields : $searchfields;
         $relationSearch = is_null($relationSearch) ? $this->relationSearch : $relationSearch;
-
         $search = $this->request->get("search", '');
         $filter = $this->request->get("filter", '');
         $op     = $this->request->get("op", '', 'trim');
@@ -277,6 +276,7 @@ class Backend extends Controller
         $filter = $filter ? $filter : [];
 
         $where     = [];
+        $whereor   = [];
         $alias     = [];
         $bind      = [];
         $name      = '';
@@ -306,6 +306,7 @@ class Backend extends Controller
             $where[] = [implode("|", $searcharr), "LIKE", "%{$search}%"];
         }
         $index = 0;
+
         foreach ($filter as $k => $v) {
             if (!preg_match('/^[a-zA-Z0-9_\-\.]+$/', $k)) {
                 continue;
@@ -314,6 +315,7 @@ class Backend extends Controller
             if (stripos($k, ".") === false) {
                 $k = $aliasName . $k;
             }
+
             $v = !is_array($v) ? trim($v) : $v;
             $sym = strtoupper(isset($op[$k]) ? $op[$k] : $sym);
             //null和空字符串特殊处理
@@ -418,6 +420,16 @@ class Backend extends Controller
                     $about[] = 'or';
                     $where[] = $about;
                     break;
+
+                case 'OR_LIKE':
+                    // 多字段模糊查询
+                    $raw_fields = explode('.', $k)[1];
+                    $fields     = explode('_', $raw_fields);
+                    foreach($fields as $kkk=>$vvv){
+                        $whereor[$aliasName . $vvv] = ['LIKE', "%{$v}%"];
+                    }
+
+                    break;
                 default:
                     break;
             }
@@ -440,6 +452,13 @@ class Backend extends Controller
                 }
             }
         };
+
+        if($whereor){
+            $raw_where = $where;
+            unset($where);
+            $where['where'] = $raw_where;
+            $where['whereor'] = $whereor;
+        }
         return [$where, $sort, $order, $offset, $limit, $page, $alias, $bind];
     }
 
@@ -523,7 +542,7 @@ class Backend extends Controller
                 } else {
                     $query->where(function ($query) use ($word, $searchfield) {
                         foreach ($word as $index => $item) {
-                            $query->whereOr(function ($query) use ($item, $searchfield) {
+                            $query->whereor(function ($query) use ($item, $searchfield) {
                                 $query->where($searchfield, "like", "%{$item}%");
                             });
                         }
