@@ -51,6 +51,7 @@ require.config({
         'selectpage': '../libs/fastadmin-selectpage/selectpage',
         'citypicker': '../libs/fastadmin-citypicker/dist/js/city-picker.min',
         'citypicker-data': '../libs/fastadmin-citypicker/dist/js/city-picker.data',
+        'minicolors': '../libs/minicolors/minicolors.min',
     },
     // shim依赖配置
     shim: {

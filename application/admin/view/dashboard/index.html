@@ -159,6 +159,7 @@
         font-size: 13px;
     }
 </style>
+
 <div class="panel panel-default panel-intro">
     <div class="panel-heading">
         {:build_heading(null, false)}
@@ -388,9 +389,9 @@
 <!--@formatter:off-->
 <script>
     var Orderdata = {
-        column: {:json_encode(array_keys($paylist))},
-        paydata: {:json_encode(array_values($paylist))},
-        createdata: {:json_encode(array_values($createlist))},
+        column: "{:json_encode(array_keys($paylist))}",
+        paydata: "{:json_encode(array_values($paylist))}",
+        createdata: "{:json_encode(array_values($createlist))}",
     };
 </script>
 <!--@formatter:on-->

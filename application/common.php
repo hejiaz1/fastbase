@@ -769,5 +769,18 @@ if (!function_exists('check_ids_decode')) {
     }
 }
 
+if (!function_exists('get_count')) {
+    /** 获取数据总数
+     * @Author: hejiaz
+     * @Date: 2021-04-06 10:52:35
+     * @param {*} $tablename    表名
+     * @param {*} $where        查询条件
+     */
+    function get_count($tablename, $where)
+    {
+        return db($tablename)->where($where)->count();
+    }
+}
+
 
 

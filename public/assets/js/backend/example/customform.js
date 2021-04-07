@@ -1,3 +1,11 @@
+/*
+ * @Author         : hejiaz
+ * @Date           : 2021-03-22 10:40:41
+ * @FilePath       : \public\assets\js\backend\example\customform.js
+ * @LastEditors    : hejiaz
+ * @LastEditTime   : 2021-04-07 17:32:54
+ * @Description    : 自定义表单示例
+ */
 define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefined, Backend, Table, Form) {
 
     var Controller = {
@@ -9,6 +17,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             $(document).on("fa.event.appendfieldlist", "#second-form .btn-append", function (e, obj) {
                 Form.events.selectpage(obj);
                 Form.events.datetimepicker(obj);
+                Form.events.minicolors(obj);
             });
             Form.api.bindevent($("form[role=form]"), function (data, ret) {
                 Layer.alert(data.data);

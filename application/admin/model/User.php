@@ -30,6 +30,30 @@ class User extends Model
 
     protected static function init()
     {
+        // 新增后处理
+        self::afterInsert(function ($row) {
+            $pk = $row->getPk();
+            $uuid = \fast\Random::uuid();
+            $row->getQuery()->where($pk, $row[$pk])->update([
+                'uuid'      => $uuid,
+                'uuid_code' => $uuid,
+            ]);
+
+
+            // 给密码加密
+            // 没有密码盐且长度不为32
+            if(strlen($row->getData('password')) < 32 || !$row->getData('salt') ){
+                $salt = \fast\Random::alnum();
+                $password = \app\common\library\Auth::instance()->getEncryptPassword($row->getData('password'), $salt);
+
+                // 更新密码
+                $row->getQuery()->where($pk, $row[$pk])->update([
+                    'password' => $password,
+                    'salt'     => $salt,
+                ]);
+            }
+        });
+
         self::beforeUpdate(function ($row) {
             $changed = $row->getChangedData();
             //如果有修改密码

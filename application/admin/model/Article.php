@@ -1,4 +1,12 @@
 <?php
+/*
+ * @Author         : hejiaz
+ * @Date           : 2021-03-23 10:33:02
+ * @FilePath       : \application\admin\model\Article.php
+ * @LastEditors    : hejiaz
+ * @LastEditTime   : 2021-04-07 15:08:36
+ * @Description    :
+ */
 
 namespace app\admin\model;
 
@@ -10,11 +18,11 @@ class Article extends Model
 
     use SoftDelete;
 
-    
+
 
     // 表名
     protected $name = 'article';
-    
+
     // 自动写入时间戳字段
     protected $autoWriteTimestamp = 'int';
 
@@ -29,7 +37,7 @@ class Article extends Model
         'flag_text',
         'ishow_text'
     ];
-    
+
 
     protected static function init()
     {
@@ -39,7 +47,7 @@ class Article extends Model
         });
     }
 
-    
+
     public function getFlagList()
     {
         return ['hot' => __('Flag hot'), 'recommend' => __('Flag recommend')];
@@ -47,7 +55,7 @@ class Article extends Model
 
     public function getIshowList()
     {
-        return ['1' => __('Ishow 1'), '2' => __('Ishow 2')];
+        return ['1' => __('Ishow 1'), '0' => __('Ishow 0')];
     }
 
 

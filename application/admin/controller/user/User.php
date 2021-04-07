@@ -1,15 +1,18 @@
 <?php
+/*
+ * @Author         : hejiaz
+ * @Date           : 2020-12-29 14:23:14
+ * @FilePath       : \application\admin\controller\user\User.php
+ * @LastEditors    : hejiaz
+ * @LastEditTime   : 2021-03-26 11:14:13
+ * @Description    : 会员管理控制器
+ */
 
 namespace app\admin\controller\user;
 
 use app\common\controller\Backend;
 use app\common\library\Auth;
 
-/**
- * 会员管理
- *
- * @icon fa fa-user
- */
 class User extends Backend
 {
     protected $relationSearch = true;
@@ -24,6 +27,11 @@ class User extends Backend
     {
         parent::_initialize();
         $this->model = model('User');
+
+        $this->view->assign('groupList', build_select('row[group_id]', \app\admin\model\UserGroup::column('id,name'), $row['group_id'], ['class' => 'form-control selectpicker']));
+
+        $this->modelValidate = true;
+
     }
 
     /**
@@ -56,17 +64,6 @@ class User extends Backend
     }
 
     /**
-     * 添加
-     */
-    public function add()
-    {
-        if ($this->request->isPost()) {
-            $this->token();
-        }
-        return parent::add();
-    }
-
-    /**
      * 编辑
      */
     public function edit($ids = null)
@@ -79,7 +76,7 @@ class User extends Backend
         if (!$row) {
             $this->error(__('No Results were found'));
         }
-        $this->view->assign('groupList', build_select('row[group_id]', \app\admin\model\UserGroup::column('id,name'), $row['group_id'], ['class' => 'form-control selectpicker']));
+
         return parent::edit($ids);
     }
 

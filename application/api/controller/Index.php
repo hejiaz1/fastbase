@@ -1,4 +1,12 @@
 <?php
+/*
+ * @Author         : hejiaz
+ * @Date           : 2020-12-29 14:23:15
+ * @FilePath       : \application\api\controller\Index.php
+ * @LastEditors    : hejiaz
+ * @LastEditTime   : 2021-03-29 16:00:05
+ * @Description    :
+ */
 
 namespace app\api\controller;
 
@@ -20,4 +28,26 @@ class Index extends Api
     {
         $this->success('请求成功');
     }
+
+     /** 输出字体
+     * @Author: hejiaz
+     * @Date: 2021-03-29 15:59:31
+     */
+    public function ttf(){
+
+        $filepath = '/assets/index/fonts/';
+        $filename = 'Muyao-Softbrush-2.ttf';
+
+        Header("Content-type: font/ttf");
+        Header("Accept-Ranges: bytes");
+        Header("Accept-Length: ".filesize($filepath . $filename));
+        Header("Content-Disposition: attachment; filename=" . $filename);
+
+        $myfile = fopen($filepath . $filename, "r") or die("Unable to open file!");
+
+        echo fread($myfile,filesize($filepath . $filename));
+
+        fclose($myfile);
+    }
+
 }

@@ -221,6 +221,16 @@ define(['jquery', 'bootstrap', 'upload', 'validator', 'validator-lang'], functio
                     });
                 }
             },
+            minicolors: function(form){
+                // 绑定颜色选择事件
+                if ($(".minicolors", form).size() > 0) {
+                    require(['minicolors'], function () {
+
+                        $(".minicolors", form).minicolors({
+                        });
+                    });
+                }
+            },
             /**
              * 绑定上传事件
              * @param form

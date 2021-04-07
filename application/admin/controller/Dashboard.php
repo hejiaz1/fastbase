@@ -1,4 +1,12 @@
 <?php
+/*
+ * @Author         : hejiaz
+ * @Date           : 2020-12-29 14:23:13
+ * @FilePath       : \application\admin\controller\Dashboard.php
+ * @LastEditors    : hejiaz
+ * @LastEditTime   : 2021-04-06 11:14:15
+ * @Description    : 控制台
+ */
 
 namespace app\admin\controller;
 
@@ -6,8 +14,6 @@ use app\common\controller\Backend;
 use think\Config;
 
 /**
- * 控制台
- *
  * @icon fa fa-dashboard
  * @remark 用于展示当前系统中的统计数据、统计报表及重要实时数据
  */
@@ -33,8 +39,24 @@ class Dashboard extends Backend
         Config::parse($addonComposerCfg, "json", "composer");
         $config = Config::get("composer");
         $addonVersion = isset($config['version']) ? $config['version'] : __('Unknown');
+
+
+        // 会员总数
+        $totaluser = get_count('user', ['status'=>'normal']);
+
+
+
+        $assign = [
+            'totaluser' => $totaluser,
+        ];
+
+
+        // die;
+
+        $this->view->assign($assign);
+
         $this->view->assign([
-            'totaluser'        => 35200,
+            // 'totaluser'        => $totaluser,
             'totalviews'       => 219390,
             'totalorder'       => 32143,
             'totalorderamount' => 174800,
@@ -46,7 +68,7 @@ class Dashboard extends Backend
             'sevendau'         => '32%',
             'paylist'          => $paylist,
             'createlist'       => $createlist,
-            'addonversion'       => $addonVersion,
+            'addonversion'     => $addonVersion,
             'uploadmode'       => $uploadmode
         ]);
 

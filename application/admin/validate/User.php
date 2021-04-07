@@ -1,4 +1,12 @@
 <?php
+/*
+ * @Author         : hejiaz
+ * @Date           : 2020-12-29 14:23:14
+ * @FilePath       : \application\admin\validate\User.php
+ * @LastEditors    : hejiaz
+ * @LastEditTime   : 2021-03-26 11:23:40
+ * @Description    : 会员信息验证
+ */
 
 namespace app\admin\validate;
 
@@ -13,8 +21,8 @@ class User extends Validate
         'username' => 'require|regex:\w{3,32}|unique:user',
         'nickname' => 'require|unique:user',
         'password' => 'regex:\S{6,32}',
-        'email'    => 'require|email|unique:user',
-        'mobile'   => 'unique:user'
+        'mobile'   => 'mobile|unique:user',
+        'email'    => 'email|unique:user',
     ];
 
     /**
@@ -31,8 +39,9 @@ class User extends Validate
      * 验证场景
      */
     protected $scene = [
-        'add'  => [],
-        'edit' => ['username', 'email', 'nickname', 'password', 'email', 'mobile'],
+
+        'add'  => ['username','password', 'nickname', 'mobile','email'],
+        'edit' => ['username','password', 'nickname', 'mobile','email'],
     ];
 
     public function __construct(array $rules = [], $message = [], $field = [])

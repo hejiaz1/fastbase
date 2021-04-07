@@ -1,4 +1,12 @@
 <?php
+/*
+ * @Author         : hejiaz
+ * @Date           : 2021-03-23 10:33:02
+ * @FilePath       : \application\admin\lang\zh-cn\article.php
+ * @LastEditors    : hejiaz
+ * @LastEditTime   : 2021-04-07 15:08:47
+ * @Description    :
+ */
 
 return [
     'Id'              => 'ID',
@@ -30,7 +38,7 @@ return [
     'Content_content' => '备用详情',
     'Ishow'           => '是否展示',
     'Ishow 1'         => '展示',
-    'Ishow 2'         => '隐藏',
+    'Ishow 0'         => '隐藏',
     'Seotitle'        => 'SEO标题',
     'Seokeywords'     => 'SEO关键字',
     'Seodescription'  => 'SEO描述',
