@@ -4,7 +4,7 @@
  * @Date           : 2020-10-10 14:45:02
  * @FilePath       : \application\api\lang\zh-cn.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2020-11-30 14:59:26
+ * @LastEditTime   : 2021-04-08 14:59:31
  * @Description    : 接口语言包
  */
 
@@ -19,6 +19,7 @@ return [
     'Sign out'           => '退 出',
     'Guest'              => '游客',
     'Welcome'            => '%s，你好！',
+    'List'               => '列表',
     'Add'                => '添加',
     'Edit'               => '编辑',
     'Delete'             => '删除',
