@@ -7,7 +7,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 extend: {
                     index_url: 'message/index' + location.search,
                     add_url: 'message/add',
-                    edit_url: 'message/edit',
+                    // edit_url: 'message/edit',
                     del_url: 'message/del',
                     multi_url: 'message/multi',
                     import_url: 'message/import',
@@ -40,7 +40,29 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'status', title: __('Status'), searchList: {"0":__('Status 0'),"1":__('Status 1')}, formatter: Table.api.formatter.status},
                         {field: 'createtime', title: __('Createtime'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
                         {field: 'updatetime', title: __('Updatetime'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
-                        {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
+                        {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate},
+
+                        {
+                            field: 'operate',
+                            title: __('Operate'),
+                            table: table,
+                            events: Table.api.events.operate,
+                            formatter: Table.api.formatter.operate,
+                            buttons: [
+                                {
+                                    name: 'detail',
+                                    text: '详情',
+                                    title: __('详情'),
+                                    classname: 'btn btn-xs btn-primary btn-dialog',
+                                    icon: 'fa fa-list',
+                                    url: 'message/detail',
+                                    callback: function (data) {
+                                        Layer.alert("接收到回传数据：" + JSON.stringify(data), {title: "回传数据"});
+                                    }
+                                },
+                            ]
+                        },
+
                     ]
                 ]
             });

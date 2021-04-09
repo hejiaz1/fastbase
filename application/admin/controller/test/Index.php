@@ -1,4 +1,12 @@
 <?php
+/*
+ * @Author         : hejiaz
+ * @Date           : 2020-12-29 14:23:14
+ * @FilePath       : \application\admin\controller\test\Index.php
+ * @LastEditors    : hejiaz
+ * @LastEditTime   : 2021-04-08 16:30:55
+ * @Description    :
+ */
 
 namespace app\admin\controller\Test;
 
@@ -11,7 +19,7 @@ use app\common\controller\Backend;
  */
 class Index extends Backend
 {
-    
+
     /**
      * Index模型对象
      * @var \app\admin\model\Test\Index
@@ -21,7 +29,7 @@ class Index extends Backend
     public function _initialize()
     {
         parent::_initialize();
-        $this->model = new \app\admin\model\Test\Index;
+        $this->model = new \app\admin\model\test\Index;
         $this->view->assign("weekList", $this->model->getWeekList());
         $this->view->assign("flagList", $this->model->getFlagList());
         $this->view->assign("genderdataList", $this->model->getGenderdataList());
@@ -40,6 +48,6 @@ class Index extends Backend
      * 因此在当前控制器中可不用编写增删改查的代码,除非需要自己控制这部分逻辑
      * 需要将application/admin/library/traits/Backend.php中对应的方法复制到当前控制器,然后进行修改
      */
-    
+
 
 }
