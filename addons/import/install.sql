@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `__PREFIX__import_log` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `table` varchar(255) NOT NULL DEFAULT '0' COMMENT '目标表',
   `sheet` int(1) DEFAULT '0' COMMENT '第几个工作表',
   `row` int(11) DEFAULT NULL COMMENT '从第几行导入',
@@ -9,5 +9,7 @@ CREATE TABLE IF NOT EXISTS `__PREFIX__import_log` (
   `createtime` int(10) DEFAULT NULL COMMENT '添加时间',
   `updatetime` int(10) DEFAULT NULL COMMENT '更新时间',
   `status` enum('normal','hidden') NOT NULL DEFAULT 'hidden' COMMENT '状态',
+  `type` varchar(50) DEFAULT NULL COMMENT '根据字段更新导入',
   PRIMARY KEY (`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据导入辅助';
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COMMENT='数据导入辅助';
+

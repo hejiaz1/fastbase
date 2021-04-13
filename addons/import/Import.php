@@ -32,7 +32,15 @@ class Import extends Addons
                 ],
             ]
         ];
-        Menu::create($menu);
+        
+                $menu=[];
+                $config_file= ADDON_PATH ."import" . DS.'config'.DS. "menu.php";
+                if (is_file($config_file)) {
+                   $menu = include $config_file;
+                }
+                if($menu){
+                    Menu::create($menu);
+                }
         return true;
     }
 

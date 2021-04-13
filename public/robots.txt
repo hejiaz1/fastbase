@@ -1,2 +1,4 @@
-User-agent: *
-Disallow:
+# robots.txt
+Crawl-delay: 20
+Disallow: /bin/
+Sitemap: http://www.fa.com/sitemap.xml

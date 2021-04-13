@@ -5,9 +5,12 @@ namespace addons\epay\controller;
 use addons\epay\library\QRCode;
 use addons\epay\library\Service;
 use addons\epay\library\Wechat;
+use addons\third\model\Third;
+use app\common\library\Auth;
 use think\addons\Controller;
 use think\Response;
 use think\Session;
+use Yansongda\Pay\Exceptions\GatewayException;
 use Yansongda\Pay\Pay;
 
 /**
@@ -68,7 +71,7 @@ class Api extends Controller
     }
 
     /**
-     * 微信支付
+     * 微信支付(公众号支付&PC扫码支付)
      * @return string
      */
     public function wechat()
@@ -80,63 +83,101 @@ class Api extends Controller
         $this->view->assign("isWechat", $isWechat);
         $this->view->assign("isMobile", $isMobile);
 
-        if ($isWechat) {
-            //发起公众号(jsapi支付)
-            $orderData = Session::get("wechatorderdata");
-            $openid = Session::get('openid');
-            //如果没有openid
-            if (!$openid) {
-                $wechat = new Wechat($config['app_id'], $config['app_secret']);
-                $openid = $wechat->getOpenid();
-            }
-
-            $orderData['method'] = 'mp';
-            $orderData['openid'] = $openid;
-            $payData = Service::submitOrder($orderData);
-            $payData = json_decode($payData, true);
-            if (!isset($payData['appId'])) {
-                $this->error("创建订单失败，请返回重试");
-            }
-            $type = 'jsapi';
-            $this->view->assign("orderData", $orderData);
-            $this->view->assign("payData", $payData);
-        } else {
-            //发起PC支付(Native支付)
-            $body = $this->request->request("body");
-            $code_url = $this->request->request("code_url");
-            $out_trade_no = $this->request->request("out_trade_no");
-            $return_url = $this->request->request("return_url");
-            $total_fee = $this->request->request("total_fee");
-
-            $sign = $this->request->request("sign");
-
-            $data = [
-                'body'         => $body,
-                'code_url'     => $code_url,
-                'out_trade_no' => $out_trade_no,
-                'return_url'   => $return_url,
-                'total_fee'    => $total_fee,
-            ];
-            if ($sign != md5(implode('', $data) . $config['appid'])) {
-                $this->error("签名不正确");
-            }
-
-            if ($this->request->isAjax()) {
-                $pay = Pay::wechat($config);
-                $result = $pay->find($out_trade_no);
+        //发起PC支付(Scan支付)(PC扫码模式)
+        if ($this->request->isAjax()) {
+            $pay = Pay::wechat($config);
+            $orderid = $this->request->post("orderid");
+            try {
+                $result = $pay->find($orderid);
                 if ($result['return_code'] == 'SUCCESS' && $result['result_code'] == 'SUCCESS') {
-                    $this->success("", "", ['trade_state' => $result['trade_state']]);
+                    $this->success("", "", ['status' => $result['trade_state']]);
                 } else {
                     $this->error("查询失败");
                 }
+            } catch (GatewayException $e) {
+                $this->error("查询失败");
             }
-            $data['sign'] = $sign;
-            $type = 'pc';
-            $this->view->assign("data", $data);
         }
 
+        $orderData = Session::get("wechatorderdata");
+        if (!$orderData) {
+            $this->error("请求参数错误");
+        }
+        if ($isWechat) {
+            //发起公众号(jsapi支付),openid必须
+
+            //如果没有openid，则自动去获取openid
+            if (!isset($orderData['openid']) || !$orderData['openid']) {
+                $orderData['openid'] = Service::getOpenid();
+            }
+
+            $orderData['method'] = 'mp';
+            $type = 'jsapi';
+            $payData = Service::submitOrder($orderData);
+            if (!isset($payData['paySign'])) {
+                $this->error("创建订单失败，请返回重试", "");
+            }
+        } else {
+            $orderData['method'] = 'scan';
+            $type = 'pc';
+            $payData = Service::submitOrder($orderData);
+            if (!isset($payData['code_url'])) {
+                $this->error("创建订单失败，请返回重试", "");
+            }
+        }
+        $this->view->assign("orderData", $orderData);
+        $this->view->assign("payData", $payData);
         $this->view->assign("type", $type);
+
         $this->view->assign("title", "微信支付");
+        return $this->view->fetch();
+    }
+
+    /**
+     * 支付宝支付(PC扫码支付)
+     * @return string
+     */
+    public function alipay()
+    {
+        $config = Service::getConfig('alipay');
+
+        $isWechat = stripos($this->request->server('HTTP_USER_AGENT'), 'MicroMessenger') !== false;
+        $isMobile = $this->request->isMobile();
+        $this->view->assign("isWechat", $isWechat);
+        $this->view->assign("isMobile", $isMobile);
+
+        if ($this->request->isAjax()) {
+            $orderid = $this->request->post("orderid");
+            $pay = Pay::alipay($config);
+            try {
+                $result = $pay->find($orderid);
+                if ($result['code'] == '10000' && $result['trade_status'] == 'TRADE_SUCCESS') {
+                    $this->success("", "", ['status' => $result['trade_status']]);
+                } else {
+                    $this->error("查询失败");
+                }
+            } catch (GatewayException $e) {
+                $this->error("查询失败");
+            }
+        }
+
+        //发起PC支付(Scan支付)(PC扫码模式)
+        $orderData = Session::get("alipayorderdata");
+        if (!$orderData) {
+            $this->error("请求参数错误");
+        }
+
+        $orderData['method'] = 'scan';
+        $payData = Service::submitOrder($orderData);
+        if (!isset($payData['qr_code'])) {
+            $this->error("创建订单失败，请返回重试");
+        }
+
+        $type = 'pc';
+        $this->view->assign("orderData", $orderData);
+        $this->view->assign("payData", $payData);
+        $this->view->assign("type", $type);
+        $this->view->assign("title", "支付宝支付");
         return $this->view->fetch();
     }
 
@@ -176,18 +217,27 @@ class Api extends Controller
 
     /**
      * 生成二维码
-     * @return Response
      */
     public function qrcode()
     {
         $text = $this->request->get('text', 'hello world');
 
-        $qr = QRCode::getMinimumQRCode($text, QR_ERROR_CORRECT_LEVEL_L);
-        $im = $qr->createImage(8, 5);
-        header("Content-type: image/png");
-        imagepng($im);
-        imagedestroy($im);
-        return;
+        //如果有安装二维码插件，则调用插件的生成方法
+        if (class_exists("\addons\qrcode\library\Service") && get_addon_info('qrcode')['state']) {
+            $qrCode = \addons\qrcode\library\Service::qrcode(['text' => $text]);
+            $response = Response::create()->header("Content-Type", "image/png");
+
+            header('Content-Type: ' . $qrCode->getContentType());
+            $response->content($qrCode->writeString());
+            return $response;
+        } else {
+            $qr = QRCode::getMinimumQRCode($text);
+            $im = $qr->createImage(8, 5);
+            header("Content-type: image/png");
+            imagepng($im);
+            imagedestroy($im);
+            return;
+        }
     }
 
 }

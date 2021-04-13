@@ -1,6 +1,5 @@
 <?php
 
-
 namespace addons\epay\library;
 
 //---------------------------------------------------------------
@@ -488,7 +487,7 @@ class QRCode
         return $data;
     }
 
-    static function getMinimumQRCode($data, $errorCorrectLevel)
+    static function getMinimumQRCode($data, $errorCorrectLevel = QR_ERROR_CORRECT_LEVEL_L)
     {
 
         $mode = QRUtil::getMode($data);

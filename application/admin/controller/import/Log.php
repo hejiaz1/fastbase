@@ -53,21 +53,22 @@ class Log extends Backend
         $this->model = new \app\admin\model\import\Log;
         $this->view->assign("statusList", $this->model->getStatusList());
         $config = get_addon_config('import');
-        $exclude= explode("\n",$config['exclude']);
+        $exclude = explode("\n", $config['exclude']);
         foreach ($exclude as $key => $val) {
-            $exclude[$key]=trim($val);
+            $exclude[$key] = trim($val);
         }
         $tableList = array('' => '请选择');
         $list = \think\Db::query("SHOW TABLES");
         foreach ($list as $key => $row) {
-            if(!in_array(reset($row),$exclude)){
+            if (!in_array(reset($row), $exclude)) {
                 $table = \think\Db::query("show table status like '" . reset($row) . "'");
                 $tableList[reset($row)] = reset($row) . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $table[0]['Comment'];
             }
         }
         $this->view->assign("hidden_num", $this->model->where('status', 'hidden')->count());
         $this->view->assign("tableList", $tableList);
-        $this->view->assign("from", $this->request->request('from'));
+        $prefix = Config::get('database.prefix');
+        $this->view->assign("table", $prefix . $this->request->request('table'));
     }
 
     /**
@@ -107,12 +108,12 @@ class Log extends Backend
                         if ($check) {
                             $this->error(__($params['newtable'] . '表已经存在'));
                         }
-                    }
-                    else {
+                    } else {
                         if (!$params['table'])   $this->error('未选择目标表');
                     }
 
                     $fileData = $this->fileData($params);
+
 
                     $fileData['params'] = http_build_query($params);
                     $fileData['newtable'] = $params['newtable'];
@@ -138,11 +139,49 @@ class Log extends Backend
                         }
                     }
                     $prefix = Config::get('database.prefix');
-                    $res = Db::name(str_replace($prefix, "", $params['table']))->insertAll($insert);
-                    if ($res) {
-                        $params['status'] = 'normal';
-                        $result = $this->model->allowField(true)->save($params);
+                    $count = 0;
+                    if ($params['update']) {
+                        foreach ($insert as &$val) {
+                            $count += Db::name(str_replace($prefix, "", $params['table']))
+                                ->where($params['update'], $val['pid'])
+                                ->update($val);
+                        }
+                    } else {
+                        if ($params['to']) {
+                            $file =  db('attachment')->where('url', $fileData['path'])->find();
+                            $this->fieldModel = new \app\admin\model\salary\Field;
+                            $fields = $this->fieldModel->where('name','not in',['pid','name','status','create_time','update_time','deletetime'])->select();
+                            $toData = [];
+                            //  dump($fields);
+                            $insertData=[];
+                            foreach ($insert as $key => $val) {
+                                foreach ($fields as $ke => $field) {
+                                    if (isset($val[$field['name']])) {
+                                        $toData[$ke]['pid'] = $val['pid'];
+                                        $toData[$ke]['name'] = $val['name'];
+                                        $toData[$ke]['type'] = $field['name'];
+                                        $toData[$ke]['type_name'] = $field['desc'];
+                                        $toData[$ke]['field_type'] = $field['type'];
+                                        $toData[$ke]['je'] = $val[$field['name']];
+                                        $toData[$ke]['filename'] = $file['filename'];
+                                        $toData[$ke]['sha1'] = $file['sha1'];
+                                        $toData[$ke]['createtime'] = time();
+                                    }
+                                }
+                              if($insertData)  $insertData=array_merge($insertData,$toData);
+                              else $insertData=$toData;
+                            }
+                         //   dump($insertData);
+                          //  exit;
+                          Db::name(str_replace($prefix, "", $params['to']))->where('sha1',$file['sha1'])->delete();
+                            $res = Db::name(str_replace($prefix, "", $params['to']))->insertAll($insertData);
+                        } else {
+                            $res = Db::name(str_replace($prefix, "", $params['table']))->insertAll($insert);
+                        }
+                        $count = count($insert);
                     }
+
+
                     Db::commit();
                 } catch (ValidateException $e) {
                     Db::rollback();
@@ -154,8 +193,11 @@ class Log extends Backend
                     Db::rollback();
                     $this->error($e->getMessage());
                 }
-                if ($result !== false) {
-                    $this->success('导入成功' . count($insert) . '条记录', '', array('count' => count($insert)));
+                if ($count !== false) {
+                    $params['status'] = 'normal';
+                    $result = $this->model->allowField(true)->save($params);
+                    $tip = $params['update'] ? '成功更新' : '成功新增';
+                    $this->success($tip . $count . '条记录', '', array('count' => $count));
                 } else {
                     $this->error(__('No rows were inserted'));
                 }
@@ -166,6 +208,8 @@ class Log extends Backend
         // $upload=Config::get('upload');
         // $upload['uploadurl'] ='ajax/upload2';
         // $this->assignconfig("upload", $upload);
+        $this->view->assign("update", $this->request->request('update'));
+        $this->view->assign("to", $this->request->request('to'));
         return $this->view->fetch();
     }
 
@@ -246,7 +290,7 @@ class Log extends Backend
 
     protected function fileData($params)
     {
-        $file = $params['path'];
+        $file = $path = $params['path'];
         $row = $params['row'];
         $sheet = 0;
         if (!$file) {
@@ -298,8 +342,10 @@ class Log extends Backend
 
         if (!$params['newtable']) {
             $pk = Db::getTableInfo($table, 'pk');
-            $list = db()->query("SELECT COLUMN_NAME,COLUMN_COMMENT,COLUMN_TYPE,IS_NULLABLE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = ? AND TABLE_SCHEMA = ?",
-                [$table, $database]);
+            $list = db()->query(
+                "SELECT COLUMN_NAME,COLUMN_COMMENT,COLUMN_TYPE,IS_NULLABLE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = ? AND TABLE_SCHEMA = ?",
+                [$table, $database]
+            );
             foreach ($list as $k => $v) {
                 if ($v['COLUMN_NAME'] !== $pk) {
                     if ($importHeadType == 'comment') {
@@ -309,13 +355,13 @@ class Log extends Backend
                                 $notnull[] = $v['COLUMN_COMMENT'];
                             }
                         }
-                        $fieldArr[$v['COLUMN_COMMENT']] = $v;//['COLUMN_NAME']
+                        $fieldArr[$v['COLUMN_COMMENT']] = $v; //['COLUMN_NAME']
                     } else {
                         $importField[] = $v['COLUMN_NAME'];
                         if ($v['IS_NULLABLE']) {
                             $notnull[] = $v['COLUMN_NAME'];
                         }
-                        $fieldArr[$v['COLUMN_NAME']] = $v;//['COLUMN_NAME']
+                        $fieldArr[$v['COLUMN_NAME']] = $v; //['COLUMN_NAME']
                     }
                 }
             }
@@ -344,7 +390,7 @@ class Log extends Backend
                         'class' => isset($fieldArr[$val]) ? 'success' : '-',
                         'type' => isset($fieldArr[$val]) ? $fieldArr[$val]['COLUMN_TYPE'] : '--',
                         'field' => $val,
-                        'fieldName' => isset($fieldArr[$val]) ? $fieldArr[$val]['COLUMN_NAME'] : '--'//Pinyin::get($val),
+                        'fieldName' => isset($fieldArr[$val]) ? $fieldArr[$val]['COLUMN_NAME'] : '--' //Pinyin::get($val),
                     );
                     if (isset($fieldArr[$val])) {
                         $count += 1;
@@ -381,6 +427,7 @@ class Log extends Backend
                 ["IS_NULLABLE"] =&gt; string(2) "NO"
               }*/
             return array(
+                'path' => $path,
                 'field' => $col,
                 'fieldArr' => $fieldArr,
                 'data' => $allData,
@@ -388,7 +435,6 @@ class Log extends Backend
                 'excelField' => $fields,
                 'count' => $count
             );
-
         } catch (Exception $exception) {
             $this->error($exception->getMessage());
         }

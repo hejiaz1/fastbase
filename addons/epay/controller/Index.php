@@ -22,6 +22,14 @@ class Index extends Controller
 
     protected $config = [];
 
+    public function _initialize()
+    {
+        parent::_initialize();
+        if (!config("app_debug")) {
+            $this->error("仅在开发环境下查看");
+        }
+    }
+
     public function index()
     {
         $this->view->assign("title", "微信支付宝整合插件");
@@ -55,7 +63,9 @@ class Index extends Controller
         $notifyurl = $this->request->root(true) . '/addons/epay/index/notifyx/paytype/' . $type;
         $returnurl = $this->request->root(true) . '/addons/epay/index/returnx/paytype/' . $type . '/out_trade_no/' . $out_trade_no;
 
-        return Service::submitOrder($amount, $out_trade_no, $type, $title, $notifyurl, $returnurl, $method);
+        $response = Service::submitOrder($amount, $out_trade_no, $type, $title, $notifyurl, $returnurl, $method);
+
+        return $response;
     }
 
     /**

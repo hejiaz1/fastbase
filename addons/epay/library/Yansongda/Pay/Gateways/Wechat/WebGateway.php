@@ -35,7 +35,7 @@ class WebGateway extends Gateway
             'return_url'   => Support::getInstance()->return_url,
             'total_fee'    => $payload['total_fee'],
         ];
-        \think\Log::error($params);
+
         $params['sign'] = md5(implode('', $params) . Support::getInstance()->app_id);
         $endpoint = addon_url("epay/api/wechat");
 

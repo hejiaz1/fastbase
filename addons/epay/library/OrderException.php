@@ -2,7 +2,6 @@
 
 namespace addons\epay\library;
 
-
 use think\Exception;
 
 class OrderException extends Exception

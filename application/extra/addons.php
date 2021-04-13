@@ -6,6 +6,7 @@ return [
         'app_init' => [
             'banip',
             'crontab',
+            'epay',
             'log',
             'qrcode',
         ],
@@ -18,11 +19,15 @@ return [
         'ems_notice' => [
             'faems',
         ],
-        'response_send' => [
-            'loginvideo',
+        'action_begin' => [
+            'geetest',
         ],
         'config_init' => [
+            'geetest',
             'third',
+        ],
+        'response_send' => [
+            'loginvideo',
         ],
     ],
     'route' => [

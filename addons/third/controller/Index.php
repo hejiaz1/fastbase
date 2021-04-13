@@ -49,7 +49,7 @@ class Index extends Controller
     public function connect()
     {
         $platform = $this->request->param('platform');
-        $url = $this->request->request('url', $this->request->server('HTTP_REFERER', '/'), 'trim');
+        $url = $this->request->request('url', $this->request->server('HTTP_REFERER', '/'), 'trim');        
         if (!$this->app->{$platform}) {
             $this->error(__('Invalid parameters'));
         }

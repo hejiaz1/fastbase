@@ -28,6 +28,7 @@ use Yansongda\Supports\Str;
  * @method Collection       redpack(array $config)      普通红包
  * @method Collection       scan(array $config)         扫码支付
  * @method Collection       transfer(array $config)     企业付款
+ * @method RedirectResponse web(array $config)          Web 扫码支付
  * @method RedirectResponse wap(array $config)          H5 支付
  */
 class Wechat implements GatewayApplicationInterface

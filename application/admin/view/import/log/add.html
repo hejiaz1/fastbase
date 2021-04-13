@@ -1,12 +1,14 @@
 <form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
 
-    <div class="form-group">
+    <div class="form-group" style="display: none;">
         <label class="control-label col-xs-12 col-sm-2">{:__('Table')}:</label>
         <div class="col-xs-12 col-sm-8" id="selectable">
-            {:Form::select('row[table]', $tableList, '', [])}
+            {:Form::select('row[table]', $tableList, $table, [])}
             <span id="helpBlock" class="help-block">可导入表请到该插件配置里设置</span>
         </div>
     </div>
+    <input  class="form-control" name="row[update]"  type="hidden" value="{$update}">
+    <input  class="form-control" name="row[to]"  type="hidden" value="{$to}">   
     <div class="hidden">
         <div class="form-group">
             <label class="control-label col-xs-12 col-sm-2">{:__('NewTable')}:</label>
@@ -19,7 +21,7 @@
         <label class="control-label col-xs-12 col-sm-2">{:__('Row')}:</label>
         <div class="col-xs-12 col-sm-8">
             <input id="c-row" class="form-control" name="row[row]" type="number" value=2>
-            <span id="helpBlock" class="help-block">该行的上一行为匹配行</span>
+            <span id="helpBlock" class="help-block">该行的上一行,为匹配行</span>
         </div>
     </div>
     <div class="form-group">

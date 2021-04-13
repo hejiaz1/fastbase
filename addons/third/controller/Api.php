@@ -61,12 +61,13 @@ class Api extends commonApi
      * @return void
      */
     public function callback()
-    {       
-        $platform = $this->request->param('platform');        
+    {
+
+        $platform = $this->request->param('platform');
         if (!$this->app->{$platform}) {
             $this->error(__('Invalid parameters'));
-        }      
-        $userinfo = $this->app->{$platform}->getUserInfo($this->request->param());       
+        }
+        $userinfo = $this->app->{$platform}->getUserInfo($this->request->param());
         if (!$userinfo) {
             $this->error(__('操作失败'));
         }
@@ -74,18 +75,18 @@ class Api extends commonApi
         $userinfo['platform'] = $platform;
 
         $third = [
-            'avatar'=>$userinfo['userinfo']['avatar'],
-            'nickname'=>$userinfo['userinfo']['nickname']
+            'avatar' => $userinfo['userinfo']['avatar'],
+            'nickname' => $userinfo['userinfo']['nickname']
         ];
-        
+
         $user = null;
-        if (Service::isBindThird($userinfo['platform'], $userinfo['openid'], $userinfo['apptype'], $userinfo['unionid'])) {
+        if ($this->auth->isLogin() || Service::isBindThird($userinfo['platform'], $userinfo['openid'], $userinfo['apptype'], $userinfo['unionid'])) {
             Service::connect($userinfo['platform'], $userinfo);
             $user = $this->auth->getUserinfo();
         } else {
             Session::set('third-userinfo', $userinfo);
         }
-        $this->success("授权成功！", ['user' => $user,'third'=>$third]);
+        $this->success("授权成功！", ['user' => $user, 'third' => $third]);
     }
 
     /**
@@ -112,7 +113,7 @@ class Api extends commonApi
             ];
             $ret = Sms::check($mobile, $code, 'bind');
             if (!$ret) {
-                 $this->error(__('Captcha is incorrect'));
+                $this->error(__('验证码错误'));
             }
             $validate = new Validate($rule, $msg);
             $result = $validate->check($data);
@@ -125,7 +126,8 @@ class Api extends commonApi
                 $result = $this->auth->direct($userinfo->id);
             } else {
                 $result = $this->auth->register($mobile, Random::alnum(), '', $mobile);
-            }
+            }        
+            
             if ($result) {
                 Service::connect($params['platform'], $params);
                 $this->success(__('绑定账号成功'), ['userinfo' => $this->auth->getUserinfo()]);
@@ -135,19 +137,5 @@ class Api extends commonApi
         }
     }
 
-    /**
-     * 绑定
-     */
-    public function bind()
-    {
-        
-    }
 
-    /**
-     * 解除绑定
-     */
-    public function unbind()
-    {
-
-    }
 }
