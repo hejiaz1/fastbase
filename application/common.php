@@ -1,10 +1,9 @@
 <?php
 
 // 公共助手函数
-
 use Symfony\Component\VarExporter\VarExporter;
 
-error_reporting(E_ERROR | E_PARSE );
+error_reporting(E_ERROR | E_PARSE);
 
 if (!function_exists('__')) {
 
@@ -95,7 +94,6 @@ if (!function_exists('cdnurl')) {
         return $url;
     }
 }
-
 
 if (!function_exists('is_really_writable')) {
 
@@ -205,6 +203,7 @@ if (!function_exists('addtion')) {
         if (!$items || !$fields) {
             return $items;
         }
+
         $fieldsArr = [];
         if (!is_array($fields)) {
             $arr = explode(',', $fields);
@@ -227,14 +226,15 @@ if (!function_exists('addtion')) {
 
             $v['display'] = isset($v['display']) ? $v['display'] : str_replace(['_ids', '_id'], ['_names', '_name'], $v['field']);
             $v['primary'] = isset($v['primary']) ? $v['primary'] : '';
-            $v['column']  = isset($v['column']) ? $v['column'] : 'name';
-            $v['model']   = isset($v['model']) ? $v['model'] : '';
-            $v['table']   = isset($v['table']) ? $v['table'] : '';
-            $v['name']    = isset($v['name']) ? $v['name'] : str_replace(['_ids', '_id'], '', $v['field']);
+            $v['column'] = isset($v['column']) ? $v['column'] : 'name';
+            $v['model'] = isset($v['model']) ? $v['model'] : '';
+            $v['table'] = isset($v['table']) ? $v['table'] : '';
+            $v['name'] = isset($v['name']) ? $v['name'] : str_replace(['_ids', '_id'], '', $v['field']);
         }
         unset($v);
         $ids = [];
         $fields = array_keys($fieldsArr);
+
         foreach ($items as $k => $v) {
             foreach ($fields as $m => $n) {
                 if (isset($v[$n])) {
@@ -305,10 +305,10 @@ if (!function_exists('addtion_one')) {
 
             $v['display'] = isset($v['display']) ? $v['display'] : str_replace(['_ids', '_id'], ['_names', '_name'], $v['field']);
             $v['primary'] = isset($v['primary']) ? $v['primary'] : '';
-            $v['column']  = isset($v['column']) ? $v['column'] : 'name';
-            $v['model']   = isset($v['model']) ? $v['model'] : '';
-            $v['table']   = isset($v['table']) ? $v['table'] : '';
-            $v['name']    = isset($v['name']) ? $v['name'] : str_replace(['_ids', '_id'], '', $v['field']);
+            $v['column'] = isset($v['column']) ? $v['column'] : 'name';
+            $v['model'] = isset($v['model']) ? $v['model'] : '';
+            $v['table'] = isset($v['table']) ? $v['table'] : '';
+            $v['name'] = isset($v['name']) ? $v['name'] : str_replace(['_ids', '_id'], '', $v['field']);
         }
         unset($v);
         $ids = [];
@@ -426,7 +426,7 @@ if (!function_exists('hsv2rgb')) {
         return [
             floor($r * 255),
             floor($g * 255),
-            floor($b * 255)
+            floor($b * 255),
         ];
     }
 }
@@ -487,7 +487,6 @@ if (!function_exists('xss_clean')) {
         return \app\common\library\Security::instance()->xss_clean($content, $is_image);
     }
 }
-
 
 if (!function_exists('curlGet')) {
     /** curl请求指定url (get)
@@ -563,16 +562,16 @@ if (!function_exists('toarray')) {
      */
     function toarray(&$data, $fields = [], $convertype = 'json')
     {
-        if($data && is_object($data)){
+        if ($data && is_object($data)) {
             // 转换数据
             $data = $data->toarray();
 
-            if($fields){
+            if ($fields) {
                 foreach ($fields as $value) {
                     $val = explode('.', $value);
                     switch (count($val)) {
                         case 1:
-                            if($data[$val[0]]){
+                            if ($data[$val[0]]) {
                                 switch ($convertype) {
                                     case 'json':
                                         $data[$val[0]] = json_decode($data[$val[0]], true);
@@ -581,13 +580,13 @@ if (!function_exists('toarray')) {
                                         # code...
                                         break;
                                 }
-                            }else{
+                            } else {
                                 $data[$val[0]] = '';
                             }
-                        break;
+                            break;
 
                         case 2:
-                            if($data[$val[0]][$val[1]]){
+                            if ($data[$val[0]][$val[1]]) {
                                 switch ($convertype) {
                                     case 'json':
                                         $data[$val[0]][$val[1]] = json_decode($data[$val[0]][$val[1]], true);
@@ -596,14 +595,14 @@ if (!function_exists('toarray')) {
                                         # code...
                                         break;
                                 }
-                            }else{
+                            } else {
                                 $data[$val[0]][$val[1]] = '';
                             }
 
-                        break;
+                            break;
 
                         case 3:
-                            if($data[$val[0]][$val[1]][$val[2]]){
+                            if ($data[$val[0]][$val[1]][$val[2]]) {
                                 switch ($convertype) {
                                     case 'json':
                                         $data[$val[0]][$val[1]][$val[2]] = json_decode($data[$val[0]][$val[1]][$val[2]], true);
@@ -612,10 +611,10 @@ if (!function_exists('toarray')) {
                                         # code...
                                         break;
                                 }
-                            }else{
+                            } else {
                                 $data[$val[0]][$val[1]][$val[2]] = '';
                             }
-                        break;
+                            break;
 
                         default:
                             # code...
@@ -638,22 +637,25 @@ if (!function_exists('get_annex_params')) {
     function get_annex_params($request)
     {
         $annex_params = [
-            'images' => $request->request('images/a',''),
-            'voice'  => $request->request('voice/a',''),
-            'cover'  => $request->request('cover/s', '', 'trim'),
-            'video'  => $request->request('video/s', '', 'trim'),
+            'images' => $request->request('images/a', ''),
+            'voice' => $request->request('voice/a', ''),
+            'cover' => $request->request('cover/s', '', 'trim'),
+            'video' => $request->request('video/s', '', 'trim'),
         ];
 
-        if($annex_params['images'] == '' && $annex_params['voice'] == '' && $annex_params['video'] == ''){
+        if ($annex_params['images'] == '' && $annex_params['voice'] == '' && $annex_params['video'] == '') {
             // 全为空则没传附件
             $annex_params = '';
-        }else{
+        } else {
             // 转换格式
-            if($annex_params['images'])
+            if ($annex_params['images']) {
                 $annex_params['images'] = json_encode($annex_params['images']);
+            }
 
-            if($annex_params['voice'])
-                $annex_params['voice']  = json_encode($annex_params['voice']);
+            if ($annex_params['voice']) {
+                $annex_params['voice'] = json_encode($annex_params['voice']);
+            }
+
         }
 
         return $annex_params;
@@ -673,10 +675,10 @@ if (!function_exists('mask_words')) {
         /**
          * 屏蔽词格式
          * array(3) {
-                ["傻逼"] => string(3) "***"
-                ["SB"] => string(3) "***"
-                ["共产党"] => string(6) "***111"
-            }
+        ["傻逼"] => string(3) "***"
+        ["SB"] => string(3) "***"
+        ["共产党"] => string(6) "***111"
+        }
          */
 
         // 关键词
@@ -690,11 +692,11 @@ if (!function_exists('mask_words')) {
             $patternList = $matches[0];
 
             // 循环赋值替换文字
-            foreach($patternList as $key=>$value){
-                if($maskwords[$value]){
+            foreach ($patternList as $key => $value) {
+                if ($maskwords[$value]) {
                     // 指定替换文字
                     $replaceArray[$value] = $maskwords[$value];
-                }else{
+                } else {
                     // 替换为对应数量星号
                     $replaceArray[$value] = str_repeat('*', mb_strlen($value, 'utf-8'));
                 }
@@ -705,11 +707,10 @@ if (!function_exists('mask_words')) {
         // 替换完成 返回
         return true;
 
-
         $keylist = array_keys($maskwords);
-        $count         = 0;        //违规词的个数
-        $sensitiveWord = '';       //违规词
-        $stringAfter   = $string;  //替换后的内容
+        $count = 0; //违规词的个数
+        $sensitiveWord = ''; //违规词
+        $stringAfter = $string; //替换后的内容
 
         $pattern = "/" . implode("|", $keylist) . "/i"; //定义正则表达式
         // dump($pattern);die;
@@ -746,8 +747,8 @@ if (!function_exists('check_ids_encode')) {
      */
     function check_ids_encode(&$ids)
     {
-        if($ids){
-            $ids = ','. trim($ids, ',') . ',';
+        if ($ids) {
+            $ids = ',' . trim($ids, ',') . ',';
         }
         return true;
     }
@@ -762,25 +763,47 @@ if (!function_exists('check_ids_decode')) {
      */
     function check_ids_decode($ids)
     {
-        if($ids){
+        if ($ids) {
             return trim($ids, ',');
         }
         return '';
     }
 }
 
-if (!function_exists('get_count')) {
-    /** 获取数据总数
+if (!function_exists('convert_image_path')) {
+    /** 富文本转换图片路径
      * @Author: hejiaz
-     * @Date: 2021-04-06 10:52:35
-     * @param {*} $tablename    表名
-     * @param {*} $where        查询条件
+     * @Date: 2021-04-14 17:36:58
      */
-    function get_count($tablename, $where)
+    function convert_image_path(&$content, $fields)
     {
-        return db($tablename)->where($where)->count();
+        // TODO 判断 CDN
+        // dump(\think\Config::get('view_replace_str')['__CDN__']);
+
+        // 判断是否是ssl
+        $http_type = request()->isSsl() ? 'https://' : 'http://';
+        $url = $http_type . request()->server()['HTTP_HOST'];
+
+        $fieldsArr = [];
+        if (!is_array($fields)) {
+            $fieldsArr[] = $fields;
+        } else {
+            $fieldsArr = $fields;
+        }
+
+        // 匹配正则语句
+        $pregRule = "/<[img|IMG].*?style=[\'|\"](.*?)[\'|\"].*?src=[\'|\"](.*?)[\'|\"].*?[\/]?>/";
+
+        /** 更严谨写法 加上图片后缀
+         $pregRule = "/<[img|IMG].*?style=[\'|\"](.*?)[\'|\"].*?src=[\'|\"](.*?(?:[\.jpg|\.jpeg|\.png|\.gif|\.bmp]))[\'|\"].*?[\/]?>/";
+         */
+
+        $replacement = '<img style="${1}" src="' . $url . '${2}">';
+
+        foreach ($fieldsArr as $key => $value) {
+            $content[$value] = preg_replace($pregRule, $replacement, $content[$value]);
+        }
+
+        // return $content;
     }
 }
-
-
-
