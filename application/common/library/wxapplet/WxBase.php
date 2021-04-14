@@ -1,14 +1,17 @@
 <?php
+/*
+ * @Author         : hejiaz
+ * @Date           : 2021-04-13 16:49:09
+ * @FilePath       : \application\common\library\wxapplet\WxBase.php
+ * @LastEditors    : hejiaz
+ * @LastEditTime   : 2021-04-14 17:46:57
+ * @Description    : 微信api基类
+ */
 
 namespace app\common\library\wxapplet;
 
 use think\facade\Cache;
 
-/**
- * 微信api基类
- * Class wechat
- * @package app\library
- */
 class WxBase
 {
     protected $appid;
@@ -16,7 +19,7 @@ class WxBase
     protected $error;
 
     public $request_url = [
-        'get_access_token' => 'https://api.weixin.qq.com/sns/oauth2/access_token',
+        'get_access_token' => 'https://api.weixin.qq.com/cgi-bin/token',
         'get_userinfo'     => 'https://api.weixin.qq.com/sns/userinfo',
         'code2session'     => 'https://api.weixin.qq.com/sns/jscode2session',
     ];
@@ -50,74 +53,35 @@ class WxBase
         $this->appSecret = $appSecret;
     }
 
-    /** code获取access_token令牌
-     * @Author: hejiaz
-     * @Date: 2020-08-31 10:59:06
-     * @Param: $code
-     * @Return: mixed
-     */
-    public function get_access_token($code)
-    {
-        $cacheKey = $this->appid . '@access_token';
-
-        // if (!Cache::get($cacheKey)) {
-
-            $url = $this->request_url['get_access_token'];
-
-            $param = [
-                'appid'      => $this->appid,
-                'secret'     => $this->appSecret,
-                'grant_type' => 'authorization_code',
-                'code'       => $code
-            ];
-
-            // 拼接URL
-            $request_url = combineURL($url, $param);
-            $result      = json_decode($this->get($request_url), true);
-            // dump($result);
-
-            // 记录日志
-            log_write([
-                'describe' => '获取access_token',
-                'appId'    => $this->appid,
-                'result'   => $result
-            ]);
-
-            $cachedata = [
-                'access_token' => $result['access_token'],
-                'openid'       => $result['openid'],
-            ];
-            // 写入缓存
-            Cache::set($cacheKey, $cachedata, 6000);
-        // }
-
-        return Cache::get($cacheKey);
-    }
-
     /**
      * 获取access_token
      * @return string access_token
      */
     protected function getAccessToken()
     {
-
-
         $cacheKey = $this->appid . '@access_token';
-        if (!Cache::get($cacheKey)) {
 
+        if (!Cache::get($cacheKey)) {
             // 请求API获取 access_token
-            $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$this->appid}&secret={$this->appSecret}";
-            $result = $this->get($url);
-            $data = json_decode($result, true);
+            $url = $this->request_url['get_access_token'];
+            $param = [
+                'grant_type' => 'client_credential',
+                'appid'      => $this->appid,
+                'secret'     => $this->appSecret,
+            ];
+
+            // 拼接URL
+            $request_url = combineURL($url, $param);
+            // 请求接口解析
+            $result = json_decode(curlGet($request_url), true);
+
             // 记录日志
-            log_write([
-                'describe' => '获取access_token',
-                'appId'    => $this->appid,
-                'result'   => $result
-            ]);
+            Log::write($this->appid . ' 获取AccessToken 返回值:' . $result);
+
             // 写入缓存
-            Cache::set($cacheKey, $data['access_token'], 6000);    // 7000
+            Cache::set($cacheKey, $result['access_token'], 7000);    // 令牌有效期为7200
         }
+
         return Cache::get($cacheKey);
     }
 
@@ -129,15 +93,6 @@ class WxBase
     public function getError()
     {
         return $this->error;
-    }
-
-    /** 写入日志记录
-     * @param $values
-     * @return bool|int
-     */
-    protected function doLogs($values)
-    {
-        return write_log($values, __DIR__);
     }
 
 

@@ -4,7 +4,7 @@
  * @Date           : 2020-10-14 15:15:28
  * @FilePath       : \application\api\controller\login\Wxapplet.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2020-12-03 15:01:56
+ * @LastEditTime   : 2021-04-14 17:43:12
  * @Description    : 微信小程序授权控制器
  */
 namespace app\api\controller\login;
@@ -181,6 +181,9 @@ class Wxapplet extends Api
             } else {
                 $this->error($this->auth->getError());
             }
+
+            // 重新获取第三方会员信息
+            $third = Third::getThird($this->platform, $session['unionid'], $session['openid']);
         }
 
         //直接登录会员

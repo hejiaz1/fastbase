@@ -4,7 +4,7 @@
  * @Date           : 2020-06-02 10:53:49
  * @FilePath       : \application\common\library\wxapplet\WxUser.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2020-11-25 14:51:15
+ * @LastEditTime   : 2021-04-14 17:45:39
  * @Description    : 微信用户管理类
  */
 
@@ -40,6 +40,32 @@ class WxUser extends WxBase
         if($result['errcode']){
             return $result['errcode'];
         }
+        return $result;
+    }
+
+    /** 获取会员信息 微信公众号好使 小程序不好使
+     * @Author: hejiaz
+     * @Date: 2021-04-14 10:54:49
+     */
+    public function get_userInfo($openid){
+        // 获取令牌
+        $access_token = $this->getAccessToken();
+
+        $url = $this->request_url['get_userinfo'];
+        $param = [
+            'access_token' => $access_token,
+            'openid'       => $openid,
+            'lang'         => 'zh_CN',
+        ];
+
+        // 拼接URL
+        $request_url = combineURL($url, $param);
+        // 请求接口解析
+        $result = json_decode(curlGet($request_url), true);
+        if($result['errcode']){
+            return $result['errcode'];
+        }
+
         return $result;
     }
 
