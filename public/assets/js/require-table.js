@@ -611,6 +611,8 @@ define(['jquery', 'bootstrap', 'moment', 'moment/locale/zh-cn', 'bootstrap-table
                     var custom = {
                         normal: 'success',
                         hidden: 'gray',
+                        finish: 'success',
+                        undone: 'gray',
                         deleted: 'danger',
                         locked: 'info',
                         // 1:'success',

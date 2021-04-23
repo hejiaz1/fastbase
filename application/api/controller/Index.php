@@ -4,7 +4,7 @@
  * @Date           : 2020-12-29 14:23:15
  * @FilePath       : \application\api\controller\Index.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2021-04-14 17:39:01
+ * @LastEditTime   : 2021-04-22 14:40:30
  * @Description    :
  */
 
@@ -22,7 +22,6 @@ class Index extends Api
 
     /**
      * 首页
-     *
      */
     public function index()
     {
@@ -35,19 +34,28 @@ class Index extends Api
      */
     public function ttf(){
 
-        $filepath = '/assets/index/fonts/';
-        $filename = 'Muyao-Softbrush-2.ttf';
+        $host =  request()->domain();
+        $file_dir = "/assets/index/fonts/";
+        $file_name = "Muyao-Softbrush-2.ttf";
 
-        Header("Content-type: font/ttf");
-        Header("Accept-Ranges: bytes");
-        Header("Accept-Length: ".filesize($filepath . $filename));
-        Header("Content-Disposition: attachment; filename=" . $filename);
+        $file = @fopen($host . $file_dir . $file_name, "r");
 
-        $myfile = fopen($filepath . $filename, "r") or die("Unable to open file!");
+        if (!$file) {
+            $this->error('文件不存在');
+        } else {
 
-        echo fread($myfile,filesize($filepath . $filename));
+            Header("Content-type: font/ttf");
+            Header("Access-Control-Allow-Origin: *");
+            Header("Accept-Ranges: bytes");
+            // Header("Accept-Length: ".filesize($filepath . $filename));
+            Header("Content-Disposition: attachment; filename=" . $file_name);
 
-        fclose($myfile);
+            while (!feof($file)) {
+                echo fread($file, 50000);
+            }
+
+            fclose($file);
+        }
+
     }
-
 }
