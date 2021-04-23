@@ -4,7 +4,7 @@
  * @Date           : 2020-12-29 14:23:13
  * @FilePath       : \application\admin\controller\Dashboard.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2021-04-06 11:14:15
+ * @LastEditTime   : 2021-04-23 11:39:58
  * @Description    : 控制台
  */
 
@@ -42,12 +42,12 @@ class Dashboard extends Backend
 
 
         // 会员总数
-        $totaluser = get_count('user', ['status'=>'normal']);
+        // $totaluser = get_count('user', ['status'=>'normal']);
 
 
 
         $assign = [
-            'totaluser' => $totaluser,
+            // 'totaluser' => $totaluser,
         ];
 
 
@@ -56,7 +56,7 @@ class Dashboard extends Backend
         $this->view->assign($assign);
 
         $this->view->assign([
-            // 'totaluser'        => $totaluser,
+            'totaluser'        => 98098,
             'totalviews'       => 219390,
             'totalorder'       => 32143,
             'totalorderamount' => 174800,
