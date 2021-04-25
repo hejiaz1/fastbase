@@ -325,7 +325,7 @@ class Tree
                 $childlist = strtr($childlist, array('@class' => $childdata ? 'last' : ''));
                 $value = array(
                     '@childlist' => $childlist,
-                    '@url'       => $childdata || !isset($value['@url']) ? "javascript:;" : url($value['@url']),
+                    '@url'       => $childdata || !isset($value['@url']) ? "javascript:;" : $value['@url'],
                     '@addtabs'   => $childdata || !isset($value['@url']) ? "" : (stripos($value['@url'], "?") !== false ? "&" : "?") . "ref=addtabs",
                     '@caret'     => ($childdata && (!isset($value['@badge']) || !$value['@badge']) ? '<i class="fa fa-angle-left"></i>' : ''),
                     '@badge'     => isset($value['@badge']) ? $value['@badge'] : '',
@@ -381,6 +381,7 @@ class Tree
     }
 
     /**
+     *
      * 获取树状数组
      * @param string $myid       要查询的ID
      * @param string $itemprefix 前缀

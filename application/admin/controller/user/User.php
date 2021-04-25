@@ -4,7 +4,7 @@
  * @Date           : 2020-12-29 14:23:14
  * @FilePath       : \application\admin\controller\user\User.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2021-03-26 11:14:13
+ * @LastEditTime   : 2021-04-23 16:13:46
  * @Description    : 会员管理控制器
  */
 
@@ -64,6 +64,17 @@ class User extends Backend
     }
 
     /**
+     * 添加
+     */
+    public function add()
+    {
+        if ($this->request->isPost()) {
+            $this->token();
+        }
+        return parent::add();
+    }
+
+    /**
      * 编辑
      */
     public function edit($ids = null)
@@ -76,7 +87,6 @@ class User extends Backend
         if (!$row) {
             $this->error(__('No Results were found'));
         }
-
         return parent::edit($ids);
     }
 

@@ -131,6 +131,9 @@ class Backend extends Controller
         // 定义是否AJAX请求
         !defined('IS_AJAX') && define('IS_AJAX', $this->request->isAjax());
 
+        // 检测IP是否允许
+        check_ip_allowed();
+
         $this->auth = Auth::instance();
 
         // 设置当前请求的URI
@@ -254,16 +257,15 @@ class Backend extends Controller
      */
     protected function buildparams($searchfields = null, $relationSearch = null)
     {
-        $searchfields   = is_null($searchfields) ? $this->searchFields : $searchfields;
+        $searchfields = is_null($searchfields) ? $this->searchFields : $searchfields;
         $relationSearch = is_null($relationSearch) ? $this->relationSearch : $relationSearch;
         $search = $this->request->get("search", '');
         $filter = $this->request->get("filter", '');
-        $op     = $this->request->get("op", '', 'trim');
-        $sort   = $this->request->get("sort", !empty($this->model) && $this->model->getPk() ? $this->model->getPk() : 'id');
-        $order  = $this->request->get("order", "DESC");
+        $op = $this->request->get("op", '', 'trim');
+        $sort = $this->request->get("sort", !empty($this->model) && $this->model->getPk() ? $this->model->getPk() : 'id');
+        $order = $this->request->get("order", "DESC");
         $offset = $this->request->get("offset/d", 0);
-        $limit  = $this->request->get("limit/d", 999999);
-
+        $limit = $this->request->get("limit/d", 999999);
         //新增自动计算页码
         $page = $limit ? intval($offset / $limit) + 1 : 1;
         if ($this->request->has("page")) {
@@ -306,7 +308,6 @@ class Backend extends Controller
             $where[] = [implode("|", $searcharr), "LIKE", "%{$search}%"];
         }
         $index = 0;
-
         foreach ($filter as $k => $v) {
             if (!preg_match('/^[a-zA-Z0-9_\-\.]+$/', $k)) {
                 continue;
@@ -315,7 +316,6 @@ class Backend extends Controller
             if (stripos($k, ".") === false) {
                 $k = $aliasName . $k;
             }
-
             $v = !is_array($v) ? trim($v) : $v;
             $sym = strtoupper(isset($op[$k]) ? $op[$k] : $sym);
             //null和空字符串特殊处理
@@ -542,7 +542,7 @@ class Backend extends Controller
                 } else {
                     $query->where(function ($query) use ($word, $searchfield) {
                         foreach ($word as $index => $item) {
-                            $query->whereor(function ($query) use ($item, $searchfield) {
+                            $query->whereOr(function ($query) use ($item, $searchfield) {
                                 $query->where($searchfield, "like", "%{$item}%");
                             });
                         }
@@ -575,6 +575,11 @@ class Backend extends Controller
             //如果有primaryvalue,说明当前是初始化传值,按照选择顺序排序
             if ($primaryvalue !== null && preg_match("/^[a-z0-9_\-]+$/i", $primarykey)) {
                 $primaryvalue = array_unique(is_array($primaryvalue) ? $primaryvalue : explode(',', $primaryvalue));
+                //修复自定义data-primary-key为字符串内容时，给排序字段添加上引号
+                $primaryvalue = array_map(function ($value) {
+                    return '\'' . $value . '\'';
+                }, $primaryvalue);
+
                 $primaryvalue = implode(',', $primaryvalue);
 
                 $this->model->orderRaw("FIELD(`{$primarykey}`, {$primaryvalue})");

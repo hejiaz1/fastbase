@@ -4,7 +4,7 @@
  * @Date           : 2020-10-10 14:45:01
  * @FilePath       : \application\route.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2020-10-14 17:23:46
+ * @LastEditTime   : 2021-04-25 09:58:15
  * @Description    : 路由配置
  */
 

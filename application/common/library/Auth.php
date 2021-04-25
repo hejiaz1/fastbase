@@ -19,7 +19,6 @@ class Auth
     protected $_logined = false;
     protected $_user = null;
     protected $_token = '';
-
     //Token默认有效时长
     protected $keeptime = 2592000;
     protected $requestUri = '';
@@ -63,12 +62,21 @@ class Auth
 
     /**
      * 兼容调用user模型的属性
+     *
      * @param string $name
      * @return mixed
      */
     public function __get($name)
     {
         return $this->_user ? $this->_user->$name : null;
+    }
+
+    /**
+     * 兼容调用user模型的属性
+     */
+    public function __isset($name)
+    {
+        return isset($this->_user) ? isset($this->_user->$name) : false;
     }
 
     /**
@@ -85,12 +93,10 @@ class Auth
         if ($this->_error) {
             return false;
         }
-
         $data = Token::get($token);
         if (!$data) {
             return false;
         }
-
         $user_id = intval($data['user_id']);
         if ($user_id > 0) {
             $user = User::get($user_id);
@@ -146,7 +152,6 @@ class Auth
             return false;
         }
 
-
         $ip = request()->ip();
         $time = time();
 
@@ -162,7 +167,6 @@ class Auth
             'score'    => 0,
             'avatar'   => '',
         ];
-
         $params = array_merge($data, [
             'nickname'  => preg_match("/^1[3-9]{1}\d{9}$/",$username) ? substr_replace($username,'****',3,4) : $username,
             'salt'      => Random::alnum(),

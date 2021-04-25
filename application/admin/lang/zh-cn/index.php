@@ -1,4 +1,12 @@
 <?php
+/*
+ * @Author         : hejiaz
+ * @Date           : 2021-04-23 14:21:11
+ * @FilePath       : \application\admin\lang\zh-cn\index.php
+ * @LastEditors    : hejiaz
+ * @LastEditTime   : 2021-04-23 16:36:52
+ * @Description    :
+ */
 
 return [
     'Title'                                                      => '标题',
@@ -33,11 +41,13 @@ return [
     'Verification code is incorrect'                             => '验证码不正确',
     'Wipe cache completed'                                       => '清除缓存成功',
     'Wipe cache failed'                                          => '清除缓存失败',
-    'Wipe cache'                                                 => '清空缓存',
+    'Wipe cache'                                                 => '清除缓存',
     'Wipe all cache'                                             => '一键清除缓存',
-    'Wipe content cache'                                         => '清空内容缓存',
+    'Wipe content cache'                                         => '清除内容缓存',
     'Wipe template cache'                                        => '清除模板缓存',
     'Wipe addons cache'                                          => '清除插件缓存',
+    'Wipe browser cache'                                         => '清除浏览器缓存',
+    'Wipe browser cache tips'                                    => '清除浏览器端静态JS、CSS、图片等资源',
     'Check for updates'                                          => '检测更新',
     'Discover new version'                                       => '发现新版本',
     'Go to download'                                             => '去下载更新',

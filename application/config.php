@@ -4,7 +4,7 @@
  * @Date           : 2020-10-10 14:45:01
  * @FilePath       : \application\config.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2021-01-12 15:18:34
+ * @LastEditTime   : 2021-04-23 17:24:54
  * @Description    : 配置文件
  */
 
@@ -50,6 +50,8 @@ return [
     'class_suffix'           => false,
     // 控制器类后缀
     'controller_suffix'      => false,
+    // 获取IP的变量
+    'http_agent_ip'          => 'REMOTE_ADDR',
     // +----------------------------------------------------------------------
     // | 模块设置
     // +----------------------------------------------------------------------
@@ -261,7 +263,7 @@ return [
         //会员注册验证码类型email/mobile/wechat/text/false
         'user_register_captcha' => 'text',
         //登录验证码
-        'login_captcha'         => false,
+        'login_captcha'         => true,
         //登录失败超过10次则1天后重试
         'login_failure_retry'   => true,
         //是否同一账号同一时间只能在一个地方登录
@@ -287,9 +289,9 @@ return [
         //插件纯净模式，插件启用后是否删除插件目录的application、public和assets文件夹
         'addon_pure_mode'       => true,
         //允许跨域的域名,多个以,分隔
-        'cors_request_domain'   => 'localhost,127.0.0.1,*',
+        'cors_request_domain'   => 'localhost,127.0.0.1',
         //版本号
-        'version'               => '1.2.0.20201008_beta',
+        'version'               => '1.2.0.20210401_beta',
         //API接口地址
         'api_url'               => 'https://api.fastadmin.net',
     ],

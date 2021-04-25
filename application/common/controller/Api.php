@@ -101,8 +101,11 @@ class Api
      */
     protected function _initialize()
     {
-        // 跨域请求检测
+        //跨域请求检测
         check_cors_request();
+
+        // 检测IP是否允许
+        check_ip_allowed();
 
         //移除HTML标签
         $this->request->filter('trim,strip_tags,htmlspecialchars');

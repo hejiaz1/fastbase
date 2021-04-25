@@ -28,13 +28,13 @@ class Config extends Backend
     public function _initialize()
     {
         parent::_initialize();
-        $this->model = model('Config');
+        // $this->model = model('Config');
+        $this->model = new ConfigModel;
         ConfigModel::event('before_write', function ($row) {
             if (isset($row['name']) && $row['name'] == 'name' && preg_match("/fast" . "admin/i", $row['value'])) {
                 throw new Exception(__("Site name incorrect"));
             }
         });
-
     }
 
     /**
@@ -109,7 +109,7 @@ class Config extends Backend
                 }
                 if ($result !== false) {
                     try {
-                        $this->refreshFile();
+                        ConfigModel::refreshFile();
                     } catch (Exception $e) {
                         $this->error($e->getMessage());
                     }
@@ -152,7 +152,7 @@ class Config extends Backend
                     $this->error($e->getMessage());
                 }
                 try {
-                    $this->refreshFile();
+                    ConfigModel::refreshFile();
                 } catch (Exception $e) {
                     $this->error($e->getMessage());
                 }
@@ -173,7 +173,7 @@ class Config extends Backend
         if ($name && $config) {
             try {
                 $config->delete();
-                $this->refreshFile();
+                ConfigModel::refreshFile();
             } catch (Exception $e) {
                 $this->error($e->getMessage());
             }
@@ -181,28 +181,6 @@ class Config extends Backend
         } else {
             $this->error(__('Invalid parameters'));
         }
-    }
-
-    /**
-     * 刷新配置文件
-     */
-    protected function refreshFile()
-    {
-        $config = [];
-        foreach ($this->model->all() as $k => $v) {
-            $value = $v->toArray();
-            if (in_array($value['type'], ['selects', 'checkbox', 'images', 'files'])) {
-                $value['value'] = explode(',', $value['value']);
-            }
-            if ($value['type'] == 'array') {
-                $value['value'] = (array)json_decode($value['value'], true);
-            }
-            $config[$value['name']] = $value['value'];
-        }
-        file_put_contents(
-            CONF_PATH . 'extra' . DS . 'site.php',
-            '<?php' . "\n\nreturn " . var_export_short($config) . ";\n"
-        );
     }
 
     /**
@@ -266,8 +244,8 @@ class Config extends Backend
             $email = new Email;
             $result = $email
                 ->to($receiver)
-                ->subject(__("This is a test mail"))
-                ->message('<div style="min-height:550px; padding: 100px 55px 200px;">' . __('This is a test mail content') . '</div>')
+                ->subject(__("This is a test mail", config('site.name')))
+                ->message('<div style="min-height:550px; padding: 100px 55px 200px;">' . __('This is a test mail content', config('site.name')) . '</div>')
                 ->send();
             if ($result) {
                 $this->success();

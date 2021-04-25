@@ -4,7 +4,7 @@
  * @Date           : 2020-10-10 14:45:02
  * @FilePath       : \application\extra\upload.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2020-10-14 16:01:33
+ * @LastEditTime   : 2021-04-23 17:05:09
  * @Description    : 上传配置文件
  */
 
@@ -28,7 +28,7 @@ return [
     /**
      * 可上传的文件类型
      */
-    'mimetype'  => 'jpg,png,bmp,jpeg,gif,zip,rar,xls,xlsx,mp4,mp3',
+    'mimetype'  => 'jpg,png,bmp,jpeg,gif,zip,rar,xls,xlsx,wav,mp4,mp3,pdf',
     /**
      * 是否支持批量上传
      */

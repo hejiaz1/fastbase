@@ -4,7 +4,7 @@
  * @Date           : 2020-12-29 14:23:14
  * @FilePath       : \application\admin\validate\User.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2021-03-26 11:23:40
+ * @LastEditTime   : 2021-04-23 16:44:09
  * @Description    : 会员信息验证
  */
 

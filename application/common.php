@@ -34,15 +34,16 @@ if (!function_exists('format_bytes')) {
      * 将字节转换为可读文本
      * @param int    $size      大小
      * @param string $delimiter 分隔符
+     * @param int    $precision 小数位数
      * @return string
      */
-    function format_bytes($size, $delimiter = '')
+    function format_bytes($size, $delimiter = '', $precision = 2)
     {
         $units = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
         for ($i = 0; $size >= 1024 && $i < 6; $i++) {
             $size /= 1024;
         }
-        return round($size, 2) . $delimiter . $units[$i];
+        return round($size, $precision) . $delimiter . $units[$i];
     }
 }
 
@@ -86,7 +87,8 @@ if (!function_exists('cdnurl')) {
     function cdnurl($url, $domain = false)
     {
         $regex = "/^((?:[a-z]+:)?\/\/|data:image\/)(.*)/i";
-        $url = preg_match($regex, $url) ? $url : \think\Config::get('upload.cdnurl') . $url;
+        $cdnurl = \think\Config::get('upload.cdnurl');
+        $url = preg_match($regex, $url) || ($cdnurl && stripos($url, $cdnurl) === 0) ? $url : $cdnurl . $url;
         if ($domain && !preg_match($regex, $url)) {
             $domain = is_bool($domain) ? request()->domain() : $domain;
             $url = $domain . $url;
@@ -203,7 +205,6 @@ if (!function_exists('addtion')) {
         if (!$items || !$fields) {
             return $items;
         }
-
         $fieldsArr = [];
         if (!is_array($fields)) {
             $arr = explode(',', $fields);
@@ -220,10 +221,8 @@ if (!function_exists('addtion')) {
                 $fieldsArr[$v['field']] = $v;
             }
         }
-
         foreach ($fieldsArr as $k => &$v) {
             $v = is_array($v) ? $v : ['field' => $v];
-
             $v['display'] = isset($v['display']) ? $v['display'] : str_replace(['_ids', '_id'], ['_names', '_name'], $v['field']);
             $v['primary'] = isset($v['primary']) ? $v['primary'] : '';
             $v['column'] = isset($v['column']) ? $v['column'] : 'name';
@@ -234,17 +233,13 @@ if (!function_exists('addtion')) {
         unset($v);
         $ids = [];
         $fields = array_keys($fieldsArr);
-
         foreach ($items as $k => $v) {
             foreach ($fields as $m => $n) {
                 if (isset($v[$n])) {
-                    $v[$n] = trim($v[$n], ',');
-
                     $ids[$n] = array_merge(isset($ids[$n]) && is_array($ids[$n]) ? $ids[$n] : [], explode(',', $v[$n]));
                 }
             }
         }
-
         $result = [];
         foreach ($fieldsArr as $k => $v) {
             if ($v['model']) {
@@ -253,7 +248,7 @@ if (!function_exists('addtion')) {
                 $model = $v['name'] ? \think\Db::name($v['name']) : \think\Db::table($v['table']);
             }
             $primary = $v['primary'] ? $v['primary'] : $model->getPk();
-            $result[$v['field']] = $model->where($primary, 'in', $ids[$v['field']])->column("{$primary},{$v['column']}");
+            $result[$v['field']] = isset($ids[$v['field']]) ? $model->where($primary, 'in', $ids[$v['field']])->column("{$primary},{$v['column']}") : [];
         }
 
         foreach ($items as $k => &$v) {
@@ -265,7 +260,6 @@ if (!function_exists('addtion')) {
                 }
             }
         }
-
         return $items;
     }
 }
@@ -348,13 +342,68 @@ if (!function_exists('addtion_one')) {
 if (!function_exists('var_export_short')) {
 
     /**
-     * 返回打印数组结构
-     * @param string $var 数组
+     * 使用短标签打印或返回数组结构
+     * @param mixed   $data
+     * @param boolean $return 是否返回数据
      * @return string
      */
-    function var_export_short($var)
+    function var_export_short($data, $return = true)
     {
-        return VarExporter::export($var);
+        return var_export($data, $return);
+        $replaced = [];
+        $count = 0;
+
+        //判断是否是对象
+        if (is_resource($data) || is_object($data)) {
+            return var_export($data, $return);
+        }
+
+        //判断是否有特殊的键名
+        $specialKey = false;
+        array_walk_recursive($data, function (&$value, &$key) use (&$specialKey) {
+            if (is_string($key) && (stripos($key, "\n") !== false || stripos($key, "array (") !== false)) {
+                $specialKey = true;
+            }
+        });
+        if ($specialKey) {
+            return var_export($data, $return);
+        }
+        array_walk_recursive($data, function (&$value, &$key) use (&$replaced, &$count, &$stringcheck) {
+            if (is_object($value) || is_resource($value)) {
+                $replaced[$count] = var_export($value, true);
+                $value = "##<{$count}>##";
+            } else {
+                if (is_string($value) && (stripos($value, "\n") !== false || stripos($value, "array (") !== false)) {
+                    $index = array_search($value, $replaced);
+                    if ($index === false) {
+                        $replaced[$count] = var_export($value, true);
+                        $value = "##<{$count}>##";
+                    } else {
+                        $value = "##<{$index}>##";
+                    }
+                }
+            }
+            $count++;
+        });
+
+        $dump = var_export($data, true);
+
+        $dump = preg_replace('#(?:\A|\n)([ ]*)array \(#i', '[', $dump); // Starts
+        $dump = preg_replace('#\n([ ]*)\),#', "\n$1],", $dump); // Ends
+        $dump = preg_replace('#=> \[\n\s+\],\n#', "=> [],\n", $dump); // Empties
+        $dump = preg_replace('#\)$#', "]", $dump); //End
+
+        if ($replaced) {
+            $dump = preg_replace_callback("/'##<(\d+)>##'/", function ($matches) use ($replaced) {
+                return isset($replaced[$matches[1]]) ? $replaced[$matches[1]] : "''";
+            }, $dump);
+        }
+
+        if ($return === true) {
+            return $dump;
+        } else {
+            echo $dump;
+        }
     }
 }
 
@@ -373,7 +422,7 @@ if (!function_exists('letter_avatar')) {
         $bg = "rgb({$r},{$g},{$b})";
         $color = "#ffffff";
         $first = mb_strtoupper(mb_substr($text, 0, 1));
-        $src = base64_encode('<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="100" width="100"><rect fill="' . $bg . '" x="0" y="0" width="100" height="100"></rect><text x="50" y="50" font-size="50" text-copy="fast" fill="' . $color . '" text-anchor="middle" text-rights="admin" alignment-baseline="central">' . $first . '</text></svg>');
+        $src = base64_encode('<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="100" width="100"><rect fill="' . $bg . '" x="0" y="0" width="100" height="100"></rect><text x="50" y="50" font-size="50" text-copy="fast" fill="' . $color . '" text-anchor="middle" text-rights="admin" dominant-baseline="central">' . $first . '</text></svg>');
         $value = 'data:image/svg+xml;base64,' . $src;
         return $value;
     }
@@ -426,7 +475,7 @@ if (!function_exists('hsv2rgb')) {
         return [
             floor($r * 255),
             floor($g * 255),
-            floor($b * 255),
+            floor($b * 255)
         ];
     }
 }
@@ -454,7 +503,6 @@ if (!function_exists('check_cors_request')) {
             $info = parse_url($_SERVER['HTTP_ORIGIN']);
             $domainArr = explode(',', config('fastadmin.cors_request_domain'));
             $domainArr[] = request()->host(true);
-
             if (in_array("*", $domainArr) || in_array($_SERVER['HTTP_ORIGIN'], $domainArr) || (isset($info['host']) && in_array($info['host'], $domainArr))) {
                 header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
             } else {
@@ -805,5 +853,23 @@ if (!function_exists('convert_image_path')) {
         }
 
         // return $content;
+    }
+}
+
+if (!function_exists('check_ip_allowed')) {
+    /**
+     * 检测IP是否允许
+     * @param string $ip IP地址
+     */
+    function check_ip_allowed($ip = null)
+    {
+        $ip = is_null($ip) ? request()->ip() : $ip;
+        $forbiddenipArr = config('site.forbiddenip');
+        $forbiddenipArr = !$forbiddenipArr ? [] : $forbiddenipArr;
+        $forbiddenipArr = is_array($forbiddenipArr) ? $forbiddenipArr : array_filter(explode("\n", str_replace("\r\n", "\n", $forbiddenipArr)));
+        if ($forbiddenipArr && \Symfony\Component\HttpFoundation\IpUtils::checkIp($ip, $forbiddenipArr)) {
+            header('HTTP/1.1 403 Forbidden');
+            exit;
+        }
     }
 }

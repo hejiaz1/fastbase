@@ -10,6 +10,7 @@ use PhpZip\ZipFile;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Symfony\Component\VarExporter\VarExporter;
+use think\Cache;
 use think\Db;
 use think\Exception;
 
@@ -372,6 +373,9 @@ EOD;
             throw new Exception(__("Unable to open file '%s' for writing", "addons.js"));
         }
 
+        Cache::rm("addons");
+        Cache::rm("hooks");
+
         $file = self::getExtraAddonsFile();
 
         $config = get_addon_autoload_config(true);
@@ -659,6 +663,8 @@ EOD;
         if (config('fastadmin.addon_pure_mode') || !$list) {
             if ($config && isset($config['files']) && is_array($config['files'])) {
                 foreach ($config['files'] as $index => $item) {
+                    //避免切换不同服务器后导致路径不一致
+                    $item = str_replace(['/', '\\'], DS, $item);
                     //插件资源目录，无需重复复制
                     if (stripos($item, str_replace(ROOT_PATH, '', $destAssetsDir)) === 0) {
                         continue;

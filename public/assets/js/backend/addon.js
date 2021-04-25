@@ -180,6 +180,27 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function
                     Toastr.success(ret.msg);
                     operate(data.addon.name, 'enable', false);
                     return false;
+                }, function (data, ret) {
+                    if (ret.msg && ret.msg.match(/(login|登录)/g)) {
+                        return Layer.alert(ret.msg, {
+                            title: __('Warning'),
+                            btn: [__('Login now')],
+                            yes: function (index, layero) {
+                                $(".btn-userinfo").trigger("click");
+                            }
+                        });
+                    }
+                });
+
+                //检测是否登录
+                $(document).on("mousedown", "#faupload-addon", function (e) {
+                    var userinfo = Controller.api.userinfo.get();
+                    var uid = userinfo ? userinfo.id : 0;
+
+                    if (parseInt(uid) === 0) {
+                        $(".btn-userinfo").trigger("click");
+                        return false;
+                    }
                 });
             });
 
@@ -230,7 +251,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function
             });
 
             // 会员信息
-            $(document).on("click", ".btn-userinfo", function () {
+            $(document).on("click", ".btn-userinfo", function (e, name, version) {
                 var that = this;
                 var area = [$(window).width() > 800 ? '500px' : '95%', $(window).height() > 600 ? '400px' : '95%'];
                 var userinfo = Controller.api.userinfo.get();
@@ -262,7 +283,17 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function
                             return false;
                         },
                         success: function (layero, index) {
+                            this.checkEnterKey = function (event) {
+                                if (event.keyCode === 13) {
+                                    $(".layui-layer-btn0").trigger("click");
+                                    return false;
+                                }
+                            };
+                            $(document).on('keydown', this.checkEnterKey);
                             $(".layui-layer-btn1", layero).prop("href", "http://www.fastadmin.net/user/register.html").prop("target", "_blank");
+                        },
+                        end: function () {
+                            $(document).off('keydown', this.checkEnterKey);
                         }
                     });
                 } else {
@@ -478,7 +509,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function
                         title: __('Warning'),
                         btn: [__('Login now')],
                         yes: function (index, layero) {
-                            $(".btn-userinfo").trigger("click");
+                            $(".btn-userinfo").trigger("click", name, version);
                         },
                         btn2: function () {
                             install(name, version, false);

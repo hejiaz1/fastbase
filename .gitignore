@@ -1,5 +1,11 @@
 .env
+.vscode/sftp.json
+
 runtime/*
 public/uploads/*
+
+composer.lock
 # application/extra/site.php
-.vscode/sftp.json
+
+*.log
+*.css.map

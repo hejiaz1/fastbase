@@ -183,11 +183,40 @@ class Config extends Model
             'mimetype'  => $uploadcfg['mimetype'],
             'chunking'  => $uploadcfg['chunking'],
             'chunksize' => $uploadcfg['chunksize'],
+            'savekey'   => $uploadcfg['savekey'],
             'multipart' => [],
             'multiple'  => $uploadcfg['multiple'],
             'storage'   => 'local'
         ];
         return $upload;
+    }
+
+    /**
+     * 刷新配置文件
+     */
+    public static function refreshFile()
+    {
+        //如果没有配置权限无法进行修改
+        if (!\app\admin\library\Auth::instance()->check('general/config/edit')) {
+            return false;
+        }
+        $config = [];
+        $configList = self::all();
+        foreach ($configList as $k => $v) {
+            $value = $v->toArray();
+            if (in_array($value['type'], ['selects', 'checkbox', 'images', 'files'])) {
+                $value['value'] = explode(',', $value['value']);
+            }
+            if ($value['type'] == 'array') {
+                $value['value'] = (array)json_decode($value['value'], true);
+            }
+            $config[$value['name']] = $value['value'];
+        }
+        file_put_contents(
+            CONF_PATH . 'extra' . DS . 'site.php',
+            '<?php' . "\n\nreturn " . var_export_short($config) . ";\n"
+        );
+        return true;
     }
 
 }

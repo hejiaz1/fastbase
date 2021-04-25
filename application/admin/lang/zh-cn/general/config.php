@@ -1,11 +1,11 @@
 <?php
 /*
  * @Author         : hejiaz
- * @Date           : 2020-10-10 14:45:01
+ * @Date           : 2021-04-23 14:21:11
  * @FilePath       : \application\admin\lang\zh-cn\general\config.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2021-03-22 17:10:53
- * @Description    : 系统配置语言包
+ * @LastEditTime   : 2021-04-23 16:32:37
+ * @Description    :
  */
 
 return [
@@ -21,7 +21,7 @@ return [
     'Dictionary'                  => '字典配置',
     'User'                        => '会员配置',
     'Example'                     => '示例分组',
-    'Extend'                      => '扩展配置',
+    'Extend'                      => '扩展属性',
     'Mask Words'                  => '屏蔽词配置',
     'String'                      => '字符',
     'Text'                        => '文本',
@@ -79,13 +79,12 @@ return [
     'Name already exist'          => '变量名称已经存在',
     'Add new config'              => '点击添加新的配置',
     'Send a test message'         => '发送测试邮件',
-    'This is a test mail content' => '这是一封来自FastAdmin校验邮件,用于校验邮件配置是否正常!',
-    'This is a test mail'         => '这是一封来自FastAdmin的邮件',
+    'This is a test mail content' => '这是一封来自%s的校验邮件,用于校验邮件配置是否正常!',
+    'This is a test mail'         => '这是一封来自%s的邮件',
     'Please input your email'     => '请输入测试接收者邮箱',
     'Please input correct email'  => '请输入正确的邮箱地址',
 
-    'Login' => '登录配置',
-
+    'Login'                               => '登录配置',
     'Circle default header diagram'       => '圈子默认头图',
     'Compulsory binding of mobile phones' => '强制绑定手机号',
     'Mask Keywords'                       => '屏蔽关键词',

@@ -1,4 +1,12 @@
 <?php
+/*
+ * @Author         : hejiaz
+ * @Date           : 2021-04-23 14:21:10
+ * @FilePath       : \application\extra\site.php
+ * @LastEditors    : hejiaz
+ * @LastEditTime   : 2021-04-25 10:32:59
+ * @Description    : 配置信息
+ */
 
 return [
     'name' => '我的网站',
@@ -15,6 +23,10 @@ return [
     'categorytype' => [
         'links' => 'Links',
         'ads' => 'Ads',
+        'default' => 'Default',
+        'page' => 'Page',
+        'article' => 'Article',
+        'test' => 'Test',
     ],
     'configgroup' => [
         'basic' => 'Basic',
@@ -23,6 +35,7 @@ return [
         'user' => 'User',
         'extend' => 'Extend',
         'maskwords' => 'Mask Words',
+        'example' => 'Example',
     ],
     'mail_type' => '1',
     'mail_smtp_host' => 'smtp.qq.com',
@@ -30,12 +43,7 @@ return [
     'mail_smtp_user' => '10000',
     'mail_smtp_pass' => 'password',
     'mail_verify_type' => '2',
-    'mail_from' => '10000@qq.com',
-    'circle_default_head' => [
-        '/uploads/20201012/d6a0747d9c3806fc80d7dc4f0a7e43a2.png',
-        '/uploads/20201012/8e9a21e44ac28d444c1200e4b2f10931.png',
-        '/uploads/20201012/f35fedf04f7be9493c48bcf206e8c31a.jpg',
-    ],
+    'mail_from' => '123@qq.com',
     'compel_bind_mobile' => '1',
     'maskwords' => [
         '傻逼' => '哈哈哈',
@@ -43,5 +51,5 @@ return [
         '共产党' => '',
         '操你妈' => '',
     ],
-    'uuid_code_prefix' => 'xxc',
+    'uuid_code_prefix' => 'fb',
 ];

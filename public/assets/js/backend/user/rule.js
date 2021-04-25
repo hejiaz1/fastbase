@@ -3,7 +3,7 @@
  * @Date           : 2021-03-22 10:40:41
  * @FilePath       : \public\assets\js\backend\user\rule.js
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2021-04-09 15:25:21
+ * @LastEditTime   : 2021-04-25 10:05:07
  * @Description    :
  */
 define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefined, Backend, Table, Form) {

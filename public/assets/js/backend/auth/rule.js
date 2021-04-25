@@ -55,10 +55,35 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function
                 pagination: false,
                 search: false,
                 commonSearch: false,
+                rowAttributes: function (row, index) {
+                    if (this.totalRows > 500) {
+                        return row.pid == 0 ? {} : {style: "display:none"};
+                    }
+                    return row.haschild == 1 || row.ismenu == 1 ? {} : {style: "display:none"};
+                }
             });
 
             // 为表格绑定事件
             Table.api.bindevent(table);
+
+            var btnSuccessEvent = function (data, ret) {
+                if ($(this).hasClass("btn-change")) {
+                    var index = $(this).data("index");
+                    var row = Table.api.getrowbyindex(table, index);
+                    row.ismenu = $("i.fa.text-gray", this).length > 0 ? 1 : 0;
+                    table.bootstrapTable("updateRow", {index: index, row: row});
+                } else if ($(this).hasClass("btn-delone")) {
+                    if ($(this).closest("tr[data-index]").find("a.btn-node-sub.disabled").length > 0) {
+                        $(this).closest("tr[data-index]").remove();
+                    } else {
+                        table.bootstrapTable('refresh');
+                    }
+                } else if ($(this).hasClass("btn-dragsort")) {
+                    table.bootstrapTable('refresh');
+                }
+                Fast.api.refreshmenu();
+                return false;
+            };
 
             //表格内容渲染前
             table.on('pre-body.bs.table', function (e, data) {
@@ -69,40 +94,22 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function
             table.on('post-body.bs.table', function (e, data) {
                 var options = table.bootstrapTable("getOptions");
                 options.escape = false;
-                //默认隐藏所有子节点
-                //$("a.btn[data-id][data-pid][data-pid!=0]").closest("tr").hide();
-                $(".btn-node-sub.disabled").closest("tr").hide();
 
-                //显示隐藏子节点
-                $(".btn-node-sub").off("click").on("click", function (e) {
-                    var status = $(this).data("shown") ? true : false;
-                    $("a.btn[data-pid='" + $(this).data("id") + "']").each(function () {
-                        $(this).closest("tr").toggle(!status);
-                    });
-                    $(this).data("shown", !status);
-                    return false;
-                });
                 //点击切换/排序/删除操作后刷新左侧菜单
-                $(".btn-change[data-id],.btn-delone,.btn-dragsort").data("success", function (data, ret) {
-                    if ($(this).hasClass("btn-change")) {
-                        var index = $(this).data("index");
-                        var row = Table.api.getrowbyindex(table, index);
-                        row.ismenu = $("i.fa.text-gray", this).length > 0 ? 1 : 0;
-                        table.bootstrapTable("updateRow", {index: index, row: row});
-                    } else if ($(this).hasClass("btn-delone")) {
-                        if ($(this).closest("tr[data-index]").find("a.btn-node-sub.disabled").length > 0) {
-                            $(this).closest("tr[data-index]").remove();
-                        } else {
-                            table.bootstrapTable('refresh');
-                        }
-                    } else if ($(this).hasClass("btn-dragsort")) {
-                        table.bootstrapTable('refresh');
-                    }
-                    Fast.api.refreshmenu();
-                    return false;
-                });
+                $(".btn-change[data-id],.btn-delone,.btn-dragsort").data("success", btnSuccessEvent);
 
             });
+
+            //显示隐藏子节点
+            $(document).on("click", ".btn-node-sub", function (e) {
+                var status = $(this).data("shown") ? true : false;
+                $("a.btn[data-pid='" + $(this).data("id") + "']").each(function () {
+                    $(this).closest("tr").toggle(!status);
+                });
+                $(this).data("shown", !status);
+                return false;
+            });
+
             //批量删除后的回调
             $(".toolbar > .btn-del,.toolbar .btn-more~ul>li>a").data("success", function (e) {
                 Fast.api.refreshmenu();
@@ -146,13 +153,16 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function
                     return '<span class="' + (!row.ismenu || row.status == 'hidden' ? 'text-muted' : '') + '"><i class="' + value + '"></i></span>';
                 },
                 subnode: function (value, row, index) {
-                    return '<a href="javascript:;" data-toggle="tooltip" title="' + __('Toggle sub menu') + '" data-id="' + row.id + '" data-pid="' + row.pid + '" class="btn btn-xs ' + (row.haschild == 1 || row.ismenu == 1 ? 'btn-success' : 'btn-default disabled') + ' btn-node-sub"><i class="fa fa-sitemap"></i></a>';
+                    return '<a href="javascript:;" data-toggle="tooltip" title="' + __('Toggle sub menu') + '" data-id="' + row.id + '" data-pid="' + row.pid + '" class="btn btn-xs '
+                        + (row.haschild == 1 || row.ismenu == 1 ? 'btn-success' : 'btn-default disabled') + ' btn-node-sub"><i class="fa fa-sitemap"></i></a>';
                 }
             },
             bindevent: function () {
                 $(document).on('click', "input[name='row[ismenu]']", function () {
                     var name = $("input[name='row[name]']");
-                    name.prop("placeholder", $(this).val() == 1 ? name.data("placeholder-menu") : name.data("placeholder-node"));
+                    var ismenu = $(this).val() == 1;
+                    name.prop("placeholder", ismenu ? name.data("placeholder-menu") : name.data("placeholder-node"));
+                    $('div[data-type="menu"]').toggleClass("hidden", !ismenu);
                 });
                 $("input[name='row[ismenu]']:checked").trigger("click");
 
