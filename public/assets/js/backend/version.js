@@ -1,3 +1,11 @@
+/*
+ * @Author         : hejiaz
+ * @Date           : 2021-04-25 16:24:12
+ * @FilePath       : \public\assets\js\backend\version.js
+ * @LastEditors    : hejiaz
+ * @LastEditTime   : 2021-04-26 10:17:06
+ * @Description    :
+ */
 define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefined, Backend, Table, Form) {
 
     var Controller = {
@@ -29,7 +37,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'packagesize', title: __('Packagesize')},
                         {field: 'content', title: __('Content')},
                         {field: 'downloadurl', title: __('Downloadurl'), formatter: Table.api.formatter.url},
-                        {field: 'enforce', title: __('Enforce')},
+                        {field: 'enforce', title: __('Enforce'), searchList: {"1":__('Yes'),"0":__('No')}, table: table, formatter: Table.api.formatter.toggle},
                         {field: 'createtime', title: __('Createtime'), formatter: Table.api.formatter.datetime, operate: 'RANGE', addclass: 'datetimerange'},
                         {field: 'updatetime', title: __('Updatetime'), formatter: Table.api.formatter.datetime, operate: 'RANGE', addclass: 'datetimerange'},
                         {field: 'weigh', title: __('Weigh')},

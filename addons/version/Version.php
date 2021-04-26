@@ -1,4 +1,12 @@
 <?php
+/*
+ * @Author         : hejiaz
+ * @Date           : 2021-04-25 16:24:12
+ * @FilePath       : \addons\version\Version.php
+ * @LastEditors    : hejiaz
+ * @LastEditTime   : 2021-04-26 09:32:37
+ * @Description    :
+ */
 
 namespace addons\version;
 
@@ -22,7 +30,7 @@ class Version extends Addons
                 'name'    => 'version',
                 'title'   => '版本管理',
                 'icon'    => 'fa fa-file-text-o',
-                'remark'  => '常用于管理移动端应用版本更新',
+                'remark'  => '用于管理移动端应用版本更新',
                 'sublist' => [
                     ['name' => 'version/index', 'title' => '查看'],
                     ['name' => 'version/add', 'title' => '添加'],
@@ -45,7 +53,7 @@ class Version extends Addons
         Menu::delete('version');
         return true;
     }
-    
+
     /**
      * 插件启用方法
      */

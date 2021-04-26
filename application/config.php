@@ -4,7 +4,7 @@
  * @Date           : 2020-10-10 14:45:01
  * @FilePath       : \application\config.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2021-04-23 17:24:54
+ * @LastEditTime   : 2021-04-26 10:28:44
  * @Description    : 配置文件
  */
 
@@ -310,4 +310,7 @@ return [
         '列表' =>['List'],
         '新闻' =>['News'],
     ],
+
+    // 版本控制上传资源包类型
+    'version_data_mimetype' => 'wgt',
 ];

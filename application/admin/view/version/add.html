@@ -30,24 +30,43 @@
             <textarea id="c-content" class="form-control" name="row[content]"></textarea>
         </div>
     </div>
-    <div class="form-group">
+
+    <!-- <div class="form-group">
         <label for="c-downloadurl" class="control-label col-xs-12 col-sm-2">{:__('Downloadurl')}:</label>
         <div class="col-xs-12 col-sm-8">
             <input id="c-downloadurl" class="form-control" name="row[downloadurl]" type="text" value="">
         </div>
+    </div> -->
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('downloadurl')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input id="c-downloadurl" class="form-control" size="50" name="row[downloadurl]" type="text" value="">
+                <div class="input-group-addon no-border no-padding">
+                    <span><button type="button" id="faupload-downloadurl" class="btn btn-danger faupload" data-input-id="c-downloadurl" data-mimetype="{:config('version_data_mimetype')}" data-multiple="false" data-preview-id="p-downloadurl"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                    <span><button type="button" id="fachoose-downloadurl" class="btn btn-primary fachoose" data-input-id="c-downloadurl" data-mimetype="application/*"  data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                </div>
+                <span class="msg-box n-right" for="c-downloadurl"></span>
+            </div>
+            <ul class="row list-inline faupload-preview" id="p-downloadurl"></ul>
+        </div>
     </div>
+
     <div class="form-group">
         <label for="c-enforce" class="control-label col-xs-12 col-sm-2">{:__('Enforce')}:</label>
         <div class="col-xs-12 col-sm-8">
             {:build_radios('row[enforce]', [1=>__('Yes'), 0=>__('No')], 1)}
         </div>
     </div>
-    <div class="form-group">
+
+    <!-- <div class="form-group">
         <label for="c-weigh" class="control-label col-xs-12 col-sm-2">{:__('Weigh')}:</label>
         <div class="col-xs-12 col-sm-8">
             <input id="c-weigh" class="form-control" name="row[weigh]" type="number" value="0">
         </div>
-    </div>
+    </div> -->
+
     <div class="form-group">
         <label for="c-status" class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
         <div class="col-xs-12 col-sm-8">
