@@ -4,7 +4,7 @@
  * @Date           : 2021-04-27 17:43:46
  * @FilePath       : \application\api\controller\content\Article.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2021-04-27 17:45:10
+ * @LastEditTime   : 2021-04-27 18:00:04
  * @Description    : 文章信息
  */
 
@@ -79,6 +79,9 @@ class Article extends Api
             ->where($this->sqlConfig['where'])
             ->field($this->sqlConfig['outfield'], 1)
             ->find($id);
+        if(!$data){
+            $this->error(__('Data is empty'));
+        }
 
         // 浏览量
         if(addpvnum($this->content_type)){
@@ -105,6 +108,10 @@ class Article extends Api
             ->where($this->sqlConfig['where'])
             ->field('id,title,detail_content')
             ->find($id);
+
+        if(!$data){
+            $this->error(__('Data is empty'));
+        }
 
         $data['detail_content'] = strip_tags($data['detail_content']);
 
