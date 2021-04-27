@@ -4,7 +4,7 @@
  * @Date           : 2020-10-10 14:45:02
  * @FilePath       : \application\api\lang\zh-cn.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2021-04-26 11:08:28
+ * @LastEditTime   : 2021-04-27 11:04:59
  * @Description    : 接口语言包
  */
 
@@ -120,5 +120,6 @@ return [
     'Type error'          => '类型错误',
     'No access'           => '无权访问',
     'Appid error'         => 'Appid有误',
+    'Category error'      => '分类错误',
 
 ];

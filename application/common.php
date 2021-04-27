@@ -819,9 +819,12 @@ if (!function_exists('check_ids_decode')) {
 }
 
 if (!function_exists('convert_image_path')) {
-    /** 富文本转换图片路径
+    /**
+     * 富文本转换图片路径
      * @Author: hejiaz
-     * @Date: 2021-04-14 17:36:58
+     * @Date: 2021-04-27 17:14:12
+     * @param {*} $content  原始信息
+     * @param {*} $fields   字段 str/arr
      */
     function convert_image_path(&$content, $fields)
     {
@@ -873,3 +876,68 @@ if (!function_exists('check_ip_allowed')) {
         }
     }
 }
+
+if (!function_exists('addpvnum')) {
+    /**
+     * 判断是否新增浏览量
+     * @Author: hejiaz
+     * @Date: 2021-04-27 11:43:32
+     * @param {*} $ip
+     */
+    function addpvnum($type, $ip = null)
+    {
+        $ip = is_null($ip) ? request()->ip() : $ip;
+        $cachename = $type . '_' . $ip;
+
+        $pvnum = 0;
+        $cache = cache($cachename);
+
+        if ($cache) {
+            $pvnum  = $cache['pvnum'];
+            $expire = $cache['expire'];
+
+            // 设置固定过期时间
+            $expire_time = new DateTime(date("Y-m-d H:i:s", $expire));
+
+            $expire = time() + (60 * 30); // 三十分钟过期
+            $cache = cache($cachename, [
+                'pvnum' => ++$pvnum,
+                'expire' => $cache['expire'],
+            ], [
+                'expire' => $expire_time,
+            ]);
+
+        } else {
+
+            $expire = time() + (60 * 60); // 一小时过期
+            $cache = cache($cachename, [
+                'pvnum' => ++$pvnum,
+                'expire' => $expire,
+            ], [
+                'expire' => $expire,
+            ]);
+        }
+
+        // XXX 暂定实现方法 判断浏览量区间执行 setinc +1
+        // 大小顺序不能错
+        switch (true) {
+            // 第一次访问加浏览量
+            case $pvnum == 1:return true;
+
+            // 一小时内浏览量访问超过100则不加浏览量
+            case $pvnum > 100:return false;
+
+            // 一小时内浏览量访问超过100则不加浏览量
+            case $pvnum > 55:return false;
+            case $pvnum > 51:return true;
+
+            case $pvnum > 15:return false;
+            case $pvnum > 11:return true;
+
+            case $pvnum > 1:return false;
+
+            default:return false;
+        }
+    }
+}
+

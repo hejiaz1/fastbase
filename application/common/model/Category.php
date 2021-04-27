@@ -4,7 +4,7 @@
  * @Date           : 2020-10-10 14:45:02
  * @FilePath       : \application\common\model\Category.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2021-04-26 18:15:22
+ * @LastEditTime   : 2021-04-27 11:00:56
  * @Description    : 分类模型
  */
 
@@ -96,4 +96,20 @@ class Category extends Model
         })->order('weigh', 'desc')->select())->toArray();
         return $list;
     }
+
+    /** 通过类型 ID 获取分类
+     * @Author: hejiaz
+     * @Date: 2021-04-27 10:56:11
+     * @param {*} $id
+     * @param {*} $type
+     */
+    public function obtain($id, $type, $field = 'id,pid,type,name,image,flag,createtime,updatetime')
+    {
+        return $this->where([
+            'id' => $id,
+            'type' => $type,
+            'status' => 'normal',
+        ])->field($field)->find();
+    }
+
 }
