@@ -4,7 +4,7 @@
  * @Date           : 2020-10-14 15:15:28
  * @FilePath       : \application\api\controller\login\Wxapplet.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2021-04-14 17:43:12
+ * @LastEditTime   : 2021-04-30 18:21:57
  * @Description    : 微信小程序授权控制器
  */
 namespace app\api\controller\login;
@@ -153,7 +153,7 @@ class Wxapplet extends Api
         }
 
         // 判断是否需要强制绑定手机号
-        if (\think\Config::get("site")['compel_bind_mobile'] == 1) {
+        if (config('site')['compel_bind_mobile'] == 1) {
             if($third['mobile'] == ''){
                 $this->error(__('Please bind the authorized phone number'));
             }
@@ -244,7 +244,6 @@ class Wxapplet extends Api
             $this->error(__('Unauthorized member information'));
         }
 
-
         toarray($third);
 
         // 未注册会员信息
@@ -291,7 +290,7 @@ class Wxapplet extends Api
         }
 
         //直接登录会员
-        $login = $this->auth->direct($this->auth->id);
+        $login = $this->auth->direct($third['id']);
         if ($login) {
             $data = [
                 'userinfo'=> $this->auth->getUserinfo(),

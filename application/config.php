@@ -4,7 +4,7 @@
  * @Date           : 2020-10-10 14:45:01
  * @FilePath       : \application\config.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2021-04-26 10:28:44
+ * @LastEditTime   : 2021-04-30 19:08:49
  * @Description    : 配置文件
  */
 
@@ -289,7 +289,7 @@ return [
         //插件纯净模式，插件启用后是否删除插件目录的application、public和assets文件夹
         'addon_pure_mode'       => true,
         //允许跨域的域名,多个以,分隔
-        'cors_request_domain'   => 'localhost,127.0.0.1',
+        'cors_request_domain'   => 'localhost,127.0.0.1,runapi_client.showdoc.cc',
         //版本号
         'version'               => '1.2.0.20210401_beta',
         //API接口地址

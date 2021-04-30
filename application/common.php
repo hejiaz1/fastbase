@@ -205,6 +205,7 @@ if (!function_exists('addtion')) {
         if (!$items || !$fields) {
             return $items;
         }
+
         $fieldsArr = [];
         if (!is_array($fields)) {
             $arr = explode(',', $fields);
@@ -218,11 +219,15 @@ if (!function_exists('addtion')) {
                 } else {
                     $v = ['field' => $v];
                 }
-                $fieldsArr[$v['field']] = $v;
+                // $fieldsArr[$v['field']] = $v;
+
+                $fieldsArr[is_int($k)?$v['field']:$k] = $v;
             }
         }
+
         foreach ($fieldsArr as $k => &$v) {
             $v = is_array($v) ? $v : ['field' => $v];
+
             $v['display'] = isset($v['display']) ? $v['display'] : str_replace(['_ids', '_id'], ['_names', '_name'], $v['field']);
             $v['primary'] = isset($v['primary']) ? $v['primary'] : '';
             $v['column'] = isset($v['column']) ? $v['column'] : 'name';
@@ -231,15 +236,28 @@ if (!function_exists('addtion')) {
             $v['name'] = isset($v['name']) ? $v['name'] : str_replace(['_ids', '_id'], '', $v['field']);
         }
         unset($v);
+
         $ids = [];
         $fields = array_keys($fieldsArr);
+
         foreach ($items as $k => $v) {
-            foreach ($fields as $m => $n) {
-                if (isset($v[$n])) {
-                    $ids[$n] = array_merge(isset($ids[$n]) && is_array($ids[$n]) ? $ids[$n] : [], explode(',', $v[$n]));
+
+            foreach ($fieldsArr as $m => $n) {
+
+                $field = $n['field'];
+
+                if (isset($v[$field])) {
+                    $v[$field] = trim($v[$field], ',');
+
+                    $ids[$field] = array_merge(isset($ids[$field]) && is_array($ids[$field]) ? $ids[$field] : [], explode(',', $v[$field]));
+
                 }
+                $ids[$field] = array_unique($ids[$field]);
+
+                $field = '';
             }
         }
+
         $result = [];
         foreach ($fieldsArr as $k => $v) {
             if ($v['model']) {
@@ -248,18 +266,22 @@ if (!function_exists('addtion')) {
                 $model = $v['name'] ? \think\Db::name($v['name']) : \think\Db::table($v['table']);
             }
             $primary = $v['primary'] ? $v['primary'] : $model->getPk();
-            $result[$v['field']] = isset($ids[$v['field']]) ? $model->where($primary, 'in', $ids[$v['field']])->column("{$primary},{$v['column']}") : [];
+
+            $result[$v['display']] = $model->where($primary, 'in', $ids[$v['field']])->column("{$primary},{$v['column']}");
         }
 
         foreach ($items as $k => &$v) {
-            foreach ($fields as $m => $n) {
-                if (isset($v[$n])) {
-                    $curr = array_flip(explode(',', $v[$n]));
+            foreach ($fieldsArr as $m => $n) {
+                $field = $n['field'];
 
-                    $v[$fieldsArr[$n]['display']] = implode(',', array_intersect_key($result[$n], $curr));
+                if (isset($v[$field])) {
+                    $curr = array_flip(explode(',', $v[$field]));
+
+                    $v[$n['display']] = implode(',', array_intersect_key($result[$n['display']], $curr));
                 }
             }
         }
+
         return $items;
     }
 }

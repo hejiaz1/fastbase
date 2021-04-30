@@ -101,7 +101,10 @@ class Api
      */
     protected function _initialize()
     {
-        //跨域请求检测
+        // XXX runapi报跨域先这么绕过
+        if($this->request->header('isrunapi') != 1){
+            //跨域请求检测
+        }
         check_cors_request();
 
         // 检测IP是否允许
