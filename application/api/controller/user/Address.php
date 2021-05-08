@@ -4,7 +4,7 @@
  * @Date           : 2020-10-14 15:15:28
  * @FilePath       : \application\api\controller\user\Address.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2021-05-08 14:59:28
+ * @LastEditTime   : 2021-05-08 17:09:58
  * @Description    : 会员地址控制器
  */
 namespace app\api\controller\user;
@@ -267,8 +267,44 @@ class Address extends Api
         $this->success('', $row);
     }
 
+    /**
+     * 删除
+     * @Author: hejiaz
+     * @Date: 2021-05-08 16:34:02
+     */
+    public function delete(){
+        $id = $this->request->request('id/d', 0, 'intval');
+        if($id == 0){
+            $this->error(__('Parameter error'));
+        }
 
+        // 判断会员ID是否一致
+        $row = $this->model->get($id);
+        if(!$row){
+            $this->error(__('Data is empty'));
+        }
 
+        if($row['user_id'] != $this->auth->id){
+            $this->error(__('illegal operation'));
+        }
+
+        $deal = false;
+        Db::startTrans();
+        try {
+            // 更新数据
+            $deal = $row->delete();
+            Db::commit();
+        } catch (Exception $e) {
+            Db::rollback();
+            $this->error($e->getMessage());
+        }
+
+        if ($deal == false) {
+            $this->error(__('Operation failed'));
+        } else {
+            $this->success(__('Operation completed'), $id);
+        }
+    }
 
 
 

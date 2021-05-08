@@ -4,7 +4,7 @@
  * @Date           : 2020-10-20 16:48:45
  * @FilePath       : \application\common\model\user\Address.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2021-05-08 15:22:11
+ * @LastEditTime   : 2021-05-08 17:02:32
  * @Description    : 会员地址模型
  */
 
@@ -67,6 +67,16 @@ class Address extends Model
                 if(!$default){
                     $row->getQuery()->where($pk, $row[$pk])->update(['isdefault' => 1]);
                 }
+            }
+        });
+
+        self::afterDelete(function ($row) {
+
+            // 获取主键
+            if($row['isdefault'] == 1){
+                $default_id = $row->getQuery()->where('id', 'NEQ', $row['id'])->where('user_id',$row['user_id'])->order('isdefault desc,weigh desc,id desc')->value('id');
+
+                $row->getQuery()->where('id', $default_id)->where('user_id',$row['user_id'])->update(['isdefault' => 1]);
             }
         });
     }
