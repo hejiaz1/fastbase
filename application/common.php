@@ -431,18 +431,25 @@ if (!function_exists('var_export_short')) {
 
 if (!function_exists('letter_avatar')) {
     /**
-     * 首字母头像
-     * @param $text
-     * @return string
+     * 生成首字母头像
+     * @Author: hejiaz
+     * @Date: 2021-05-08 15:28:54
+     * @param {*} $text     文本
+     * @param {*} $color    字体颜色
+     * @param {*} $bg       背景色  格式 255,117,181
      */
-    function letter_avatar($text)
+    function letter_avatar($text, $color='#ffffff', $bg='')
     {
-        $total = unpack('L', hash('adler32', $text, true))[1];
-        $hue = $total % 360;
-        list($r, $g, $b) = hsv2rgb($hue / 360, 0.3, 0.9);
+        if($bg){
+            list($r, $g, $b) = explode(',',$bg);
+            $bg = "rgb({$r},{$g},{$b})";
+        }else{
+            $total = unpack('L', hash('adler32', $text, true))[1];
+            $hue = $total % 360;
+            list($r, $g, $b) = hsv2rgb($hue / 360, 0.3, 0.9);
+            $bg = "rgb({$r},{$g},{$b})";
+        }
 
-        $bg = "rgb({$r},{$g},{$b})";
-        $color = "#ffffff";
         $first = mb_strtoupper(mb_substr($text, 0, 1));
         $src = base64_encode('<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="100" width="100"><rect fill="' . $bg . '" x="0" y="0" width="100" height="100"></rect><text x="50" y="50" font-size="50" text-copy="fast" fill="' . $color . '" text-anchor="middle" text-rights="admin" dominant-baseline="central">' . $first . '</text></svg>');
         $value = 'data:image/svg+xml;base64,' . $src;

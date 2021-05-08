@@ -4,7 +4,7 @@
  * @Date           : 2020-10-10 14:45:02
  * @FilePath       : \application\api\lang\zh-cn.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2021-04-27 11:04:59
+ * @LastEditTime   : 2021-05-08 13:56:32
  * @Description    : 接口语言包
  */
 
@@ -112,6 +112,7 @@ return [
     'An unexpected error occurred'                => '发生了一个意外错误,程序猿正在紧急处理中',
     'This page will be re-directed in %s seconds' => '页面将在 %s 秒后自动跳转',
 
+    'illegal operation'   => '非法操作',
     'Parameter error'     => '参数错误',
     'Data is empty'       => '数据为空',
     'Circle don\'t exist' => '圈子不存在',

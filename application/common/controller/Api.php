@@ -101,10 +101,7 @@ class Api
      */
     protected function _initialize()
     {
-        // XXX runapi报跨域先这么绕过
-        if($this->request->header('isrunapi') != 1){
-            //跨域请求检测
-        }
+        //跨域请求检测
         check_cors_request();
 
         // 检测IP是否允许
@@ -125,6 +122,7 @@ class Api
         $path = str_replace('.', '/', $controllername) . '/' . $actionname;
         // 设置当前请求的URI
         $this->auth->setRequestUri($path);
+
         // 检测是否需要验证登录
         if (!$this->auth->match($this->noNeedLogin)) {
             //初始化

@@ -4,7 +4,7 @@
  * @Date           : 2020-10-14 15:15:28
  * @FilePath       : \application\api\controller\login\Wxapplet.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2021-04-30 18:21:57
+ * @LastEditTime   : 2021-05-06 15:41:02
  * @Description    : 微信小程序授权控制器
  */
 namespace app\api\controller\login;
@@ -80,7 +80,6 @@ class Wxapplet extends Api
             $this->error(__('Session Key retrieval failed'), $session);
         }
 
-        // dump($session);die;
         // $session['openid'] = 'oAKzY5XI2TsbUOXqUzLyibyzvGGA';
 
         // 查看是否有第三方信息
@@ -303,5 +302,16 @@ class Wxapplet extends Api
 
     }
 
+    public function asd(){
+        $asd = letter_avatar('张三丰','#e5334b', '253,234,238');
+        echo '<img src="'.$asd.'">';
+
+
+        // dump($asd);
+        // $asd = chinese_avatar('阿萨德');
+
+
+        // dump($asd);
+    }
 
 }

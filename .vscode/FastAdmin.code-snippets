@@ -53,7 +53,7 @@
 
 	// 事务处理
 	"事务处理": {
-		"prefix": "事务",
+		"prefix": "shiwu",
 		"body": [
 			"dump($$params);die;",
 			"$$deal = false;",

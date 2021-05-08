@@ -4,7 +4,7 @@
  * @Date           : 2020-10-30 14:02:03
  * @FilePath       : \application\api\controller\Token.php
  * @LastEditors    : hejiaz
- * @LastEditTime   : 2021-04-23 16:54:38
+ * @LastEditTime   : 2021-05-08 10:29:52
  * @Description    : token相关控制器
  */
 
@@ -20,6 +20,16 @@ class Token extends Api
 {
     protected $noNeedLogin = [];
     protected $noNeedRight = '*';
+
+    /** 退出登录
+     * @Author: hejiaz
+     * @Date: 2021-03-25 15:37:38
+     */
+    public function logout()
+    {
+        $this->auth->logout();
+        $this->success();
+    }
 
     /**
      * 检测Token是否过期
