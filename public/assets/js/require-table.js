@@ -583,6 +583,10 @@ define(['jquery', 'bootstrap', 'moment', 'moment/locale/zh-cn', 'bootstrap-table
                         if (top + 154 > $(window).height()) {
                             top = top - 154;
                         }
+                        // 太靠左出画面修改坐标
+                        if(left < 0){
+                            left = $(that).offset().left + 20;
+                        }
                         if ($(window).width() < 480) {
                             top = left = undefined;
                         }
