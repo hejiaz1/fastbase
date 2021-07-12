@@ -46,12 +46,12 @@ class Config extends Backend
         $groupList = ConfigModel::getGroupList();
 
         // 手动隐藏分组
-        unset(
-            $groupList['email'],
-            $groupList['user'],
-            $groupList['extend'],
-            $groupList['maskwords']
-        );
+        // unset(
+        //     $groupList['email'],
+        //     $groupList['user'],
+        //     $groupList['extend'],
+        //     $groupList['maskwords']
+        // );
 
         foreach ($groupList as $k => $v) {
             $siteList[$k]['name'] = $k;
